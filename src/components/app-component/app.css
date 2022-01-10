@@ -1,0 +1,53 @@
+@font-face {
+    font-family: ExtraLight;
+    src: url(../../assets/fonts/Montserrat-ExtraLight.svg);
+    src: url(../../assets/fonts/Montserrat-ExtraLight.eot);
+    src: url(../../assets/fonts/Montserrat-ExtraLight.otf);
+    src: url(../../assets/fonts/Montserrat-ExtraLight.ttf);
+    src: url(../../assets/fonts/Montserrat-ExtraLight.woff);
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#root{
+    display: flex;
+    justify-content: space-between;
+}
+.App{
+    background-image: url("../../assets/day-background.jpg");
+    background-size: cover;
+    width: 100vmin;
+    height: 100vmax;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.signature{
+    display: none;
+}
+.container{
+    width: 95%;
+    height: 90%;
+    margin: auto;
+    position: relative;
+}
+/* BIG SCREENS */
+@media all and (min-width: 1025px) {
+    .App{
+        width: 100vmax;
+        height: 100vmin;
+    }
+    .signature{
+        display: flex;
+        color: #9C9C9C;
+        font-family: ExtraLight;
+        font-size: 2.25em;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+
+}
