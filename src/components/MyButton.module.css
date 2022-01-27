@@ -1,4 +1,18 @@
 .myBtn{
+    width: 30%;
+    height: 30%;
+    background-color: transparent;
+    background-image: url("../assets/icons/plus.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    transition: .5s;
+    transform: scale(1);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.big{
     width: 10vh;
     height: 10vh;
     background-color: transparent;

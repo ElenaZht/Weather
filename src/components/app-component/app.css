@@ -11,6 +11,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 #root{
     display: flex;
     justify-content: space-between;
@@ -34,12 +35,23 @@
     height: 90%;
     margin: auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.wrapper{
+    display: none;
 }
 /* BIG SCREENS */
 @media all and (min-width: 1025px) {
     .App{
         width: 100vmax;
         height: 100vmin;
+    }
+    .wrapper{
+        display: flex;
+        width: 50vw;
+        height: 15%;
     }
     .signature{
         display: flex;

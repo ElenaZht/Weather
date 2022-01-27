@@ -2,8 +2,13 @@ import React, {useState} from 'react';
 import './header.css';
 import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
+import SavedRegions from '../../components/saved-regions/saved-regions.js';
+import RegionService from "../region-service";
 
 const Header = () => {
+    const regionService =  RegionService.getInstance();
+    const savedRegions = regionService.myRegions;
+
     let [user, setUser] = useState(localStorage.user? JSON.parse(localStorage.user) : {});
 
     let [isOpen, setIsOpen] = useState(false);
@@ -40,22 +45,39 @@ const Header = () => {
         setModalActive(false);
         setIsLogged(false);
     };
+    let openRegions = () => {
+        setRegionsModalActive(true);
+        setIsOpen(false);
+    };
+    let closeRegions = () => {
+        setRegionsModalActive(false);
+        setIsOpen(true);
+    };
     const [modalActive, setModalActive] = useState(false);
+    const [regionsModalActive, setRegionsModalActive] = useState(false);
     return (
         <div className="main">
-            <Modal active={modalActive} setActive={setModalActive}>
-               <div className="dialog">
-                   <div className="rotating-border">
-                       <div data-testid = "user-photo" className="user-photo" style={{ backgroundImage: `url(${accountPhoto})` }}></div>
-                   </div>
-                   <div data-testid="user-name" className="user-name">{accountFullName}</div>
-                   <div data-testid="user-email" className="user-email">{accountEmail}</div>
-                   <hr/>
-                   <div className="dialog-btns">
-                       <button data-testid="logout" id="logoutBtn" onClick={logOut}>Log out</button>
-                       <button data-testid="close-menu" id="closeBtn" onClick={closeModal}>Close</button>
-                   </div>
-               </div>
+            <div  data-testid="user-profile-modal">
+                <Modal active={modalActive} setActive={setModalActive} >
+                    <div className="dialog">
+                        <div className="rotating-border">
+                            <div data-testid = "user-photo" className="user-photo" style={{ backgroundImage: `url(${accountPhoto})` }}></div>
+                        </div>
+                        <div data-testid="user-name" className="user-name">{accountFullName}</div>
+                        <div data-testid="user-email" className="user-email">{accountEmail}</div>
+                        <hr/>
+                        <div className="dialog-btns">
+                            <button data-testid="logout" id="logoutBtn" onClick={logOut}>Log out</button>
+                            <button data-testid="close-menu" id="closeBtn" onClick={closeModal}>Close</button>
+                        </div>
+                    </div>
+                </Modal>
+            </div>
+
+            <Modal active={regionsModalActive} setActive={setRegionsModalActive}>
+                <button className="closeBtn" data-testid="close-regions" id="closeRegionsBtn" onClick={closeRegions}>x</button>
+                <SavedRegions regions={savedRegions}/>
+
             </Modal>
             <div className="logo"></div>
             <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
@@ -83,7 +105,7 @@ const Header = () => {
                     />
                 </div>
                 <li>Search</li>
-                <li>Saved</li>
+                <li onClick={openRegions}>Saved</li>
                 <li><div className="nav-close"  onClick={() => setIsOpen(false)}></div></li>
             </ul>
 

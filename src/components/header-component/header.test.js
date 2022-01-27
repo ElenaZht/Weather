@@ -26,7 +26,8 @@ class LocalStorageMock {
 }
 
 global.localStorage = new LocalStorageMock();
-
+global.window = window || {};
+window.matchMedia = () =>  {return {matches: false}};
 const userObj = {
     "givenName" : "Ben",
     "familyName" : "Gurion",
@@ -72,10 +73,10 @@ describe("Header", () => {
         it('user btn click open modal, modal renders user info', async () => {
             localStorage.setItem('user', JSON.stringify(userObj));
             const {getByTestId} = render(<Header/>);
-            const userBtn = getByTestId("user-button");
+            const userBtn = screen.getByTestId("user-button");
             fireEvent.click(userBtn);
             await waitFor(async () =>{
-                const modal = screen.getByTestId("modal-container");
+                const modal = screen.getByTestId("user-profile-modal");
                 expect(modal).toBeInTheDocument();
                 const userPhoto = screen.getByTestId("user-photo");
                 const userName = screen.getByTestId("user-name");
@@ -98,7 +99,7 @@ describe("Header", () => {
             const userBtn = getByTestId("user-button");
             fireEvent.click(userBtn);
             await waitFor(async () =>{
-                const modal = screen.getByTestId("modal-container");
+                const modal = screen.getByTestId("user-profile-modal");
                 expect(modal).toBeInTheDocument();
                 const logoutBtn = screen.getByTestId("logout");
                 fireEvent.click(logoutBtn);
@@ -111,7 +112,7 @@ describe("Header", () => {
             const userBtn = getByTestId("user-button");
             fireEvent.click(userBtn);
             await waitFor(async () =>{
-                const modal = screen.getByTestId("modal-container");
+                const modal = screen.getByTestId("user-profile-modal");
                 expect(modal).toBeInTheDocument();
                 const closeBtn = screen.getByTestId("close-menu");
                 fireEvent.click(closeBtn);

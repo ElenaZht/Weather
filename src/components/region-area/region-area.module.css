@@ -52,7 +52,7 @@
 }
 @media all and (min-width: 1025px){
     .regionContainer{
-        height: 60vh;
+        height: 60%;
         width: 100%;
     }
     .wrap{
