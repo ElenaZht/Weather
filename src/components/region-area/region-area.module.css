@@ -1,0 +1,77 @@
+@font-face {
+    font-family: Light;
+    src: url(../../assets/fonts/Montserrat-Light.svg);
+    src: url(../../assets/fonts/Montserrat-Light.eot);
+    src: url(../../assets/fonts/Montserrat-Light.otf);
+    src: url(../../assets/fonts/Montserrat-Light.ttf);
+    src: url(../../assets/fonts/Montserrat-Light.woff);
+}
+.regionContainer{
+    height: 80vh;
+    width: 90vw;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 7px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.region{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.regionInfo{
+    width: 100%;
+    height: 25%;
+    margin: auto;
+    display: flex;
+    color: rgba(112, 112, 112, 1);
+    font-family: Light;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.wrap{
+    height: calc(100% - 8vw);
+    width: calc(100% - 8vw);
+    margin: auto;
+}
+.regionName{
+    font-size: 2.5em;
+}
+.regionTimeDate{
+    font-size: 1.1em;
+}
+.noRegion{
+    color: #9C9C9C;
+    font: 3em Light;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: auto;
+    height: 100%;
+    text-align: center;
+}
+@media all and (min-width: 1025px){
+    .regionContainer{
+        height: 60%;
+        width: 100%;
+    }
+    .wrap{
+        height: calc(100% - 3vw);
+        width: calc(100% - 3vw);
+    }
+    .regionInfo{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .regionTimeDate{
+        color: #FFFFFF;
+    }
+}
