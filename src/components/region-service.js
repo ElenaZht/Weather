@@ -1,22 +1,24 @@
 class RegionService{
     _instance;
+    defaultRegion = {
+        regionName: Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1],
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    };
+
     static getInstance(){
         if(!RegionService._instance){
             RegionService._instance = new RegionService();
         }
         return RegionService._instance;
     }
-    defaultRegion = {
-        regionName: Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1],
-        date: new Date().getHours() + ":" + new Date().getMinutes() + "  "+ new Date().getDate() + " " + new Date().toDateString().split(" ")[1] + " " + new Date().getFullYear()
-    };
+
     myRegions = [
-        {regionName: 'Minsk', date: '13:05 21 Jun 2022'},
-        {regionName: 'Holon', date: '12:05 21 Jun 2022'},
-        {regionName: 'Tel Aviv', date: '12:05 21 Jun 2022'},
-        {regionName: 'Mogilev', date: '13:05 21 Jun 2022'},
-        {regionName: 'Moscow', date: '13:05 21 Jun 2022'},
-        {regionName: 'Kiev', date: '13:05 21 Jun 2022'},
+        {regionName: 'Minsk', date: 'Europe/Minsk'},
+        {regionName: 'Holon', date: 'Asia/Holon'},
+        {regionName: 'Tel Aviv', date: 'Asia/Tel_Aviv'},
+        {regionName: 'Mogilev', date: 'Europe/Mogilev'},
+        {regionName: 'Moscow', date: 'Europe/Moscow'},
+        {regionName: 'Kiev', date: 'Europe/Kiev'},
     ]
 
 }

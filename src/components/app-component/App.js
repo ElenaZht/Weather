@@ -9,7 +9,7 @@ function App() {
     const regionService =  RegionService.getInstance();
     const defaultRegion = regionService.defaultRegion;
     const savedRegions = regionService.myRegions;
-    const [region, setRegion] = useState(localStorage.location? JSON.parse(localStorage.location) : defaultRegion);
+    const [region, setRegion] = useState( defaultRegion);
   return (
     <div className="App">
       <div className="container">

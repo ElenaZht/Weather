@@ -16,6 +16,14 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.region{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
 .regionInfo{
     width: 100%;
     height: 25%;
