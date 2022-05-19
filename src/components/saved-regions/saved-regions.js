@@ -1,12 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../../components/MyButton';
+import Modal from "../header-component/modal";
+import RegionService from '../../components/region-service';
+
 
 const SavedRegions = ({regions}) => {
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
     let [regLimit, setRegLimit] = useState(4);
+    let [isOpen, setIsOpen] = useState(false);
+    const [modalActive, setModalActive] = useState(false);
+    let [curRegion, setCurRegion] = useState('');
+    const regionService = RegionService.getInstance();
+    let [myRegions, setMyRegions] = useState(regions);
 
     useEffect(() => {
          if(window.matchMedia("(max-width: 1024px)").matches){
@@ -35,13 +43,30 @@ const SavedRegions = ({regions}) => {
         setDisabledLeft(false);
 
     };
+    let openModal = (name) => {
+        setModalActive(true);
+        setIsOpen(false);
+        console.log('open modal', name);
+        setCurRegion(name);
+    };
+    let closeModal = () => {
+        setModalActive(false);
+        setIsOpen(true);
+    };
+    let deleteRegion = (current) => {
+        console.log('delete', current);
+        // regionService.deleteRegion(current);
+        setMyRegions(myRegions.filter(r => r.regionName !== current));
+        closeModal();
+    };
     let makeRegions = () => {
-        if(regions && regions.length>0){
+        if(myRegions && myRegions.length>0){
             let items = [];
-            for(let i=0; i + curIdx <regions.length && i < regLimit; i++){
+            for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                 items.push(
                     <div className={classes.card} key={i+curIdx}>
-                        <div className={classes.name}>{regions[i+curIdx].regionName}</div>
+                        <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
+                        <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
                         <div className={classes.info}>
                             <div className={classes.icon}></div>
                             <div className={classes.degree}>+25°</div>
@@ -58,10 +83,19 @@ const SavedRegions = ({regions}) => {
 
     return (
         <div className={classes.wrap}>
-            {regions.length > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+            <Modal active={modalActive} setActive={setModalActive} >
+                <div className={classes.dialogDel}>
+                    <p>Do you want to delete {curRegion} from saved regions?</p>
+                    <div className={classes.buttons}>
+                        <button data-testid="delete" id="deleteBtn" className={classes.closeBtn} onClick={() => deleteRegion(curRegion)}>Delete region</button>
+                        <button data-testid="close-menu" id="closeBtn" className={classes.closeBtn} onClick={closeModal}>Close</button>
+                    </div>
+                </div>
+            </Modal>
+            {myRegions.length > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
             {makeRegions()}
-            {regions.length === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
-            {regions.length > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
+            {myRegions.length === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
+            {myRegions.length > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
             <div className={classes.cardBtn}>
                 <MyButton sizing={{"size":'big'}}/>
             </div>

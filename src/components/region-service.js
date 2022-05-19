@@ -5,11 +5,16 @@ class RegionService{
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
 
+
     static getInstance(){
         if(!RegionService._instance){
             RegionService._instance = new RegionService();
         }
         return RegionService._instance;
+    }
+    deleteRegion(name){
+        this.myRegions = this.myRegions.filter(r => 'regionName' !== r.name);
+        console.log(this.myRegions)
     }
 
     myRegions = [
