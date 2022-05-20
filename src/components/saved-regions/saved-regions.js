@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../../components/MyButton';
 import Modal from "../header-component/modal";
 import RegionService from '../../components/region-service';
+import RegionContext from '../../components/region-context';
 
 
 const SavedRegions = ({regions}) => {
+
+    const {region, setRegion} = useContext(RegionContext);
+
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
@@ -46,7 +50,6 @@ const SavedRegions = ({regions}) => {
     let openModal = (name) => {
         setModalActive(true);
         setIsOpen(false);
-        console.log('open modal', name);
         setCurRegion(name);
     };
     let closeModal = () => {
@@ -54,17 +57,19 @@ const SavedRegions = ({regions}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        console.log('delete', current);
-        // regionService.deleteRegion(current);
         setMyRegions(myRegions.filter(r => r.regionName !== current));
         closeModal();
     };
+    let changeRegion = (name) => {
+        setRegion(name);
+    };
+
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                 items.push(
-                    <div className={classes.card} key={i+curIdx}>
+                    <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
                         <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
                         <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
                         <div className={classes.info}>

@@ -1,9 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
-import classes from  './weather-component.module.css'
-import WeatherService from '../../components/weather-service.js'
-import {pictures, advices} from './wether-storage.js'
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import classes from  './weather-component.module.css';
+import WeatherService from '../../components/weather-service.js';
+import {pictures, advices} from './wether-storage.js';
+import RegionContext from '../../components/region-context';
 
-const WeatherComponent = ({region}) => {
+const WeatherComponent = () => {
+    const {region, setRegion} = useContext(RegionContext);
+
     let [loading, setLoading] = useState(true);
     const weatherService = WeatherService.getInstance();
     let subscription = useRef(null);
@@ -19,7 +22,6 @@ const WeatherComponent = ({region}) => {
     let [hum, setHum] = useState('');
     let [errorText, setErrorText] = useState('');
     let getAdvice = (desc, temp, wind) => {
-        // console.log(desc, temp, wind);
         if(desc.match(/thunderstorm/i)){
             setAdvice(advices.thunderstorm)
         } else if(desc.match(/rain/i)){
@@ -60,54 +62,54 @@ const WeatherComponent = ({region}) => {
     };
 
 
+    function parseWeather(data){
+        if(data){
+            if(data.main){
+                setTemperature(Math.round(data.main.temp));
+                setDescription(data.weather[0].description);
+                setSunrise(new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+                setSunset(new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+                setWind(Number(data.wind.speed.toFixed(1)));
+                getImg(data.weather[0].description);
+                getAdvice(data.weather[0].description, Math.round(data.main.temp), data.wind.speed.toFixed(1));
+                setHum(data.main.humidity);
+                if(data.main.temp > 0){
+                    setRelToZero('+')
+                }
+            }
+
+        }
+    }
+
     useEffect(() => {
-            if(weather){
-                if(weather.main){
-                    setTemperature(Math.round(weather.main.temp));
-                    setDescription(weather.weather[0].description);
-                    setSunrise(new Date(weather.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-                    setSunset(new Date(weather.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-                    setWind(Number(weather.wind.speed.toFixed(1)));
-                    getImg(weather.weather[0].description);
-                    getAdvice(weather.weather[0].description, Math.round(weather.main.temp), weather.wind.speed.toFixed(1));
-                    setHum(weather.main.humidity);
-                    if(weather.main.temp > 0){
-                        setRelToZero('+')
+        setLoading(true);
+        if (subscription.current){
+            weatherService.setCity(region.regionName);
+        }
+
+    }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(
+        () => {
+            subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
+                (res) => {
+                    if (res && res.data) {
+                        setLoading(false);
+                        setWeather(res.data);
+                        parseWeather(res.data);
+                    } else if(res) {
+                        setLoading(false);
+                        setErrorText(res.message)
                     }
                 }
-
-            }
-
-        }
-        ,[weather]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
-            (res) => {
-                console.log(res)
-                if (res && res.data) {
-                    setLoading(false);
-                    setWeather(res.data);
-                } else if(res) {
-                    setLoading(false);
-                    setErrorText(res.message)
+            );
+            return () => {
+                if (subscription.current) {
+                    subscription.current.unsubscribe();
                 }
             }
-        );
-        return () => {
-            if (subscription.current) {
-                subscription.current.unsubscribe()
-            }
-        }
-    }, []);// eslint-disable-line react-hooks/exhaustive-deps
-    // useEffect(() => {
-    //     if (loading) {
-    //         setTimeout(() => {
-    //             setLoading(false);
-    //             console.log('out of time')
-    //         }, 10000);
-    //     }
-    // }, [loading]);
+        }, []
+    );
     return (
         <div className={classes.wrapper}>
 

@@ -17,22 +17,24 @@ class WeatherService{
         }, customInterval)
     }
 
+    setCity(city){
+        this.city = city;
+        (async () => {
+            let data = await this.getWeatherFromAPI(this.city);
+            this.subscriber.next(data);
+        })();
+    }
+
     getSubscriber(city){
         this.city = city;
         (async () => {
-
-                setTimeout(async()=>{
                     try{
                     let data = await this.getWeatherFromAPI(this.city);
                     this.subscriber.next(data);
-                    console.log('данные отправлены')
                     } catch (e) {
                         console.log(e.message);
                         this.subscriber.next(e);
-
                     }
-                }, 5000)
-
 
         })();
         return this.subscriber.asObservable();

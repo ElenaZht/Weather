@@ -1,9 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import classes from './region-area.module.css'
 import MyButton from '../MyButton';
-import WeatherComponent from '../../components/weather-component/weather-component.js'
+import WeatherComponent from '../../components/weather-component/weather-component.js';
+import RegionContext from '../../components/region-context'
 
-const RegionArea = ({region}) => {
+const RegionArea = () => {
+
+    const{region, setRegion} = useContext(RegionContext);
+
     let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
     let dateObj = new Date(dateString);
     let [date, setDate] = useState(dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'') + dateObj.getMinutes() + "  "+ dateObj.getDate() + " " + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear());
@@ -31,7 +35,7 @@ const RegionArea = ({region}) => {
                             <span className={classes.regionName}>{region.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>
-                        <WeatherComponent region={region}/>
+                        <WeatherComponent/>
                     </div>
                 ) : (
                     <div className={classes.noRegion}>
