@@ -1,18 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './header.css';
 import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
 import SavedRegions from '../../components/saved-regions/saved-regions.js';
 import RegionService from "../region-service";
+import SearchContext from "../search-context";
+import SearchTermContext from '../../components/search-term-context';
 
 const Header = () => {
     const regionService =  RegionService.getInstance();
-    const savedRegions = regionService.myRegions;
+    const savedRegions = regionService.getMyRegions();
+    const {searchOpen, setSearchOpen} = useContext(SearchContext);
+    const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
+
 
     let [user, setUser] = useState(localStorage.user? JSON.parse(localStorage.user) : {});
 
     let [isOpen, setIsOpen] = useState(false);
     let [isLogged, setIsLogged] = useState(false);
+    // let [term, setTerm] = useState('');
 
     let [accountName, setAccountName] = useState(localStorage.user && user.givenName? user.givenName[0].toUpperCase()+user.familyName[0].toUpperCase() : "");
     let [accountFullName, setAccountFullName] = useState(localStorage.user && user.name? user.name : "");
@@ -53,6 +59,18 @@ const Header = () => {
         setRegionsModalActive(false);
         setIsOpen(true);
     };
+    let back = () => {
+        setSearchOpen(false)
+    };
+    let goSearch = () => {
+        setIsOpen(false);
+        setSearchOpen(true)
+    };
+    let goDefiniteSearch = (text) => {
+        /// search query logic
+        setSearchOpen(true);
+        console.log('user search to ', text)
+    };
     const [modalActive, setModalActive] = useState(false);
     const [regionsModalActive, setRegionsModalActive] = useState(false);
     return (
@@ -79,7 +97,7 @@ const Header = () => {
                 <SavedRegions regions={savedRegions}/>
 
             </Modal>
-            <div className="logo"></div>
+            <div className="logo" onClick={() => back()}></div>
             <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
                 <GoogleLogin
                     clientId="58638988614-gk3vv82r0ouh1tfns4cj0bjr1m15bqi6.apps.googleusercontent.com"
@@ -104,15 +122,15 @@ const Header = () => {
                         cookiePolicy={'single_host_origin'}
                     />
                 </div>
-                <li>Search</li>
+                <li onClick={() => goSearch()}>Search</li>
                 <li onClick={openRegions}>Saved</li>
                 <li><div className="nav-close"  onClick={() => setIsOpen(false)}></div></li>
             </ul>
 
             <div className={isLogged? "account" : "collapse"} onClick={openModal}><span>{accountName}</span></div>
             <div className="search">
-                <div className="search-icon"></div>
-                <input placeholder="Search region.."/>
+                <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
+                <input placeholder="Search region.." onChange={(event) => setSearchTerm(event.target.value)}/>
             </div>
         </div>
     );
