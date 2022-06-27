@@ -4,11 +4,16 @@ import MyButton from '../../components/MyButton';
 import Modal from "../header-component/modal";
 import RegionService from '../../components/region-service';
 import RegionContext from '../../components/region-context';
+import SearchContext from '../../components/search-context';
+import WeatherService from '../../components/weather-service.js';
+
 
 
 const SavedRegions = ({regions}) => {
+    const weatherService = WeatherService.getInstance();
 
     const {region, setRegion} = useContext(RegionContext);
+    const {searchOpen, setSearchOpen} = useContext(SearchContext);
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
@@ -22,7 +27,10 @@ const SavedRegions = ({regions}) => {
 
     useEffect(() => {
          if(window.matchMedia("(max-width: 1024px)").matches){
-            setRegLimit(regions.length)
+            if(regions){
+                setRegLimit(regions.length)
+            }
+
          } else {
              setRegLimit(4)
          }
@@ -57,17 +65,25 @@ const SavedRegions = ({regions}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        setMyRegions(myRegions.filter(r => r.regionName !== current));
+        regionService.deleteRegion(current);
         closeModal();
     };
     let changeRegion = (name) => {
         setRegion(name);
+    };
+    let openSearch = () => {
+        setSearchOpen(true);
     };
 
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
+                // let weather = {};
+                // weatherService.getWeatherFromAPI(myRegions[i]).subscribe(
+                //     res => weather = res
+                // );
+                // console.log('weather for', myRegions[i].regionName);
                 items.push(
                     <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
                         <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
@@ -97,11 +113,11 @@ const SavedRegions = ({regions}) => {
                     </div>
                 </div>
             </Modal>
-            {myRegions.length > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+            {(myRegions && myRegions.length) > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
             {makeRegions()}
-            {myRegions.length === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
-            {myRegions.length > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
-            <div className={classes.cardBtn}>
+            {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
+            {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
+            <div className={classes.cardBtn} onClick={openSearch}>
                 <MyButton sizing={{"size":'big'}}/>
             </div>
         </div>

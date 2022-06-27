@@ -283,6 +283,7 @@ hr{
         width: 36px;
         height: 36px;
         margin: 16px;
+        cursor: pointer;
     }
     .search input{
         width: 75%;
