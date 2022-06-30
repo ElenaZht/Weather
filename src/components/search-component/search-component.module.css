@@ -183,6 +183,9 @@
 .name{
     font: calc(2vw + 2vh) Light;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .info{
     display: flex;

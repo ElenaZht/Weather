@@ -18,7 +18,7 @@ const Header = () => {
 
     let [isOpen, setIsOpen] = useState(false);
     let [isLogged, setIsLogged] = useState(false);
-    // let [term, setTerm] = useState('');
+    let [term, setTerm] = useState('');
 
     let [accountName, setAccountName] = useState(localStorage.user && user.givenName? user.givenName[0].toUpperCase()+user.familyName[0].toUpperCase() : "");
     let [accountFullName, setAccountFullName] = useState(localStorage.user && user.name? user.name : "");
@@ -67,9 +67,12 @@ const Header = () => {
         setSearchOpen(true)
     };
     let goDefiniteSearch = (text) => {
-        /// search query logic
+        if(text.length){
         setSearchOpen(true);
-        console.log('user search to ', text)
+        console.log('user search to ', searchTerm);
+        setTerm('');
+        }
+
     };
     const [modalActive, setModalActive] = useState(false);
     const [regionsModalActive, setRegionsModalActive] = useState(false);
@@ -130,7 +133,7 @@ const Header = () => {
             <div className={isLogged? "account" : "collapse"} onClick={openModal}><span>{accountName}</span></div>
             <div className="search">
                 <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
-                <input placeholder="Search region.." onChange={(event) => setSearchTerm(event.target.value)}/>
+                <input placeholder="Search region.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
             </div>
         </div>
     );

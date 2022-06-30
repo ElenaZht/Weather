@@ -4,9 +4,10 @@ import Modal from "../header-component/modal";
 import RegionService from "../region-service";
 import MyButton from "../MyButton";
 import {regionList} from './search-storage'
+import SearchTermContext from "../search-term-context";
 
 const pageSize = 10;
-const Search = ({regions}) => {
+const Search = ({regions, deleteMethod, addMethod}) => {
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
@@ -23,6 +24,8 @@ const Search = ({regions}) => {
     const [query, setQuery] = useState('');
     const [hasMore, setHasMore] = useState(true);
 
+    const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
+
     let openModal = (name) => {
         setModalActive(true);
         setIsOpen(false);
@@ -33,7 +36,7 @@ const Search = ({regions}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        regionService.deleteRegion(current);
+        deleteMethod(current);
         closeModal();
     };
     useEffect(() => {
@@ -42,26 +45,30 @@ const Search = ({regions}) => {
             setIsMobile(true);
         }
     });
-    let makeRegions = () => {
-        if(myRegions && myRegions.length>0){
-            let items = [];
-            for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
-                items.push(
-                    <div className={classes.card} key={i+curIdx}>
-                        <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
-                        <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
-                        <div className={classes.info}>
-                            <div className={classes.icon}></div>
-                            <div className={classes.degree}>+25°</div>
+    let makeRegions = useCallback(
+        () => {
+            if(myRegions && myRegions.length>0){
+                let items = [];
+                for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
+                    items.push(
+                        <div className={classes.card} key={i+curIdx}>
+                            <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
+                            <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
+                            <div className={classes.info}>
+                                <div className={classes.icon}></div>
+                                <div className={classes.degree}>+25°</div>
+                            </div>
+
                         </div>
-
-                    </div>
-                )
+                    )
+                }
+                return items;
             }
-            return items;
-        }
+        },
+        [myRegions]
+    );
 
-    };
+
 
     let slideLeft = () => {
         if(curIdx > 0){
@@ -74,29 +81,32 @@ const Search = ({regions}) => {
 
     };
     let slideRight = () => {
-        if(curIdx < regions.length - 4){
+        if(curIdx < regions.length - 1){
             setCurIdx(++curIdx);
+            console.log('step right', curIdx)
         }
-        if(curIdx === regions.length - 4){
+        if(curIdx === regions.length - 2){
             setDisabledRight(true);
+            console.log('last step right', curIdx)
         }
         setDisabledLeft(false);
 
     };
     let addRegion = (name) => {
         console.log('adding', name);
-        regionService.addRegion(name);
+        // regionService.addRegion(name);
+        // updateRegions();
+        addMethod(name);
     };
     const observer = useRef();
     const lastCityElementRef = useCallback(city => {
-        console.log(city);
         if (observer.current) observer.current.disconnect();
 
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 setPageNumber(prevPageNumber => prevPageNumber + 1);
                 console.log('bottom', pageNumber);
-                let resCities = regionList.filter(c => c.toLowerCase().startsWith(query.toLowerCase()));
+                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
                 const endIdx = pageNumber*pageSize + pageSize;
                 if(endIdx > (resCities.length - 1)) {
                     console.log('no more', endIdx, resCities.length-1)
@@ -109,16 +119,31 @@ const Search = ({regions}) => {
             }
         });
         if (city) observer.current.observe(city)
-    }, [pageNumber, query]);
-
+    }, [pageNumber, searchTerm]);
 
     const inputHandler = useCallback((value) => {
-        setQuery(value);
-        let resCities = regionList.filter(c => c.toLowerCase().startsWith(value.toLowerCase()));
-        setCities(resCities.slice(0, pageSize));
-        setPageNumber(0);
-        setHasMore(true);
+        setSearchTerm(value);
+
     }, []);
+
+    useEffect(
+        () => {
+            if(searchTerm.length){
+                console.log('search term is not empty')
+                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
+                setCities(resCities.slice(0, pageSize));
+                setPageNumber(0);
+                setHasMore(true);
+            }
+
+        },
+        [searchTerm]
+    );
+    // let updateRegions = () => {
+    //     setMyRegions(regionService.getMyRegions());
+    //     console.log('updating')
+    // };
+
 
     return (
         <div className={classes.container}>
@@ -134,7 +159,7 @@ const Search = ({regions}) => {
             <div className={classes.leftside}>
                 <div className={classes.inputSearch}>
                     <div className={classes.searchIcon}></div>
-                    <input placeholder="Search region.." onChange={event => inputHandler(event.target.value)}/>
+                    <input placeholder="Search region.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
                 </div>
                 <div className={classes.listOfSearch}>
                     {cities.map((val, index) => {

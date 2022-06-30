@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../../components/MyButton';
 import Modal from "../header-component/modal";
@@ -9,7 +9,7 @@ import WeatherService from '../../components/weather-service.js';
 
 
 
-const SavedRegions = ({regions}) => {
+const SavedRegions = ({regions, deleteMethod}) => {
     const weatherService = WeatherService.getInstance();
 
     const {region, setRegion} = useContext(RegionContext);
@@ -35,6 +35,11 @@ const SavedRegions = ({regions}) => {
              setRegLimit(4)
          }
     });
+
+    // let updateRegions = () => {
+    //         setMyRegions(regionService.getMyRegions())
+    //     };
+
     let slideLeft = () => {
         if(curIdx > 0){
             setCurIdx(--curIdx);
@@ -65,7 +70,7 @@ const SavedRegions = ({regions}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        regionService.deleteRegion(current);
+        deleteMethod(current);
         closeModal();
     };
     let changeRegion = (name) => {
@@ -74,22 +79,22 @@ const SavedRegions = ({regions}) => {
     let openSearch = () => {
         setSearchOpen(true);
     };
+    let getWeather = (city) => {
+    };
 
     let makeRegions = () => {
+        // console.log('make regions')
         if(myRegions && myRegions.length>0){
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
-                // let weather = {};
-                // weatherService.getWeatherFromAPI(myRegions[i]).subscribe(
-                //     res => weather = res
-                // );
-                // console.log('weather for', myRegions[i].regionName);
                 items.push(
                     <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
                         <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
                         <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
                         <div className={classes.info}>
-                            <div className={classes.icon}></div>
+                            <div className={classes.icon} >
+                                {getWeather(myRegions[i+curIdx].regionName)}
+                            </div>
                             <div className={classes.degree}>+25°</div>
                         </div>
 
@@ -100,6 +105,29 @@ const SavedRegions = ({regions}) => {
         }
 
     };
+    // let makeRegions = useCallback(() => {
+    //         if(myRegions && myRegions.length>0){
+    //             let items = [];
+    //             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
+    //                 items.push(
+    //                     <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
+    //                         <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
+    //                         <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
+    //                         <div className={classes.info}>
+    //                             <div className={classes.icon}></div>
+    //                             <div className={classes.degree}>+25°</div>
+    //                         </div>
+    //
+    //                     </div>
+    //                 )
+    //             }
+    //             return items;
+    //         }
+    // }
+    //     ,
+    //     [myRegions]
+    //
+    // );
 
 
     return (
