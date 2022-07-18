@@ -6,7 +6,7 @@ import RegionService from '../../components/region-service';
 import RegionContext from '../../components/region-context';
 import SearchContext from '../../components/search-context';
 import WeatherService from '../../components/weather-service.js';
-
+import Card from '../../components/card-component/card';
 
 
 const SavedRegions = ({regions, deleteMethod}) => {
@@ -36,9 +36,7 @@ const SavedRegions = ({regions, deleteMethod}) => {
          }
     });
 
-    // let updateRegions = () => {
-    //         setMyRegions(regionService.getMyRegions())
-    //     };
+
 
     let slideLeft = () => {
         if(curIdx > 0){
@@ -70,64 +68,29 @@ const SavedRegions = ({regions, deleteMethod}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
+        console.log('delete', current)
         deleteMethod(current);
         closeModal();
     };
-    let changeRegion = (name) => {
-        setRegion(name);
-    };
+
     let openSearch = () => {
         setSearchOpen(true);
     };
-    let getWeather = (city) => {
-    };
 
     let makeRegions = () => {
-        // console.log('make regions')
         if(myRegions && myRegions.length>0){
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                 items.push(
-                    <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
-                        <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
-                        <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
-                        <div className={classes.info}>
-                            <div className={classes.icon} >
-                                {getWeather(myRegions[i+curIdx].regionName)}
-                            </div>
-                            <div className={classes.degree}>+25°</div>
-                        </div>
-
-                    </div>
-                )
+                    <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                        openModalMethod={openModal}
+                    />
+                    )
             }
             return items;
         }
 
     };
-    // let makeRegions = useCallback(() => {
-    //         if(myRegions && myRegions.length>0){
-    //             let items = [];
-    //             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
-    //                 items.push(
-    //                     <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
-    //                         <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
-    //                         <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
-    //                         <div className={classes.info}>
-    //                             <div className={classes.icon}></div>
-    //                             <div className={classes.degree}>+25°</div>
-    //                         </div>
-    //
-    //                     </div>
-    //                 )
-    //             }
-    //             return items;
-    //         }
-    // }
-    //     ,
-    //     [myRegions]
-    //
-    // );
 
 
     return (
@@ -146,7 +109,7 @@ const SavedRegions = ({regions, deleteMethod}) => {
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
             {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
             <div className={classes.cardBtn} onClick={openSearch}>
-                <MyButton sizing={{"size":'big'}}/>
+                <MyButton sizing={{"size":'big'}} />
             </div>
         </div>
     );

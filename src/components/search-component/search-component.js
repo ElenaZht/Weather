@@ -5,6 +5,7 @@ import RegionService from "../region-service";
 import MyButton from "../MyButton";
 import {regionList} from './search-storage'
 import SearchTermContext from "../search-term-context";
+import Card from "../card-component/card";
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {
@@ -51,15 +52,9 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 let items = [];
                 for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                     items.push(
-                        <div className={classes.card} key={i+curIdx}>
-                            <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
-                            <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
-                            <div className={classes.info}>
-                                <div className={classes.icon}></div>
-                                <div className={classes.degree}>+25°</div>
-                            </div>
-
-                        </div>
+                        <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                              openModalMethod={openModal}
+                        />
                     )
                 }
                 return items;
@@ -115,7 +110,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 setCities(c => {
                     return [...new Set([...c, ...resCities.slice(pageNumber*pageSize, endIdx)])]
                 });
-                console.log(cities)
+
             }
         });
         if (city) observer.current.observe(city)

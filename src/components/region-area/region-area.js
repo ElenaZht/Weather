@@ -8,20 +8,35 @@ const RegionArea = () => {
 
     const{region, setRegion} = useContext(RegionContext);
 
-    let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
-    let dateObj = new Date(dateString);
-    let [date, setDate] = useState(dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'') + dateObj.getMinutes() + "  "+ dateObj.getDate() + " " + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear());
+    // console.log(region.timeZone)
+    let [date, setDate] = useState('');
     let getCurDate = () => {
-        let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
-        let dateObj = new Date(dateString);
-        return dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'') + dateObj.getMinutes() + "  "+ dateObj.getDate() + " " + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear()
+            let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
+            let dateObj = new Date(dateString);
+            return dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'') + dateObj.getMinutes() + "  "+ dateObj.getDate() + " " + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear()
     };
-
-    useEffect(() => {
-        let myInterval = setInterval(async()=>{
+    let checkRegionsDate = () => {
+        if(region.timeZone.length){
             let curDate = getCurDate();
             setDate(curDate)
-        }, 30000);
+        } else {
+            setDate('');
+            // console.log('hello')
+
+        }
+    };
+    useEffect(
+        () => {
+            checkRegionsDate();
+        }, [region]
+    );
+
+    useEffect(() => {
+
+        let myInterval = setInterval(async()=>{
+            checkRegionsDate();
+            // console.log('i use region', region)
+        }, 5000);
         return () => {
             clearInterval(myInterval)
         }

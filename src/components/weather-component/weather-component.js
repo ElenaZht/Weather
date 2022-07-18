@@ -85,6 +85,7 @@ const WeatherComponent = () => {
         setLoading(true);
         if (subscription.current){
             weatherService.setCity(region.regionName);
+            // console.log('weather has city ', region)
         }
 
     }, [region]);// eslint-disable-line react-hooks/exhaustive-deps

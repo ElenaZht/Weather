@@ -51,7 +51,7 @@
     .wrapper{
         display: flex;
         width: 50vw;
-        height: 15%;
+        height: calc(15% + 1vw);
     }
     .signature{
         display: flex;

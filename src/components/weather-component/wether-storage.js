@@ -5,7 +5,17 @@ const pictures = {
     "thunderstorm" : require("../../assets/weather-logo/thunderstorm_norm.png"),
     "rain" : require("../../assets/weather-logo/rain.png"),
     "snow" : require("../../assets/weather-logo/snow_norm.png"),
-    "mist" : require("../../assets/weather-logo/mist.png"),
+    "mist" : require("../../assets/weather-logo/mist.png")
+};
+const logos = {
+    "clear_sky" : require("../../assets/icons/weather-mini-logo/clear.png"),
+    "few clouds" : require("../../assets/icons/weather-mini-logo/few_clouds.png"),
+    "clouds" : require("../../assets/icons/weather-mini-logo/broken_clouds.png"),
+    "thunderstorm" : require("../../assets/icons/weather-mini-logo/thunderstorm.png"),
+    "rain" : require("../../assets/icons/weather-mini-logo/rain.png"),
+    "snow" : require("../../assets/icons/weather-mini-logo/snow.png"),
+    "mist" : require("../../assets/icons/weather-mini-logo/mist.png"),
+    "scattered" : require("../../assets/icons/weather-mini-logo/scattered_clouds.png")
 };
 
 const advices = {
@@ -19,4 +29,4 @@ const advices = {
     "mist" : "It's mist outside. Be careful and torn the lights on!!",
     "strong_wind" : "Pretty windy u-hoo! Be careful outside!!"
 };
-export {pictures, advices};
+export {pictures, advices, logos};

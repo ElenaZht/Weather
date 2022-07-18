@@ -26,71 +26,6 @@
     padding-top: 2%;
 
 }
-.card{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background: white;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 7px;
-    height: calc(10vw + 10vh);
-    width: calc(10vw + 10vh);
-    color: #707070;
-    margin-right: auto;
-    margin-left: auto;
-    transform: scale(1);
-    transition: .4s;
-    cursor: pointer;
-    margin-bottom: 5%;
-}
-.card:active, .cardBtn:active{
-    transform: scale(1.1);
-    transition: .4s;
-    -webkit-tap-highlight-color: transparent;
-}
-.info{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.name{
-    font: calc(2vw + 2vh) Light;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-.degree{
-    font: calc(2vw + 2vh) Light;
-    color: #9C9C9C;
-}
-.icon{
-    background-image: url("../../assets/icons/sun.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: calc(2vw + 2vh);
-    height: calc(2vw + 2vh);
-    opacity: .2;
-}
-.cardBtn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    background: white;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 7px;
-    height:  calc(10vw + 10vh);
-    width:  calc(10vw + 10vh);
-    cursor: pointer;
-    transform: scale(1);
-    transition: .4s;
-    margin-bottom: 5%;
-    margin-right: auto;
-    margin-left: auto;
-
-}
 .left, .right{
     display: none;
 }
@@ -126,6 +61,66 @@
     height: 30vh;
     justify-content: space-around;
 }
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 7px;
+    height: calc(5vw + 5vh);
+    width: calc(5vw + 5vh);
+    color: #707070;
+    margin-right: calc(.5vw + .5vh);
+    filter: none;
+    margin-bottom: 0;
+
+}
+.info{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.name{
+    font: calc(1vw + 1vh) Light;
+    text-align: center;
+}
+.degree{
+    font: calc(1vw + 1vh) Light;
+    color: #9C9C9C;
+}
+.icon{
+    background-image: url("../../assets/icons/sun.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: calc(1vw + 1vh);
+    height: calc(1vw + 1vh);
+    opacity: .2;
+}
+.cardBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 7px;
+    height:  calc(5vw + 5vh);
+    width:  calc(5vw + 5vh);
+    filter: none;
+    margin: 0;
+
+}
+.cardBtn:active{
+    transform: scale(.9);
+    transition: .4s;
+    -webkit-tap-highlight-color: transparent;
+}
 .closeBtn{
     font-family: Regular;
     font-size: 18px;
@@ -138,17 +133,12 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 11px;
     border: none;
+    margin-bottom: 5%;
     float: right;
 }
 .closeBtn:active{
     transform: scale(1.1);
     transition: .4s;
-}
-.buttons{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
 }
 @media all and (min-width: 1025px){
     .wrap{
@@ -162,55 +152,6 @@
         max-height: 100%;
         overflow: hidden;
         padding-top: 0;
-    }
-    .card{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        background: rgba(255, 255, 255, 0.57);
-        border-radius: 7px;
-        height: calc(5vw + 5vh);
-        width: calc(5vw + 5vh);
-        color: #707070;
-        margin-right: calc(.5vw + .5vh);
-        filter: none;
-        margin-bottom: 0;
-
-    }
-    .info{
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-    .name{
-        font: calc(1vw + 1vh) Light;
-        text-align: center;
-    }
-    .degree{
-        font: calc(1vw + 1vh) Light;
-        color: #9C9C9C;
-    }
-    .icon{
-        background-image: url("../../assets/icons/sun.svg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: calc(1vw + 1vh);
-        height: calc(1vw + 1vh);
-        opacity: .2;
-    }
-    .cardBtn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        background: rgba(255, 255, 255, 0.57);
-        border-radius: 7px;
-        height:  calc(5vw + 5vh);
-        width:  calc(5vw + 5vh);
-        filter: none;
-        margin: 0;
-
     }
     .left, .right{
         display: flex;
@@ -257,8 +198,5 @@
     }
     .noRegions{
         display: none;
-    }
-    .delete{
-        font-size: 1vmax;
     }
 }
