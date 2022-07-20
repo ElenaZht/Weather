@@ -40,7 +40,8 @@ const Header = () => {
     useEffect(
         () => {
             if(localStorage.user){
-                toast.info(`You entered as ${localStorage.user.name}`);
+                toast.info(`You entered as ${JSON.parse( localStorage.user).name}`);
+
             }
         }, []
     );
@@ -50,6 +51,7 @@ const Header = () => {
     useEffect(() => {
             if(!localStorage.user){
                 toast.info(`Your region is recognized as ${regionService.defaultRegion.regionName}. For choose other regions Log In, please.`)
+
             }
     }, []
     );
@@ -98,19 +100,6 @@ const Header = () => {
     const [regionsModalActive, setRegionsModalActive] = useState(false);
     return (
         <div className="main">
-            <ToastContainer
-                draggable={false}
-                transition={Zoom}
-                autoClose={5000}
-                position={"top-center"}
-                hideProgressBar
-                newestOnTop
-                rtl={false}
-                pauseOnFocusLoss
-                pauseOnHover
-                theme={"colored"}
-
-            />
             <div  data-testid="user-profile-modal">
                 <Modal active={modalActive} setActive={setModalActive} >
                     <div className="dialog">
@@ -167,6 +156,7 @@ const Header = () => {
             <div className="search">
                 <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
                 <input placeholder="Search region.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
+                <div className="rem-icon" onClick={() => {setTerm(''); setSearchTerm('')}}></div>
             </div>
         </div>
     );

@@ -34,7 +34,6 @@ class WeatherService{
                     let data = await this.getWeatherFromAPI(this.city);
                     this.subscriber.next(data);
                     } catch (e) {
-                        console.log(e.message);
                         this.subscriber.next(e);
                     }
 

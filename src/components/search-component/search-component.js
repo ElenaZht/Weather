@@ -122,11 +122,12 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     useEffect(
         () => {
             if(searchTerm.length){
-                console.log('search term is not empty')
                 let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
                 setCities(resCities.slice(0, pageSize));
                 setPageNumber(0);
                 setHasMore(true);
+            } else {
+                setCities(regionList.slice(0, pageSize));
             }
 
         },
@@ -148,6 +149,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 <div className={classes.inputSearch}>
                     <div className={classes.searchIcon}></div>
                     <input placeholder="Search region.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
+                    <div className={classes.remIcon} onClick={() => inputHandler('')}></div>
                 </div>
                 <div className={classes.listOfSearch}>
                     {cities.map((val, index) => {
