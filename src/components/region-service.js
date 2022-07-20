@@ -21,11 +21,11 @@ class RegionService{
     addRegion(name){
         const myRegions = JSON.parse(localStorage.getItem("myRegions")) || [];
         if(myRegions.find(r => r.regionName === name.split(',')[0])){
-            alert('`name` was already added') //todo: fix name
+            return null;
         } else {
             myRegions.push({regionName: name.split(',')[0]});
             localStorage.setItem("myRegions", JSON.stringify(myRegions));
-            console.log('service added region')
+            console.log('service added region');
         }
         return myRegions;
     }

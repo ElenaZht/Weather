@@ -42,6 +42,23 @@
 .wrapper{
     display: none;
 }
+.Toastify__toast--error {
+    border-radius: 17px !important;
+    background: #d95255 !important;
+}
+
+.Toastify__toast--success {
+    border-radius: 17px !important;
+    background: #52d98d !important;
+}
+.Toastify__toast--warning {
+    border-radius: 17px !important;
+    background: #d98a52 !important;
+}
+.Toastify__toast--info {
+    border-radius: 17px !important;
+    background: #52b3d9 !important;
+}
 /* BIG SCREENS */
 @media all and (min-width: 1025px) {
     .App{

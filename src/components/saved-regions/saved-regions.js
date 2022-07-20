@@ -76,7 +76,6 @@ const SavedRegions = ({regions, deleteMethod}) => {
     let openSearch = () => {
         setSearchOpen(true);
     };
-
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];

@@ -3,6 +3,7 @@ import classes from "../card-component/card.module.css";
 import RegionContext from "../region-context";
 import WeatherService from '../../components/weather-service.js';
 import {logos} from "../weather-component/wether-storage";
+import SearchContext from "../search-context";
 
 const Card = ({city, openModalMethod}) => {
     const {region, setRegion} = useContext(RegionContext);
@@ -12,6 +13,9 @@ const Card = ({city, openModalMethod}) => {
     let [temperature, setTemperature] = useState('');
     let [description, setDescription] = useState('');
     let [img, setImg] = useState('');
+    const {searchOpen, setSearchOpen} = useContext(SearchContext);
+    let [errorText, setErrorText] = useState('');
+
 
 
     useEffect(
@@ -20,28 +24,23 @@ const Card = ({city, openModalMethod}) => {
             if(city){
                 subscription.current = weatherService.getSubscriber(city).subscribe(
                 (res) => {
-                    // console.log(res, city)
                     if (res && res.data) {
-                        // setLoading(false);
                         setTemperature(Math.round(res.data.main.temp));
                         setDescription(res.data.weather[0].description);
                         if(Math.round(res.data.main.temp) > 0){
                             setRelToZero('+')
-                            console.log("+")
                         }
                         getImg(res.data.weather[0].description);
 
 
                     } else if(res) {
-                        // setLoading(false);
-                        // setErrorText(res.message)
+                        setErrorText(res.message)
                     }
                 }
             );}
             return () => {
                 if (subscription.current) {
                     subscription.current.unsubscribe();
-                    console.log('unsubscribe',city)
                 }
             }
         }, []
@@ -55,6 +54,7 @@ const Card = ({city, openModalMethod}) => {
     }
     let setCity = (city) => {
         setRegion({regionName : city, timeZone: timeZone});
+        setSearchOpen(false);
     };
 
     let getImg = (desc) => {
@@ -91,6 +91,7 @@ const Card = ({city, openModalMethod}) => {
                     e.stopPropagation()
                 }}>x</button>
                 <div className={classes.name}>{city}</div>
+                {!temperature &&<div className={classes.error}>{errorText}</div>}
                 <div className={classes.info}>
                     {temperature &&<div className={classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}
                     {temperature &&<div className={classes.degree}>{relToZero}{temperature}°</div>}

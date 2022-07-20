@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './header.css';
 import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
@@ -6,6 +6,8 @@ import SavedRegions from '../../components/saved-regions/saved-regions.js';
 import RegionService from "../region-service";
 import SearchContext from "../search-context";
 import SearchTermContext from '../../components/search-term-context';
+import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
     const regionService =  RegionService.getInstance();
@@ -35,9 +37,22 @@ const Header = () => {
 
         }
     };
+    useEffect(
+        () => {
+            if(localStorage.user){
+                toast.info(`You entered as ${localStorage.user.name}`);
+            }
+        }, []
+    );
     if(localStorage.user){
         isLogged = true;
     }
+    useEffect(() => {
+            if(!localStorage.user){
+                toast.info(`Your region is recognized as ${regionService.defaultRegion.regionName}. For choose other regions Log In, please.`)
+            }
+    }, []
+    );
     let openModal = () => {
         setModalActive(true);
         setIsOpen(false);
@@ -50,6 +65,7 @@ const Header = () => {
         localStorage.clear();
         setModalActive(false);
         setIsLogged(false);
+        toast.success('You logged out!');
     };
     let openRegions = () => {
         setRegionsModalActive(true);
@@ -74,10 +90,27 @@ const Header = () => {
         }
 
     };
+    // toast.success('yeesssss');
+    // toast.error('nooo');
+    // toast.info('info');
+    // toast.warn('warning');
     const [modalActive, setModalActive] = useState(false);
     const [regionsModalActive, setRegionsModalActive] = useState(false);
     return (
         <div className="main">
+            <ToastContainer
+                draggable={false}
+                transition={Zoom}
+                autoClose={5000}
+                position={"top-center"}
+                hideProgressBar
+                newestOnTop
+                rtl={false}
+                pauseOnFocusLoss
+                pauseOnHover
+                theme={"colored"}
+
+            />
             <div  data-testid="user-profile-modal">
                 <Modal active={modalActive} setActive={setModalActive} >
                     <div className="dialog">

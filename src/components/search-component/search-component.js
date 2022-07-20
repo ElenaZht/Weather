@@ -13,19 +13,17 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
-    let [regLimit, setRegLimit] = useState(regions.length);
+    let [regLimit, setRegLimit] = useState(2);
     let [isOpen, setIsOpen] = useState(false);
     const [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
-    const regionService = RegionService.getInstance();
     let [myRegions, setMyRegions] = useState(regions);
     let [isMobile, setIsMobile] = useState(false);
     let [cities, setCities] = useState(regionList.slice(0, pageSize));
     const [pageNumber, setPageNumber] = useState(0);
-    const [query, setQuery] = useState('');
     const [hasMore, setHasMore] = useState(true);
-
     const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
+
 
     let openModal = (name) => {
         setModalActive(true);
@@ -39,15 +37,19 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     let deleteRegion = (current) => {
         deleteMethod(current);
         closeModal();
+
     };
     useEffect(() => {
         if(window.matchMedia("(max-width: 320px)").matches){
-            setRegLimit(2);
             setIsMobile(true);
+        } else {
+            setRegLimit(regions.length);
+
         }
-    });
-    let makeRegions = useCallback(
-        () => {
+    },[]);
+
+    let makeRegions = () => {
+
             if(myRegions && myRegions.length>0){
                 let items = [];
                 for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
@@ -59,9 +61,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 }
                 return items;
             }
-        },
-        [myRegions]
-    );
+        };
 
 
 
@@ -89,14 +89,12 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     };
     let addRegion = (name) => {
         console.log('adding', name);
-        // regionService.addRegion(name);
-        // updateRegions();
         addMethod(name);
+
     };
     const observer = useRef();
     const lastCityElementRef = useCallback(city => {
         if (observer.current) observer.current.disconnect();
-
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 setPageNumber(prevPageNumber => prevPageNumber + 1);
@@ -134,11 +132,6 @@ const Search = ({regions, deleteMethod, addMethod}) => {
         },
         [searchTerm]
     );
-    // let updateRegions = () => {
-    //     setMyRegions(regionService.getMyRegions());
-    //     console.log('updating')
-    // };
-
 
     return (
         <div className={classes.container}>
@@ -169,10 +162,10 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 </div>
             </div>
             <div className={classes.rightside}>
-                {(myRegions.length > 4 && isMobile)&& <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+                {(myRegions.length > 2 && isMobile)&& <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
                 {makeRegions()}
                 {myRegions.length === 0 &&  <div className={classes.noRegions}><p>No saved regions yet.</p></div>}
-                {(myRegions.length > 4 && isMobile) && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
+                {(myRegions.length > 2 && isMobile) && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
             </div>
         </div>
     );
