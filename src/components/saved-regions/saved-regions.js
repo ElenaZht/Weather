@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../../components/MyButton';
 import Modal from "../header-component/modal";
@@ -6,10 +6,10 @@ import RegionService from '../../components/region-service';
 import RegionContext from '../../components/region-context';
 import SearchContext from '../../components/search-context';
 import WeatherService from '../../components/weather-service.js';
+import Card from '../../components/card-component/card';
 
 
-
-const SavedRegions = ({regions}) => {
+const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     const weatherService = WeatherService.getInstance();
 
     const {region, setRegion} = useContext(RegionContext);
@@ -24,17 +24,26 @@ const SavedRegions = ({regions}) => {
     let [curRegion, setCurRegion] = useState('');
     const regionService = RegionService.getInstance();
     let [myRegions, setMyRegions] = useState(regions);
+    let [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
          if(window.matchMedia("(max-width: 1024px)").matches){
             if(regions){
-                setRegLimit(regions.length)
+                setRegLimit(regions.length);
+                setIsMobile(true)
             }
 
          } else {
-             setRegLimit(4)
+             setRegLimit(4);
          }
     });
+    // useEffect(() => {
+    //     makeRegions();
+    // }, [localStorage.getItem('user')]
+    // );
+
+
+
     let slideLeft = () => {
         if(curIdx > 0){
             setCurIdx(--curIdx);
@@ -65,36 +74,28 @@ const SavedRegions = ({regions}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        regionService.deleteRegion(current);
+        console.log('delete', current)
+        deleteMethod(current);
         closeModal();
     };
-    let changeRegion = (name) => {
-        setRegion(name);
-    };
+
     let openSearch = () => {
         setSearchOpen(true);
     };
-
+    let openSearchMobile = () => {
+        closeDialog();
+        setSearchOpen(true);
+    };
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
-                // let weather = {};
-                // weatherService.getWeatherFromAPI(myRegions[i]).subscribe(
-                //     res => weather = res
-                // );
-                // console.log('weather for', myRegions[i].regionName);
                 items.push(
-                    <div className={classes.card} key={i+curIdx} onClick={() => changeRegion(myRegions[i+curIdx])}>
-                        <button className={classes.delete} onClick={() => openModal(myRegions[i+curIdx].regionName)}>x</button>
-                        <div className={classes.name}>{myRegions[i+curIdx].regionName}</div>
-                        <div className={classes.info}>
-                            <div className={classes.icon}></div>
-                            <div className={classes.degree}>+25°</div>
-                        </div>
-
-                    </div>
-                )
+                    <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                        openModalMethod={openModal}
+                          closeDialogMethod={closeDialog}
+                    />
+                    )
             }
             return items;
         }
@@ -117,9 +118,15 @@ const SavedRegions = ({regions}) => {
             {makeRegions()}
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
             {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
-            <div className={classes.cardBtn} onClick={openSearch}>
-                <MyButton sizing={{"size":'big'}}/>
-            </div>
+            {isMobile?
+                (<div className={classes.cardBtn} onClick={openSearchMobile}>
+                    <MyButton sizing={{"size":'big'}} />
+                </div>) :
+                (<div className={classes.cardBtn} onClick={openSearch}>
+                    <MyButton sizing={{"size":'big'}} />
+                </div>)
+            }
+
         </div>
     );
 };

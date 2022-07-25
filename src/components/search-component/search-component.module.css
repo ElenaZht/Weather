@@ -183,6 +183,9 @@
 .name{
     font: calc(2vw + 2vh) Light;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .info{
     display: flex;
@@ -201,6 +204,16 @@
     width: calc(2vw + 2vh);
     height: calc(2vw + 2vh);
     opacity: .2;
+}
+.remIcon{
+    background-image: url("../../assets/icons/cancel.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: .3;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: auto;
 }
 .noRegions{
     font: calc(1vw + 1vh) Light;
@@ -302,6 +315,9 @@
         width: calc(1vw + 1vh);
         height: calc(1vw + 1vh);
         opacity: .2;
+    }
+    .remIcon{
+        margin-bottom: 24px;
     }
     .cardBtn {
         display: flex;

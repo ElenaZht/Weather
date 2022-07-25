@@ -84,7 +84,8 @@ const WeatherComponent = () => {
     useEffect(() => {
         setLoading(true);
         if (subscription.current){
-            weatherService.setCity(region.regionName);
+            weatherService.setCity(region.regionName)
+            // console.log('weather has city ', region)
         }
 
     }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
@@ -97,9 +98,12 @@ const WeatherComponent = () => {
                         setLoading(false);
                         setWeather(res.data);
                         parseWeather(res.data);
-                    } else if(res) {
+                        setErrorText('')
+                        // console.log('we get res', res)
+                    } else if(res && res.message) {
                         setLoading(false);
                         setErrorText(res.message)
+                        console.log('error', res)
                     }
                 }
             );
@@ -108,7 +112,7 @@ const WeatherComponent = () => {
                     subscription.current.unsubscribe();
                 }
             }
-        }, []
+        }, [region]
     );
     return (
         <div className={classes.wrapper}>
@@ -120,12 +124,12 @@ const WeatherComponent = () => {
                 <div/>
             </div>}
 
-            {!!((!weather || !weather.main)&& !loading) &&
+            {!!((!weather || !weather.main || errorText.length)&& !loading) &&
             <div className={classes.noResponse}>
                 <span className={classes.noResponseTitle}>Sorry! {errorText}</span>
                 <span className={classes.noResponseText}>Please, try again later.</span>
             </div>}
-            {!!(weather &&  weather.main) &&
+            {!!(weather &&  weather.main && !loading && !errorText.length) &&
             <div className={classes.leftSide}>
                 <div className={classes.degree}>
                     {temperature && <div data-testid="digit" className={classes.digit}>
@@ -136,7 +140,7 @@ const WeatherComponent = () => {
                 </div>
                 {advice.length && <div className={classes.advice}>{advice}</div>}
             </div>}
-            {!!(weather && weather.main) && <div className={classes.rightSide}>
+            {!!(weather && weather.main && !loading && !errorText.length) && <div className={classes.rightSide}>
                 <div className={classes.picture} style={{ backgroundImage: `url(${img})` }}></div>
                 {!!(weather && weather.main) && <div className={classes.details}>
                     <div className={classes.sunrise}>

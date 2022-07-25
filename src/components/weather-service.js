@@ -6,13 +6,15 @@ let interval = 600000;
 class WeatherService{
     _instance;
     city = '';
+    // cities = [];
     subscriber = new BehaviorSubject(null);
 
 
     constructor(customInterval) {
         setInterval(async()=> {
+            // for
             let data = await this.getWeatherFromAPI(this.city);
-            console.log('interval:', data);
+            // console.log('interval:', data);
             this.subscriber.next(data)
         }, customInterval)
     }
@@ -32,7 +34,6 @@ class WeatherService{
                     let data = await this.getWeatherFromAPI(this.city);
                     this.subscriber.next(data);
                     } catch (e) {
-                        console.log(e.message);
                         this.subscriber.next(e);
                     }
 
