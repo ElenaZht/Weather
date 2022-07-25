@@ -9,7 +9,7 @@ import WeatherService from '../../components/weather-service.js';
 import Card from '../../components/card-component/card';
 
 
-const SavedRegions = ({regions, deleteMethod}) => {
+const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     const weatherService = WeatherService.getInstance();
 
     const {region, setRegion} = useContext(RegionContext);
@@ -24,17 +24,23 @@ const SavedRegions = ({regions, deleteMethod}) => {
     let [curRegion, setCurRegion] = useState('');
     const regionService = RegionService.getInstance();
     let [myRegions, setMyRegions] = useState(regions);
+    let [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
          if(window.matchMedia("(max-width: 1024px)").matches){
             if(regions){
-                setRegLimit(regions.length)
+                setRegLimit(regions.length);
+                setIsMobile(true)
             }
 
          } else {
-             setRegLimit(4)
+             setRegLimit(4);
          }
     });
+    // useEffect(() => {
+    //     makeRegions();
+    // }, [localStorage.getItem('user')]
+    // );
 
 
 
@@ -76,6 +82,10 @@ const SavedRegions = ({regions, deleteMethod}) => {
     let openSearch = () => {
         setSearchOpen(true);
     };
+    let openSearchMobile = () => {
+        closeDialog();
+        setSearchOpen(true);
+    };
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];
@@ -83,6 +93,7 @@ const SavedRegions = ({regions, deleteMethod}) => {
                 items.push(
                     <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
                         openModalMethod={openModal}
+                          closeDialogMethod={closeDialog}
                     />
                     )
             }
@@ -107,9 +118,15 @@ const SavedRegions = ({regions, deleteMethod}) => {
             {makeRegions()}
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
             {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
-            <div className={classes.cardBtn} onClick={openSearch}>
-                <MyButton sizing={{"size":'big'}} />
-            </div>
+            {isMobile?
+                (<div className={classes.cardBtn} onClick={openSearchMobile}>
+                    <MyButton sizing={{"size":'big'}} />
+                </div>) :
+                (<div className={classes.cardBtn} onClick={openSearch}>
+                    <MyButton sizing={{"size":'big'}} />
+                </div>)
+            }
+
         </div>
     );
 };

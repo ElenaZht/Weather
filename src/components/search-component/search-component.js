@@ -88,7 +88,6 @@ const Search = ({regions, deleteMethod, addMethod}) => {
 
     };
     let addRegion = (name) => {
-        console.log('adding', name);
         addMethod(name);
 
     };
@@ -98,7 +97,6 @@ const Search = ({regions, deleteMethod, addMethod}) => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 setPageNumber(prevPageNumber => prevPageNumber + 1);
-                console.log('bottom', pageNumber);
                 let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
                 const endIdx = pageNumber*pageSize + pageSize;
                 if(endIdx > (resCities.length - 1)) {

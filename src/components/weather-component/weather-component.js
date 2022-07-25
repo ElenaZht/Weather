@@ -90,41 +90,17 @@ const WeatherComponent = () => {
 
     }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
 
-    // useEffect(
-    //     () => {
-    //         subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
-    //             (res) => {
-    //                 if (res && res.data) {
-    //                     setLoading(false);
-    //                     setWeather(res.data);
-    //                     parseWeather(res.data);
-    //                     console.log('we get res')
-    //                 } else if(res) {
-    //                     setLoading(false);
-    //                     setErrorText(res.message)
-    //                     console.log('nothing')
-    //                 }
-    //             }
-    //         );
-    //         return () => {
-    //             if (subscription.current) {
-    //                 subscription.current.unsubscribe();
-    //             }
-    //         }
-    //     }, []
-    // );
     useEffect(
         () => {
             subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
                 (res) => {
-                    console.log('res is ', res)
                     if (res && res.data) {
                         setLoading(false);
                         setWeather(res.data);
                         parseWeather(res.data);
                         setErrorText('')
                         // console.log('we get res', res)
-                    } else if(res.message) {
+                    } else if(res && res.message) {
                         setLoading(false);
                         setErrorText(res.message)
                         console.log('error', res)

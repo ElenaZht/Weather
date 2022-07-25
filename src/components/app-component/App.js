@@ -39,6 +39,9 @@ function App() {
             toast.warn('For adding new regions please log in!  ')
         }
     };
+    let getMyRegions = () => {
+        setSavedRegions(regionService.getMyRegions())
+    };
 
     // toast.success('yeesssss');
     // toast.error('nooo');
@@ -64,7 +67,7 @@ function App() {
                 <RegionContext.Provider value={{region, setRegion}}>
                     <div className="container">
                         <SearchTermContext.Provider value={{searchTerm, setSearchTerm}}>
-                            <Header/>
+                            <Header userChangedCallback={getMyRegions}/>
                             {searchOpen? (
                                 <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
                             ):(

@@ -5,7 +5,7 @@ import WeatherService from '../../components/weather-service.js';
 import {logos} from "../weather-component/wether-storage";
 import SearchContext from "../search-context";
 
-const Card = ({city, openModalMethod}) => {
+const Card = ({city, openModalMethod, closeDialogMethod}) => {
     const {region, setRegion} = useContext(RegionContext);
     let subscription = useRef(null);
 
@@ -55,6 +55,8 @@ const Card = ({city, openModalMethod}) => {
     let setCity = (city) => {
         setRegion({regionName : city, timeZone: timeZone});
         setSearchOpen(false);
+        console.log('setCity, city is ', city)
+        closeDialogMethod();
     };
 
     let getImg = (desc) => {
@@ -85,7 +87,7 @@ const Card = ({city, openModalMethod}) => {
     };
 
     return (
-            <div className={classes.card} onClick={() => setCity(city)}>
+            <div className={classes.card} onClick={(e) => setCity(city)}>
                 <button className={classes.delete} onClick={(e) => {
                     openModalMethod(city);
                     e.stopPropagation()

@@ -9,7 +9,7 @@ import SearchTermContext from '../../components/search-term-context';
 import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Header = () => {
+const Header = ({userChangedCallback}) => {
     const regionService =  RegionService.getInstance();
     const savedRegions = regionService.getMyRegions();
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
@@ -29,6 +29,7 @@ const Header = () => {
     let responseGoogle=(response)=>{
         if(response.profileObj){
             localStorage.setItem('user', JSON.stringify(response.profileObj));
+            userChangedCallback();
             setAccountName((response.profileObj.givenName[0]+response.profileObj.familyName[0]).toUpperCase());
             setAccountFullName(response.profileObj.name);
             setIsLogged(true);
@@ -61,12 +62,14 @@ const Header = () => {
     };
     let closeModal = () => {
         setModalActive(false);
-        setIsOpen(true);
+        // setIsOpen(true);
     };
     let logOut = () => {
-        localStorage.clear();
+        // localStorage.clear();
+        localStorage.removeItem('user');
         setModalActive(false);
         setIsLogged(false);
+        userChangedCallback();
         toast.success('You logged out!');
     };
     let openRegions = () => {
@@ -74,6 +77,10 @@ const Header = () => {
         setIsOpen(false);
     };
     let closeRegions = () => {
+        setRegionsModalActive(false);
+        // setIsOpen(true);
+    };
+    let goBack = () => {
         setRegionsModalActive(false);
         setIsOpen(true);
     };
@@ -119,7 +126,8 @@ const Header = () => {
 
             <Modal active={regionsModalActive} setActive={setRegionsModalActive}>
                 <button className="closeBtn" data-testid="close-regions" id="closeRegionsBtn" onClick={closeRegions}>x</button>
-                <SavedRegions regions={savedRegions}/>
+                <button className="closeBtn" onClick={goBack}>Back</button>
+                <SavedRegions regions={savedRegions} closeDialog={closeRegions}/>
 
             </Modal>
             <div className="logo" onClick={() => back()}></div>

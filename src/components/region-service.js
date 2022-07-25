@@ -12,25 +12,29 @@ class RegionService{
         return RegionService._instance;
     }
     deleteRegion(name){
-        console.log('delete region')
-        const myRegions = JSON.parse(localStorage.getItem("myRegions")) || [];
+        if(!localStorage.user) return [];
+        const owner = JSON.parse(localStorage.user).email;
+        const myRegions = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
         myRegions.splice(myRegions.findIndex(r => r.regionName ===  name.split(',')[0]), 1);
-        localStorage.setItem("myRegions", JSON.stringify(myRegions));
+        localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegions));
         return myRegions;
     }
     addRegion(name){
-        const myRegions = JSON.parse(localStorage.getItem("myRegions")) || [];
+        if(!localStorage.user) return [];
+        const owner = JSON.parse(localStorage.user).email;
+        const myRegions = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
         if(myRegions.find(r => r.regionName === name.split(',')[0])){
             return null;
         } else {
             myRegions.push({regionName: name.split(',')[0]});
-            localStorage.setItem("myRegions", JSON.stringify(myRegions));
-            console.log('service added region');
+            localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegions));
         }
         return myRegions;
     }
     getMyRegions(){
-        const myRegions =  JSON.parse(localStorage.getItem("myRegions")) || [];
+        if(!localStorage.user) return [];
+        const owner = JSON.parse(localStorage.user).email;
+        const myRegions =  JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
         return myRegions
     }
 
