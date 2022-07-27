@@ -41,6 +41,7 @@
     font-family: Regular;
     flex-direction: column;
 }
+
 .title{
     display: flex;
     justify-content: space-evenly;
@@ -92,6 +93,40 @@
     color: black;
     -webkit-box-orient: vertical;
     max-height: 4ch;
+}
+.fadeIn{
+    /*opacity: 0.5;*/
+    animation: fadein 30s infinite;
+    animation-delay: 30s;
+}
+.fadeOut{
+    /*opacity: .9;*/
+    animation: fadeout 30s infinite;
+    animation-delay: 30s;
+
+}
+@-webkit-keyframes fadein {
+    0% { opacity: 0.5; }
+    15% {opacity: .8;}
+    100% { opacity: 1; }
+}
+
+@keyframes fadein {
+    0% { opacity: 0.1; }
+    15% {opacity: .8;}
+    100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+    0% { opacity: 1; }
+    85% {opacity: .8;}
+    100% { opacity: 0.1; }
+}
+
+@keyframes fadeout {
+    0% { opacity: 1; }
+    85% {opacity: .8;}
+    100% { opacity: 0.1; }
 }
 .wNew:visited{
     color: #707070;

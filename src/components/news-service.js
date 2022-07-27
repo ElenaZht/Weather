@@ -4,7 +4,13 @@ import {BehaviorSubject} from "rxjs";
 
 class NewsService{
     // Your API key is: 80b4557be1dd40f8b91006bf5fccdf89
-    constructor(){};
+    constructor(){
+        setInterval(async()=> {
+            let data = await this.getWNews();
+            this.subscriber.next(data);
+            console.log('data updated', data)
+        }, 900000) //*15min
+    };
     subscriber = new BehaviorSubject(null);
     _instance;
     getSubscriber(){
