@@ -51,8 +51,11 @@ const RegionArea = () => {
                             <span className={classes.regionName}>{region.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>
-                        <WeatherComponent/>
-                        <WorldNews/>
+                        <div className={classes.innerWrapper}>
+                            <WeatherComponent/>
+                            <WorldNews/>
+                        </div>
+
                     </div>
                 ) : (
                     <div className={classes.noRegion}>

@@ -22,7 +22,6 @@ class NewsService{
     getWNews = async () => {
         const key = '80b4557be1dd40f8b91006bf5fccdf89';
         const response = await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key);
-        console.log(response.data['articles'][0]['author']+':'+response.data['articles'][1]['description'])
         return response
     };
     static getInstance(){

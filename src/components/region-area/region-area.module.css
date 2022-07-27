@@ -26,8 +26,7 @@
 }
 .regionInfo{
     width: 100%;
-    height: 25%;
-    margin: auto;
+    height: 15%;
     display: flex;
     color: rgba(112, 112, 112, 1);
     font-family: Light;
@@ -39,6 +38,14 @@
     height: calc(100% - 8vw);
     width: calc(100% - 8vw);
     margin: auto;
+}
+.innerWrapper{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
 }
 .regionName{
     font-size: 2.5em;
@@ -66,6 +73,9 @@
     .wrap{
         height: calc(100% - 3vw);
         width: calc(100% - 3vw);
+    }
+    .innerWrapper{
+        flex-direction: row;
     }
     .regionInfo{
         flex-direction: row;
