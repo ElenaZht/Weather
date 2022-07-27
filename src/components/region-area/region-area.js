@@ -3,6 +3,7 @@ import classes from './region-area.module.css'
 import MyButton from '../MyButton';
 import WeatherComponent from '../../components/weather-component/weather-component.js';
 import RegionContext from '../../components/region-context'
+import WorldNews from "../world-news/world-news";
 
 const RegionArea = () => {
 
@@ -50,7 +51,11 @@ const RegionArea = () => {
                             <span className={classes.regionName}>{region.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>
-                        <WeatherComponent/>
+                        <div className={classes.innerWrapper}>
+                            <WeatherComponent/>
+                            <WorldNews/>
+                        </div>
+
                     </div>
                 ) : (
                     <div className={classes.noRegion}>
