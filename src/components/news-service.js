@@ -2,17 +2,23 @@ import React from 'react';
 import axios from "axios";
 import {BehaviorSubject} from "rxjs";
 
+
 class NewsService{
     // Your API key is: 80b4557be1dd40f8b91006bf5fccdf89
+    subscriber = new BehaviorSubject(null);
+    subscriber2 = new BehaviorSubject(null);
+    _instance;
+    country = '';
     constructor(){
         setInterval(async()=> {
             let data = await this.getWNews();
+            let dataL = await this.getLNews(this.country);
             this.subscriber.next(data);
+            this.subscriber2.next(dataL);
             console.log('data updated', data)
         }, 900000) //*15min
     };
-    subscriber = new BehaviorSubject(null);
-    _instance;
+
     getSubscriber(){
         (async () => {
             try{
@@ -25,10 +31,34 @@ class NewsService{
         })();
         return this.subscriber.asObservable();
     }
+    getSubscriber2(region){
+        (async () => {
+            try{
+                let data = await this.getLNews(region['country']);
+                this.subscriber2.next(data);
+            } catch (e) {
+                this.subscriber2.next(e);
+            }
+
+        })();
+        return this.subscriber2.asObservable();
+    }
+    setCountry(country){
+        this.country = country;
+        (async () => {
+            let data = await this.getLNews(this.country);
+            this.subscriber2.next(data);
+        })();
+    }
     getWNews = async () => {
         const key = '80b4557be1dd40f8b91006bf5fccdf89';
-        const response = await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key);
-        return response
+        return await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key)
+    };
+    getLNews = async (country) => {
+        const key = '80b4557be1dd40f8b91006bf5fccdf89';
+        const pref = 'https://newsapi.org/v2/top-headlines?country=';
+        return await axios.get(pref + country.toLowerCase() + '&apiKey=' + key)
+
     };
     static getInstance(){
         if(!NewsService._instance){

@@ -158,6 +158,8 @@
     width: 50px;
     height: 50px;
     margin: auto;
+    position: relative;
+    top: 50%;
 }
 .spinner div{
     width: 10px;
@@ -187,7 +189,7 @@
         width: 22%;
         height: 100%;
         padding: 1%;
-        margin-left: 15%;
+        margin-left: 10%;
         margin-top: 0;
     }
     .wrapperL{

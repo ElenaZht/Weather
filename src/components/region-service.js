@@ -1,9 +1,11 @@
 class RegionService{
+    cityTimezones = require('city-timezones');
     _instance;
     defaultRegion = {
         regionName: Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1],
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-    };
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ,
+        country: this.cityTimezones.lookupViaCity(Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1])[0].iso2
+};
 
     static getInstance(){
         if(!RegionService._instance){
@@ -26,7 +28,8 @@ class RegionService{
         if(myRegions.find(r => r.regionName === name.split(',')[0])){
             return null;
         } else {
-            myRegions.push({regionName: name.split(',')[0]});
+            myRegions.push({regionName: name.split(',')[0], country: name.split(',')[1]});
+            console.log('region service add region with country', name.split(',')[1]);
             localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegions));
         }
         return myRegions;
@@ -34,7 +37,8 @@ class RegionService{
     getMyRegions(){
         if(!localStorage.user) return [];
         const owner = JSON.parse(localStorage.user).email;
-        const myRegions =  JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
+        const myRegions =  JSON.parse(localStorage.getItem(owner + "_myRegions")) || []
+        console.log('my region is', this.defaultRegion)
         return myRegions
     }
 

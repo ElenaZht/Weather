@@ -100,7 +100,6 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
                 const endIdx = pageNumber*pageSize + pageSize;
                 if(endIdx > (resCities.length - 1)) {
-                    console.log('no more', endIdx, resCities.length-1)
                     setHasMore(false)
                 };
                 setCities(c => {

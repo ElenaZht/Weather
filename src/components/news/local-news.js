@@ -1,10 +1,12 @@
 import classes from './world-news.module.css';
 import NewsService from '../../components/news-service.js';
 
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import RegionContext from "../region-context";
 
 
  const LocalNews = () => {
+     const{region, setRegion} = useContext(RegionContext);
      let [lNews, setLNews] = useState([]);
      let subscription = useRef(null);
      const newsService = NewsService.getInstance();
@@ -13,7 +15,13 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
      let [skippedWidth, setSkippedWidth] = useState('10%');
      let [notSkippedWidth, setNotSkippedWidth] = useState('100%');
      let [loading, setLoading] = useState(true);
-        useEffect(() => {
+
+     useEffect(()=>{
+         console.log('country is ', region['country']);
+         newsService.setCountry(region['country']);
+     }, [region])
+
+     useEffect(() => {
             if(window.matchMedia("(max-width: 1024px)").matches){
                 if(lNews){
                     setRegLimit(1);
@@ -39,8 +47,10 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
                     }, 30000
                 );
-                subscription.current = newsService.getSubscriber().subscribe(
+                console.log('region', region)
+                subscription.current = newsService.getSubscriber2(region).subscribe(
                     (res) => {
+                        console.log('res.dataL', res.data)
                         if (res && res.data) {
                             console.log(res.data['articles'])
                             setLNews(res.data['articles']);
@@ -63,7 +73,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
         let makeLNews = useCallback(() => {
             return lNews.map((item,index) => (
-                <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['description']}</a>
+                <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['title']}</a>
             )).slice(0,regLimit);
 
         }, [lNews]);
@@ -85,7 +95,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
                 {shown &&<div className={classes.context}>
                     {makeLNews()}
                 </div>}
-                {!lNews.length && !loading &&<div className={classes.noContext}>Oops..Please, try again latter</div>}
+                {!lNews.length && !loading &&<div className={classes.noContext}>Oops..News for {region['country']} not found.</div>}
             </div>
     );
 };

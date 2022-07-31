@@ -40,7 +40,7 @@ function WorldNews() {
             subscription.current = newsService.getSubscriber().subscribe(
                 (res) => {
                     if (res && res.data) {
-                        console.log(res.data['articles'])
+                        // console.log(res.data['articles'])
                         setWNews(res.data['articles']);
                         setLoading(false);
                     } else if(res && res.message) {
@@ -60,7 +60,7 @@ function WorldNews() {
     );
     let makeWNews = useCallback(() => {
         return wNews.map((item,index) => (
-            <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['description']}</a>
+            <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['title']}</a>
         )).slice(0,regLimit);
 
     }, [wNews]);
