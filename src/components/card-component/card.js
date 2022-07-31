@@ -49,13 +49,15 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
 
     const cityTimezones = require('city-timezones');
     let timeZone = '';
+    let country = '';
     if(cityTimezones.lookupViaCity(city)[0]){
         timeZone = cityTimezones.lookupViaCity(city)[0].timezone;
+        country = cityTimezones.lookupViaCity(city)[0].iso2;
     }
     let setCity = (city) => {
-        setRegion({regionName : city, timeZone: timeZone});
+        setRegion({regionName : city, timeZone: timeZone, country: country});
         setSearchOpen(false);
-        console.log('setCity, city is ', city)
+        closeDialogMethod();
         closeDialogMethod();
     };
 

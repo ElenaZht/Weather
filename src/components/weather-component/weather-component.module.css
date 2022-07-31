@@ -12,7 +12,6 @@
     display: flex;
     font-family: Regular;
     color: #707070;
-    margin: auto;
 }
 .noResponse{
     display: flex;
@@ -73,10 +72,10 @@
 .leftSide, .rightSide{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
     width: 50%;
     height: 100%;
+    align-items: center;
 }
 .degree{
     display: flex;
@@ -167,10 +166,12 @@
 }
 @media all and (min-width: 1025px){
     .wrapper{
-        width: 40%;
+        width: 38%;
         height: 100%;
         flex-direction: column;
         justify-content: space-between;
+        margin-left: 5%;
+
     }
     .leftSide, .rightSide{
         flex-direction: row;
@@ -207,8 +208,7 @@
         font-size: calc(1vmax + .5vmin);
     }
     .degree{
-        width: 15%;
-        align-items: flex-start;
+        width: 25%;
     }
     .sunriseIcon, .sunsetIcon, .windIcon, .humIcon{
         width: 15%;

@@ -43,7 +43,7 @@
     height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
     align-items: flex-start;
 }
@@ -76,6 +76,7 @@
     }
     .innerWrapper{
         flex-direction: row;
+        justify-content: normal;
     }
     .regionInfo{
         flex-direction: row;
