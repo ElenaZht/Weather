@@ -3,9 +3,11 @@ import classes from  './weather-component.module.css';
 import WeatherService from '../../components/weather-service.js';
 import {pictures, advices} from './wether-storage.js';
 import RegionContext from '../../components/region-context';
+import ColorThemeContext from '../../components/color-theme-context.js';
 
 const WeatherComponent = () => {
     const {region, setRegion} = useContext(RegionContext);
+    const {theme, setTheme} = useContext(ColorThemeContext);
 
     let [loading, setLoading] = useState(true);
     const weatherService = WeatherService.getInstance();
@@ -43,21 +45,30 @@ const WeatherComponent = () => {
         }
 
     };
-    let getImg = (desc) => {
+    let getImg = (region,desc, theme) => {
+        console.log(region.regionName, desc, theme)
         if(desc.match(/clear/i)){
-            setImg(pictures["clear sky"])
+            if(theme==='night'){
+                setImg(()=> {return pictures["clear sky night"]})
+            } else {
+                setImg(()=>{return pictures["clear sky"]})
+            }
         } else if(desc.match(/few clouds/i)){
-            setImg(pictures["few clouds"])
+            if(theme==='night'){
+                setImg(()=>{return pictures["few clouds night"]})
+            } else {
+                setImg(()=>{return pictures["few clouds"]})
+            }
         } else if(desc.match(/clouds/i)){
-            setImg(pictures.clouds)
+            setImg(()=>{return pictures.clouds})
         } else if(desc.match(/thunderstorm/i)){
-            setImg(pictures.thunderstorm)
+            setImg(()=>{return pictures.thunderstorm})
         } else if(desc.match(/rain/i)){
-            setImg(pictures.rain)
+            setImg(()=>{return pictures.rain})
         } else if(desc.match(/snow/i)){
-            setImg(pictures.snow)
-        } else if(desc.match(/mist/i)){
-            setImg(pictures.mist)
+            setImg(()=>{return pictures.snow})
+        } else if(desc.match(/mist/i) || desc.match(/fog/i)){
+            setImg(()=>{return pictures.mist})
         }
     };
 
@@ -67,10 +78,15 @@ const WeatherComponent = () => {
             if(data.main){
                 setTemperature(Math.round(data.main.temp));
                 setDescription(data.weather[0].description);
-                setSunrise(new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-                setSunset(new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+                if(region.timeZone.length){
+                    setSunrise(new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {timeZone: region.timeZone, hour: '2-digit', minute:'2-digit'}));
+                    setSunset(new Date(data.sys.sunset * 1000).toLocaleTimeString([], {timeZone: region.timeZone, hour: '2-digit', minute:'2-digit'}));
+                } else {
+                    setSunrise('');
+                    setSunset('')
+                }
                 setWind(Number(data.wind.speed.toFixed(1)));
-                getImg(data.weather[0].description);
+                getImg(region, data.weather[0].description, theme);
                 getAdvice(data.weather[0].description, Math.round(data.main.temp), data.wind.speed.toFixed(1));
                 setHum(data.main.humidity);
                 if(data.main.temp > 0){
@@ -94,12 +110,15 @@ const WeatherComponent = () => {
         () => {
             subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
                 (res) => {
+                    // console.log(region.regionName, 'spare info ', res.data.sys.country, res.data.coord)
                     if (res && res.data) {
                         setLoading(false);
                         setWeather(res.data);
                         parseWeather(res.data);
-                        setErrorText('')
-                        // console.log('we get res', res)
+                        setErrorText('');
+                        if(region.timeZone.length){
+                            dayOrNight(res.data.sys.sunrise, res.data.sys.sunset)
+                        } else {setTheme('day')}
                     } else if(res && res.message) {
                         setLoading(false);
                         setErrorText(res.message)
@@ -112,10 +131,23 @@ const WeatherComponent = () => {
                     subscription.current.unsubscribe();
                 }
             }
-        }, [region]
+        }, [region, theme]
     );
+    const dayOrNight = (sunriseCode, sunsetCode) => {
+        let rise = Date.parse(new Date(sunriseCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
+        let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
+        let current = Date.parse(new Date().toLocaleString('en-US', {timeZone: region.timeZone}));
+        // console.log(region.regionName,  rise, '<', current, '<', set)
+        if(rise < current && current < set){
+            // console.log('DAY');
+            setTheme('day')
+        } else {
+            // console.log('NIGHT');
+            setTheme('night')
+        }
+    };
     return (
-        <div className={classes.wrapper}>
+        <div className={theme==='night'? classes.wrapperNight : classes.wrapper}>
 
             {loading && <div className={classes.spinner}>
                 <div/>

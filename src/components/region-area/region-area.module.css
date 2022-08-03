@@ -34,6 +34,16 @@
     flex-direction: column;
     align-items: center;
 }
+.regionInfoNight{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    color: white;
+    font-family: Light;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .wrap{
     height: calc(100% - 8vw);
     width: calc(100% - 8vw);
@@ -79,6 +89,10 @@
         justify-content: normal;
     }
     .regionInfo{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .regionInfoNight{
         flex-direction: row;
         justify-content: space-between;
     }

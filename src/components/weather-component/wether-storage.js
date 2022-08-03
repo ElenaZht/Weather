@@ -1,6 +1,8 @@
 const pictures = {
     "clear sky" : require("../../assets/weather-logo/clear.png"),
+    "clear sky night" : require("../../assets/weather-logo/clearNight.png"),
     "few clouds" : require("../../assets/weather-logo/few_clouds.png"),
+    "few clouds night" : require("../../assets/weather-logo/few_cloudsNight.png"),
     "clouds" : require("../../assets/weather-logo/broken_clouds_norm.png"),
     "thunderstorm" : require("../../assets/weather-logo/thunderstorm_norm.png"),
     "rain" : require("../../assets/weather-logo/rain.png"),

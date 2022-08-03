@@ -27,6 +27,17 @@
     align-items: center;
     margin: auto;
 }
+.App-night{
+    background-image: url("../../assets/night-background.jpg");
+    background-size: cover;
+    width: 100vmin;
+    height: 100vmax;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+}
 .signature{
     display: none;
 }
@@ -61,7 +72,7 @@
 }
 /* BIG SCREENS */
 @media all and (min-width: 1025px) {
-    .App{
+    .App, .App-night{
         width: 100vmax;
         height: 100vmin;
     }

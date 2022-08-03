@@ -2,13 +2,15 @@ import React, {useContext, useEffect, useState} from 'react';
 import classes from './region-area.module.css'
 import MyButton from '../MyButton';
 import WeatherComponent from '../../components/weather-component/weather-component.js';
-import RegionContext from '../../components/region-context'
+import RegionContext from '../../components/region-context';
+import ColorThemeContex from '../../components/color-theme-context.js';
 import WorldNews from "../news/world-news";
 import LocalNews from "../news/local-news";
 
 const RegionArea = () => {
 
     const{region, setRegion} = useContext(RegionContext);
+    const {theme, setTheme} = useContext(ColorThemeContex);
 
     // console.log(region.timeZone)
     let [date, setDate] = useState('');
@@ -30,11 +32,11 @@ const RegionArea = () => {
     useEffect(
         () => {
             checkRegionsDate();
-        }, [region]
+        }, []
     );
 
     useEffect(() => {
-
+        checkRegionsDate();
         let myInterval = setInterval(async()=>{
             checkRegionsDate();
             // console.log('i use region', region)
@@ -42,13 +44,13 @@ const RegionArea = () => {
         return () => {
             clearInterval(myInterval)
         }
-    }, []);// eslint-disable-line react-hooks/exhaustive-deps
+    }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
     return (
         <div className={classes.regionContainer}>
             <div className={classes.wrap}>
                 {region.regionName? (
                     <div className={classes.region}>
-                        <div className={classes.regionInfo}>
+                        <div className={theme==='night'? classes.regionInfoNight : classes.regionInfo}>
                             <span className={classes.regionName}>{region.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>

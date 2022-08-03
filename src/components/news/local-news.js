@@ -3,6 +3,7 @@ import NewsService from '../../components/news-service.js';
 
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import RegionContext from "../region-context";
+import ColorThemeContex from "../color-theme-context";
 
 
  const LocalNews = () => {
@@ -15,9 +16,10 @@ import RegionContext from "../region-context";
      let [skippedWidth, setSkippedWidth] = useState('10%');
      let [notSkippedWidth, setNotSkippedWidth] = useState('100%');
      let [loading, setLoading] = useState(true);
+     const {theme, setTheme} = useContext(ColorThemeContex);
 
      useEffect(()=>{
-         console.log('country is ', region['country']);
+         // console.log('country is ', region['country']);
          newsService.setCountry(region['country']);
      }, [region])
 
@@ -47,19 +49,25 @@ import RegionContext from "../region-context";
 
                     }, 30000
                 );
-                console.log('region', region)
+                // console.log('region', region)
                 subscription.current = newsService.getSubscriber2(region).subscribe(
                     (res) => {
-                        console.log('res.dataL', res.data)
+                        // console.log('res.dataL', res.data)
                         if (res && res.data) {
-                            console.log(res.data['articles'])
+                            // console.log(res.data['articles'])
                             setLNews(res.data['articles']);
                             setLoading(false);
                         } else if(res && res.message) {
                             console.log('error', res);
+                            setLNews([]);
                             setLoading(false);
 
                         }
+                        // else if(res === {}){
+                        //     console.log('news empty')
+                        //     setLNews([]);
+                        //     setLoading(false);
+                        // }
                     }
                 );
                 return () => {
@@ -72,6 +80,7 @@ import RegionContext from "../region-context";
         );
 
         let makeLNews = useCallback(() => {
+            // console.log('news for ', region.regionName, lNews)
             return lNews.map((item,index) => (
                 <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['title']}</a>
             )).slice(0,regLimit);
@@ -84,7 +93,7 @@ import RegionContext from "../region-context";
                         <div className={classes.thunder}></div>
                         <div className={classes.wnews}>Local news</div>
                     </div>
-                    <button className={classes.skipBtn} onClick={()=>setShown(!shown)}></button>
+                    <button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}></button>
                 </div>
                 {loading && <div className={classes.spinner}>
                     <div/>
@@ -95,7 +104,7 @@ import RegionContext from "../region-context";
                 {shown &&<div className={classes.context}>
                     {makeLNews()}
                 </div>}
-                {!lNews.length && !loading &&<div className={classes.noContext}>Oops..News for {region['country']} not found.</div>}
+                {!lNews.length && !loading &&<div className={classes.noContext}>Sorry, news for region {region['country']} not supported yet.</div>}
             </div>
     );
 };

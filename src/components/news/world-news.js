@@ -1,6 +1,7 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import classes from './world-news.module.css';
 import NewsService from '../../components/news-service.js';
+import ColorThemeContex from "../color-theme-context";
 
 function WorldNews() {
     let [wNews, setWNews] = useState([]);
@@ -11,6 +12,8 @@ function WorldNews() {
     let [skippedWidth, setSkippedWidth] = useState('10%');
     let [notSkippedWidth, setNotSkippedWidth] = useState('100%');
     let [loading, setLoading] = useState(true);
+    const {theme, setTheme} = useContext(ColorThemeContex);
+
 
     useEffect(() => {
         if(window.matchMedia("(max-width: 1024px)").matches){
@@ -71,7 +74,7 @@ function WorldNews() {
                     <div className={classes.thunder}></div>
                     <div className={classes.wnews}>World news</div>
                 </div>
-                <button className={classes.skipBtn} onClick={()=>setShown(!shown)}></button>
+                <button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}></button>
             </div>
             {loading && <div className={classes.spinner}>
                 <div/>

@@ -15,7 +15,7 @@ class NewsService{
             let dataL = await this.getLNews(this.country);
             this.subscriber.next(data);
             this.subscriber2.next(dataL);
-            console.log('data updated', data)
+            // console.log('data updated', data)
         }, 900000) //*15min
     };
 
@@ -55,9 +55,13 @@ class NewsService{
         return await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key)
     };
     getLNews = async (country) => {
-        const key = '80b4557be1dd40f8b91006bf5fccdf89';
-        const pref = 'https://newsapi.org/v2/top-headlines?country=';
-        return await axios.get(pref + country.toLowerCase() + '&apiKey=' + key)
+            const key = '80b4557be1dd40f8b91006bf5fccdf89';
+            const pref = 'https://newsapi.org/v2/top-headlines?country=';
+            if(country.length){
+                return await axios.get(pref + country.toLowerCase() + '&apiKey=' + key)
+            } else return {}
+
+
 
     };
     static getInstance(){

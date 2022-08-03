@@ -15,7 +15,7 @@ class WeatherService{
             // for
             let data = await this.getWeatherFromAPI(this.city);
             // console.log('interval:', data);
-            this.subscriber.next(data)
+            this.subscriber.next(data);
         }, customInterval)
     }
 
