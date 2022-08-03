@@ -24,9 +24,19 @@
     width: 80vmin;
     transform: scale(.5);
     transition: .4s;
-
-
 }
+.contentNight{
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #051223;
+    width: 80vmin;
+    transform: scale(.5);
+    transition: .4s;
+}
+
 .content.active{
+    transform: scale(1);
+}
+.contentNight.active{
     transform: scale(1);
 }

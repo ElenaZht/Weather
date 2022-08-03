@@ -13,6 +13,13 @@
     font-family: Regular;
     color: #707070;
 }
+.wrapperNight{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    font-family: Regular;
+    color: white;
+}
 .noResponse{
     display: flex;
     flex-direction: column;
@@ -166,6 +173,14 @@
 }
 @media all and (min-width: 1025px){
     .wrapper{
+        width: 38%;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 5%;
+
+    }
+    .wrapperNight{
         width: 38%;
         height: 100%;
         flex-direction: column;

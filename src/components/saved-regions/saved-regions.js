@@ -5,12 +5,12 @@ import Modal from "../header-component/modal";
 import RegionService from '../../components/region-service';
 import RegionContext from '../../components/region-context';
 import SearchContext from '../../components/search-context';
-import WeatherService from '../../components/weather-service.js';
 import Card from '../../components/card-component/card';
 
 
 const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
-    const weatherService = WeatherService.getInstance();
+    const regionService =  RegionService.getInstance();
+    const defaultRegion = regionService.defaultRegion;
 
     const {region, setRegion} = useContext(RegionContext);
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
@@ -22,7 +22,6 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     let [isOpen, setIsOpen] = useState(false);
     const [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
-    const regionService = RegionService.getInstance();
     let [myRegions, setMyRegions] = useState(regions);
     let [isMobile, setIsMobile] = useState(false);
 
@@ -115,6 +114,10 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
                 </div>
             </Modal>
             {(myRegions && myRegions.length) > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+            {/*<Card  city={defaultRegion.regionName}*/}
+            {/*      openModalMethod={openModal}*/}
+            {/*      closeDialogMethod={closeDialog}*/}
+            {/*/>*/}
             {makeRegions()}
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
             {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}

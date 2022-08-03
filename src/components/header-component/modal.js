@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './modal.css';
+import ColorThemeContext from "../color-theme-context";
 
 const Modal = ({active, setActive, children}) => {
+    const {theme, setTheme} = useContext(ColorThemeContext);
+    let [night, setNight] = useState('content');
+    useEffect(
+        ()=>{
+            if(theme==='night'){
+                setNight('contentNight')
+            }
+        }, [theme]
+    );
     return (
         <div data-testid="modal-container" className={active? "modal active" : "modal"} onClick={() => setActive(false)}>
-            <div className={active? "content active" : "content"} onClick={e => e.stopPropagation()}>
+            <div className={active? night+' active' : night} onClick={e => e.stopPropagation()}>
                 {children}
             </div>
         </div>

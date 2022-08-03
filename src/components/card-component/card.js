@@ -4,6 +4,7 @@ import RegionContext from "../region-context";
 import WeatherService from '../../components/weather-service.js';
 import {logos} from "../weather-component/wether-storage";
 import SearchContext from "../search-context";
+import ColorThemeContex from "../color-theme-context";
 
 const Card = ({city, openModalMethod, closeDialogMethod}) => {
     const {region, setRegion} = useContext(RegionContext);
@@ -15,6 +16,7 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
     let [img, setImg] = useState('');
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
     let [errorText, setErrorText] = useState('');
+    const {theme, setTheme} = useContext(ColorThemeContex);
 
 
 
@@ -89,7 +91,7 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
     };
 
     return (
-            <div className={classes.card} onClick={(e) => setCity(city)}>
+            <div className={theme==='night'? classes.cardNight : classes.card} onClick={(e) => setCity(city)}>
                 <button className={classes.delete} onClick={(e) => {
                     openModalMethod(city);
                     e.stopPropagation()
@@ -97,9 +99,9 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
                 <div className={classes.name}>{city}</div>
                 {!temperature &&<div className={classes.error}>{errorText}</div>}
                 <div className={classes.info}>
-                    {temperature &&<div className={classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}
-                    {temperature &&<div className={classes.degree}>{relToZero}{temperature}°</div>}
-                    {!temperature &&<div className={classes.icon}></div>}
+                    {temperature &&<div className={theme=='night'? classes.iconNight : classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}
+                    {temperature &&<div className={theme==='night'? classes.degreeNight : classes.degree}>{relToZero}{temperature}°</div>}
+                    {!temperature &&<div className={theme=='night'? classes.iconNight : classes.icon}></div>}
                 </div>
 
             </div>

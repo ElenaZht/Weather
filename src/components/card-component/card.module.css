@@ -1,3 +1,19 @@
+@font-face {
+    font-family: Light;
+    src: url(../../assets/fonts/Montserrat-Light.svg);
+    src: url(../../assets/fonts/Montserrat-Light.eot);
+    src: url(../../assets/fonts/Montserrat-Light.otf);
+    src: url(../../assets/fonts/Montserrat-Light.ttf);
+    src: url(../../assets/fonts/Montserrat-Light.woff);
+}
+@font-face {
+    font-family: Regular;
+    src: url(../../assets/fonts/Montserrat-Regular.svg);
+    src: url(../../assets/fonts/Montserrat-Regular.eot);
+    src: url(../../assets/fonts/Montserrat-Regular.otf);
+    src: url(../../assets/fonts/Montserrat-Regular.ttf);
+    src: url(../../assets/fonts/Montserrat-Regular.woff);
+}
 .card{
     display: flex;
     flex-direction: column;
@@ -17,7 +33,32 @@
     margin-bottom: 5%;
     padding: 1%;
 }
+.cardNight{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: rgba(255, 255, 255, 0.57);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 7px;
+    height: calc(10vw + 10vh);
+    width: calc(10vw + 10vh);
+    color: white;
+    text-shadow: 5px 5px 5px gray;
+    margin-right: auto;
+    margin-left: auto;
+    /*transform: scale(1);*/
+    position: relative;
+    transition: .4s;
+    cursor: pointer;
+    margin-bottom: 5%;
+    padding: 1%;
+}
 .card:active{
+    transform: scale(.9);
+    transition: .4s;
+    -webkit-tap-highlight-color: transparent;
+}
+.cardNight:active{
     transform: scale(.9);
     transition: .4s;
     -webkit-tap-highlight-color: transparent;
@@ -114,9 +155,24 @@
     height: calc(2vw + 2vh);
     opacity: .2;
 }
+.iconNight{
+    background-image: url("../../assets/icons/weather-mini-logo/reload.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: calc(2vw + 2vh);
+    height: calc(2vw + 2vh);
+    opacity: 1;
+    filter: drop-shadow(5px 5px 5px gray) invert();
+}
 .degree{
     font: calc(2vw + 2vh) Light;
     color: #9C9C9C;
+}
+.degreeNight{
+    font: calc(2vw + 2vh) Light;
+    color: white;
+    filter: drop-shadow(5px 5px 5px gray);
 }
 @media all and (min-width: 1025px){
     .card{
@@ -131,11 +187,24 @@
         margin-right: calc(.5vw + .5vh);
         filter: none;
         margin-bottom: 0;
-
-
         max-height: 100%;
-        /*padding-top: 0;*/
-
+        margin-left: 0;
+    }
+    .cardNight{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        background: rgba(255, 255, 255, 0.57);
+        border-radius: 7px;
+        height: calc(5vw + 5vh);
+        width: calc(5vw + 5vh);
+        color: white;
+        text-shadow: 5px 5px 5px gray;
+        margin-right: calc(.5vw + .5vh);
+        margin-left: 0;
+        filter: none;
+        margin-bottom: 0;
+        max-height: 100%;
     }
     .delete{
         font-size: 1vmax;
@@ -158,12 +227,23 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
-        /*width: calc(1vw + 1vh);*/
-        /*height: calc(1vw + 1vh);*/
         opacity: .2;
+    }
+    .iconNight{
+        background-image: url("../../assets/icons/weather-mini-logo/reload.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        opacity: 1;
+        filter: drop-shadow(5px 5px 5px gray) invert();
     }
     .degree{
         font: calc(1vw + 1vh) Light;
         color: #9C9C9C;
+    }
+    .degreeNight{
+        font: calc(1vw + 1vh) Light;
+        color: white;
+        filter: drop-shadow(5px 5px 5px gray);
     }
 }

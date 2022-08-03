@@ -49,6 +49,16 @@
     box-shadow: inset 3px 4px 4px rgba(0, 0, 0, 0.25);
     align-items: end;
 }
+.inputSearchNight{
+    background: rgba(255, 255, 255, 0.57);
+    border-radius: 10px;
+    height: 10%;
+    width: 90%;
+    display: flex;
+    margin: auto;
+    box-shadow: inset 3px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: end;
+}
 .listOfSearch{
     background: rgba(255, 255, 255, 0.57);
     border-radius: 10px;
@@ -67,6 +77,19 @@
     justify-content: space-between;
     font-family: Light;
     color: #9C9C9C;
+    font-size: 2.5vmax;
+    padding: 1%;
+    height: 15%;
+    width: 90%;
+    border-bottom: solid 1px #858585;
+}
+.listRowNight{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Light;
+    color: white;
+    filter: drop-shadow(5px 5px 5px gray);
     font-size: 2.5vmax;
     padding: 1%;
     height: 15%;
@@ -106,6 +129,20 @@
     color: #9C9C9C;
 }
 .inputSearch input:focus-visible{
+    outline: none;
+}
+.inputSearchNight input{
+    width: 75%;
+    height: 36px;
+    background: transparent;
+    border: none;
+}
+.inputSearchNight input::placeholder{
+    font-family: Regular;
+    font-size: 1.4em;
+    color: white;
+}
+.inputSearchNight input:focus-visible{
     outline: none;
 }
 .dialogDel{
@@ -338,7 +375,13 @@
     .listRow{
         font-size: 1.5vmax;
     }
+    .listRowNight{
+        font-size: 1.5vmax;
+    }
     .listRow > div, .plus{
+        cursor: pointer;
+    }
+    .listRowNight > div, .plus{
         cursor: pointer;
     }
     .searchIcon{
@@ -347,6 +390,9 @@
         margin: 16px;
     }
     .inputSearch input{
+        margin-bottom: 14px;
+    }
+    .inputSearchNight input{
         margin-bottom: 14px;
     }
 }

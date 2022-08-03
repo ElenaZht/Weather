@@ -10,6 +10,7 @@ import SearchComponent from '../../components/search-component/search-component'
 import SearchTermContext from '../../components/search-term-context';
 import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ColorThemeContext from '../../components/color-theme-context.js';
 
 function App() {
     const regionService =  RegionService.getInstance();
@@ -18,6 +19,7 @@ function App() {
     const [region, setRegion] = useState( defaultRegion);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [theme, setTheme] = useState('day');
 
 
     let deleteRegion = (city) => {
@@ -49,7 +51,7 @@ function App() {
     // toast.warn('warning');
 
     return (
-        <div className="App">
+        <div className={`${theme==='night' ? "App-night" : "App"}`}>
             <ToastContainer
                 draggable={false}
                 transition={Zoom}
@@ -63,28 +65,31 @@ function App() {
                 theme={"colored"}
 
             />
-            <SearchContext.Provider value={{searchOpen, setSearchOpen}}>
-                <RegionContext.Provider value={{region, setRegion}}>
-                    <div className="container">
-                        <SearchTermContext.Provider value={{searchTerm, setSearchTerm}}>
-                            <Header userChangedCallback={getMyRegions}/>
-                            {searchOpen? (
-                                <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
-                            ):(
-                                <RegionContext.Provider value={{region, setRegion}}>
-                                    <RegionArea/>
-                                    <div className="wrapper">
-                                        <SavedRegions key={savedRegions.length+10} regions={savedRegions} deleteMethod={deleteRegion}/>
-                                    </div>
-                                    <p className="signature">Elena Zhytomirskaya, 2022</p>
-                                </RegionContext.Provider>
-                            )}
-                        </SearchTermContext.Provider>
+            <ColorThemeContext.Provider value={{theme, setTheme}}>
+                <SearchContext.Provider value={{searchOpen, setSearchOpen}}>
+                    <RegionContext.Provider value={{region, setRegion}}>
+                        <div className="container">
+                            <SearchTermContext.Provider value={{searchTerm, setSearchTerm}}>
+                                <Header userChangedCallback={getMyRegions}/>
+                                {searchOpen? (
+                                    <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
+                                ):(
+                                    <RegionContext.Provider value={{region, setRegion}}>
+                                        <RegionArea/>
+                                        <div className="wrapper">
+                                            <SavedRegions key={savedRegions.length+10} regions={savedRegions} deleteMethod={deleteRegion}/>
+                                        </div>
+                                        <p className="signature">Elena Zhytomirskaya, 2022</p>
+                                    </RegionContext.Provider>
+                                )}
+                            </SearchTermContext.Provider>
 
 
-                    </div>
-                </RegionContext.Provider>
-            </SearchContext.Provider>
+                        </div>
+                    </RegionContext.Provider>
+                </SearchContext.Provider>
+            </ColorThemeContext.Provider>
+
         </div>
     );
 }

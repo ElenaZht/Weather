@@ -38,7 +38,6 @@ class RegionService{
         if(!localStorage.user) return [];
         const owner = JSON.parse(localStorage.user).email;
         const myRegions =  JSON.parse(localStorage.getItem(owner + "_myRegions")) || []
-        console.log('my region is', this.defaultRegion)
         return myRegions
     }
 
