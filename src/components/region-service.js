@@ -29,7 +29,7 @@ class RegionService{
             return null;
         } else {
             myRegions.push({regionName: name.split(',')[0], country: name.split(',')[1]});
-            console.log('region service add region with country', name.split(',')[1]);
+            // console.log('region service add region with country', name.split(',')[1]);
             localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegions));
         }
         return myRegions;

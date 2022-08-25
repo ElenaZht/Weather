@@ -46,7 +46,7 @@ const WeatherComponent = () => {
 
     };
     let getImg = (region,desc, theme) => {
-        console.log(region.regionName, desc, theme)
+        // console.log(region.regionName, desc, theme)
         if(desc.match(/clear/i)){
             if(theme==='night'){
                 setImg(()=> {return pictures["clear sky night"]})

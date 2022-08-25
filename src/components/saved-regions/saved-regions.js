@@ -18,7 +18,7 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
-    let [regLimit, setRegLimit] = useState(4);
+    let [regLimit, setRegLimit] = useState(3);
     let [isOpen, setIsOpen] = useState(false);
     const [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
@@ -33,7 +33,7 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
             }
 
          } else {
-             setRegLimit(4);
+             setRegLimit(3);
          }
     });
     // useEffect(() => {
@@ -54,10 +54,10 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
 
     };
     let slideRight = () => {
-        if(curIdx < regions.length - 4){
+        if(curIdx < regions.length - 3){
             setCurIdx(++curIdx);
         }
-        if(curIdx === regions.length - 4){
+        if(curIdx === regions.length - 3){
             setDisabledRight(true);
         }
         setDisabledLeft(false);
@@ -73,7 +73,6 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
         setIsOpen(true);
     };
     let deleteRegion = (current) => {
-        console.log('delete', current)
         deleteMethod(current);
         closeModal();
     };
@@ -90,7 +89,7 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
             let items = [];
             for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                 items.push(
-                    <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                    <Card status={1} key={i + curIdx} city={myRegions[i + curIdx].regionName}
                         openModalMethod={openModal}
                           closeDialogMethod={closeDialog}
                     />
@@ -113,14 +112,15 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
                     </div>
                 </div>
             </Modal>
-            {(myRegions && myRegions.length) > 4 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+            {(myRegions && myRegions.length) > 3 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
             {/*<Card  city={defaultRegion.regionName}*/}
             {/*      openModalMethod={openModal}*/}
             {/*      closeDialogMethod={closeDialog}*/}
             {/*/>*/}
+            <Card city={defaultRegion.regionName} status={0}/>
             {makeRegions()}
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}
-            {(myRegions && myRegions.length) > 4 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
+            {(myRegions && myRegions.length) > 3 && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}
             {isMobile?
                 (<div className={classes.cardBtn} onClick={openSearchMobile}>
                     <MyButton sizing={{"size":'big'}} />

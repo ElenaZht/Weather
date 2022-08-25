@@ -10,11 +10,14 @@ import ColorThemeContex from "../color-theme-context";
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {
+    const regionService =  RegionService.getInstance();
+    const defaultRegion = regionService.defaultRegion;
+
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
-    let [regLimit, setRegLimit] = useState(2);
+    let [regLimit, setRegLimit] = useState(1);
     let [isOpen, setIsOpen] = useState(false);
     const [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
@@ -56,7 +59,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 let items = [];
                 for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
                     items.push(
-                        <Card key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                        <Card status={1} key={i + curIdx} city={myRegions[i + curIdx].regionName}
                               openModalMethod={openModal}
                         />
                     )
@@ -164,6 +167,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             </div>
             <div className={classes.rightside}>
                 {(myRegions.length > 2 && isMobile)&& <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
+                <Card status={0} city={defaultRegion.regionName}/>
                 {makeRegions()}
                 {myRegions.length === 0 &&  <div className={classes.noRegions}><p>No saved regions yet.</p></div>}
                 {(myRegions.length > 2 && isMobile) && <div className={disabledRight? classes.rightDisabled : classes.right} onClick={slideRight}></div>}

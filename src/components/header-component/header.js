@@ -10,7 +10,7 @@ import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ColorThemeContext from '../../components/color-theme-context.js';
 
-const Header = ({userChangedCallback}) => {
+const Header = ({userChangedCallback, deleteMethod}) => {
     const regionService =  RegionService.getInstance();
     const savedRegions = regionService.getMyRegions();
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
@@ -128,7 +128,7 @@ const Header = ({userChangedCallback}) => {
             <Modal active={regionsModalActive} setActive={setRegionsModalActive}>
                 <button className="closeBtn" data-testid="close-regions" id="closeRegionsBtn" onClick={closeRegions}>x</button>
                 <button className="closeBtn" onClick={goBack}>Back</button>
-                <SavedRegions regions={savedRegions} closeDialog={closeRegions}/>
+                <SavedRegions key={savedRegions.length+10} regions={savedRegions} closeDialog={closeRegions} deleteMethod={deleteMethod}/>
 
             </Modal>
             <div className="logo" onClick={() => back()}></div>

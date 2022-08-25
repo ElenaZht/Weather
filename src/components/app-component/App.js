@@ -70,7 +70,7 @@ function App() {
                     <RegionContext.Provider value={{region, setRegion}}>
                         <div className="container">
                             <SearchTermContext.Provider value={{searchTerm, setSearchTerm}}>
-                                <Header userChangedCallback={getMyRegions}/>
+                                <Header userChangedCallback={getMyRegions} deleteMethod={deleteRegion}/>
                                 {searchOpen? (
                                     <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
                                 ):(

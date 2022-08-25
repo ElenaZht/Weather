@@ -6,7 +6,7 @@ import {logos} from "../weather-component/wether-storage";
 import SearchContext from "../search-context";
 import ColorThemeContex from "../color-theme-context";
 
-const Card = ({city, openModalMethod, closeDialogMethod}) => {
+const Card = ({city, openModalMethod, closeDialogMethod, status}) => {
     const {region, setRegion} = useContext(RegionContext);
     let subscription = useRef(null);
 
@@ -59,8 +59,6 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
     let setCity = (city) => {
         setRegion({regionName : city, timeZone: timeZone, country: country});
         setSearchOpen(false);
-        closeDialogMethod();
-        closeDialogMethod();
     };
 
     let getImg = (desc) => {
@@ -92,10 +90,10 @@ const Card = ({city, openModalMethod, closeDialogMethod}) => {
 
     return (
             <div className={theme==='night'? classes.cardNight : classes.card} onClick={(e) => setCity(city)}>
-                <button className={classes.delete} onClick={(e) => {
+                {status>0 &&<button className={classes.delete} onClick={(e) => {
                     openModalMethod(city);
                     e.stopPropagation()
-                }}>x</button>
+                }}>x</button>}
                 <div className={classes.name}>{city}</div>
                 {!temperature &&<div className={classes.error}>{errorText}</div>}
                 <div className={classes.info}>

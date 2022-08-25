@@ -49,25 +49,26 @@ import ColorThemeContex from "../color-theme-context";
 
                     }, 30000
                 );
-                // console.log('region', region)
                 subscription.current = newsService.getSubscriber2(region).subscribe(
                     (res) => {
-                        // console.log('res.dataL', res.data)
-                        if (res && res.data) {
-                            // console.log(res.data['articles'])
-                            setLNews(res.data['articles']);
-                            setLoading(false);
-                        } else if(res && res.message) {
-                            console.log('error', res);
-                            setLNews([]);
-                            setLoading(false);
+                        if(res){
+                            // console.log('res.dataL', res)
+                            if (res && res.data) {
+                                // console.log(res.data['articles'])
+                                setLNews(res.data['articles']);
+                                setLoading(false);
+                            } else if(res && res.message) {
+                                console.log('error', res);
+                                setLNews([]);
+                                setLoading(false);
 
+                            }
+                            else if(!res.data){
+                                setLNews([]);
+                                setLoading(false);
+                            }
                         }
-                        // else if(res === {}){
-                        //     console.log('news empty')
-                        //     setLNews([]);
-                        //     setLoading(false);
-                        // }
+
                     }
                 );
                 return () => {

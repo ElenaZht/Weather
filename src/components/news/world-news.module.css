@@ -7,6 +7,14 @@
     src: url(../../assets/fonts/Montserrat-Regular.woff);
 }
 @font-face {
+    font-family: Regular Hebrow;
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.svg);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.eot);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.otf);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.ttf);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.woff);
+}
+@font-face {
     font-family: Bold;
     src: url(../../assets/fonts/Montserrat-SemiBold.svg);
     src: url(../../assets/fonts/Montserrat-SemiBold.eot);
@@ -51,7 +59,7 @@
     overflow: hidden;
     font-size: calc(1.5vw + 1.5vh);
     height: 60%;
-    font-family: Regular;
+    font-family: Regular,  Regular Hebrow;
     flex-direction: column;
 }
 
