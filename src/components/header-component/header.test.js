@@ -73,16 +73,16 @@ describe("Header", () => {
         it('user btn click open modal, modal renders user info', async () => {
             localStorage.setItem('user', JSON.stringify(userObj));
             const {getByTestId} = render(<Header/>);
-            const userBtn = screen.getByTestId("user-button");
+            const userBtn = getByTestId("user-button");
             fireEvent.click(userBtn);
             await waitFor(async () =>{
-                const modal = screen.getByTestId("user-profile-modal");
+                const modal = getByTestId("user-profile-modal");
                 expect(modal).toBeInTheDocument();
-                const userPhoto = screen.getByTestId("user-photo");
-                const userName = screen.getByTestId("user-name");
-                const userEmail = screen.getByTestId("user-email");
-                const logoutBtn = screen.getByTestId("logout");
-                const closeBtn = screen.getByTestId("close-menu");
+                const userPhoto = getByTestId("user-photo");
+                const userName = getByTestId("user-name");
+                const userEmail = getByTestId("user-email");
+                const logoutBtn = getByTestId("logout");
+                const closeBtn = getByTestId("close-menu-header");
 
                 expect(userPhoto).toHaveStyle("background: url(../../assets/ben.jpg)");
                 expect(userName).toHaveTextContent("Ben Gurion");
@@ -114,7 +114,7 @@ describe("Header", () => {
             await waitFor(async () =>{
                 const modal = screen.getByTestId("user-profile-modal");
                 expect(modal).toBeInTheDocument();
-                const closeBtn = screen.getByTestId("close-menu");
+                const closeBtn = screen.getByTestId("close-menu-header");
                 fireEvent.click(closeBtn);
                 expect(modal).not.toHaveClass("active");
                 expect(localStorage.user).toBeTruthy();

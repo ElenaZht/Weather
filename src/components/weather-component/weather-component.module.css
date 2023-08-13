@@ -1,11 +1,3 @@
-@font-face {
-    font-family: Regular;
-    src: url(../../assets/fonts/Montserrat-Regular.svg);
-    src: url(../../assets/fonts/Montserrat-Regular.eot);
-    src: url(../../assets/fonts/Montserrat-Regular.otf);
-    src: url(../../assets/fonts/Montserrat-Regular.ttf);
-    src: url(../../assets/fonts/Montserrat-Regular.woff);
-}
 .wrapper{
     width: 100%;
     height: 40%;

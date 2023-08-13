@@ -51,5 +51,8 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^8.11.2"
+  },
+  "transform": {
+    "\\.js$": "<rootDir>/node_modules/babel-jest"
   }
 }

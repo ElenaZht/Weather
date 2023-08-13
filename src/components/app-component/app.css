@@ -1,3 +1,4 @@
+/* FONTS */
 @font-face {
     font-family: ExtraLight;
     src: url(../../assets/fonts/Montserrat-ExtraLight.svg);
@@ -5,6 +6,46 @@
     src: url(../../assets/fonts/Montserrat-ExtraLight.otf);
     src: url(../../assets/fonts/Montserrat-ExtraLight.ttf);
     src: url(../../assets/fonts/Montserrat-ExtraLight.woff);
+}
+@font-face {
+    font-family: Light;
+    src: url(../../assets/fonts/Montserrat-Light.svg);
+    src: url(../../assets/fonts/Montserrat-Light.eot);
+    src: url(../../assets/fonts/Montserrat-Light.otf);
+    src: url(../../assets/fonts/Montserrat-Light.ttf);
+    src: url(../../assets/fonts/Montserrat-Light.woff);
+}
+@font-face {
+    font-family: Regular;
+    src: url(../../assets/fonts/Montserrat-Regular.svg);
+    src: url(../../assets/fonts/Montserrat-Regular.eot);
+    src: url(../../assets/fonts/Montserrat-Regular.otf);
+    src: url(../../assets/fonts/Montserrat-Regular.ttf);
+    src: url(../../assets/fonts/Montserrat-Regular.woff);
+}
+@font-face {
+    font-family: Semibold;
+    src: url(../../assets/fonts/Montserrat-SemiBold.svg);
+    src: url(../../assets/fonts/Montserrat-SemiBold.eot);
+    src: url(../../assets/fonts/Montserrat-SemiBold.otf);
+    src: url(../../assets/fonts/Montserrat-SemiBold.ttf);
+    src: url(../../assets/fonts/Montserrat-SemiBold.woff);
+}
+@font-face {
+    font-family: Regular Hebrow;
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.svg);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.eot);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.otf);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.ttf);
+    src: url(../../assets/fonts/IBMPlexSansHebrew-Regular.woff);
+}
+@font-face {
+    font-family: Bold;
+    src: url(../../assets/fonts/Montserrat-SemiBold.svg);
+    src: url(../../assets/fonts/Montserrat-SemiBold.eot);
+    src: url(../../assets/fonts/Montserrat-SemiBold.otf);
+    src: url(../../assets/fonts/Montserrat-SemiBold.ttf);
+    src: url(../../assets/fonts/Montserrat-SemiBold.woff);
 }
 *{
     margin: 0;

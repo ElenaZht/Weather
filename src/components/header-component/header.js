@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ColorThemeContext from '../../components/color-theme-context.js';
 
 const Header = ({userChangedCallback, deleteMethod}) => {
+
     const regionService =  RegionService.getInstance();
     const savedRegions = regionService.getMyRegions();
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
@@ -70,7 +71,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
         localStorage.removeItem('user');
         setModalActive(false);
         setIsLogged(false);
-        userChangedCallback();
+        if (userChangedCallback) userChangedCallback();
         toast.success('You logged out!');
     };
     let openRegions = () => {
@@ -119,7 +120,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
                         <hr/>
                         <div className="dialog-btns">
                             <button data-testid="logout" id="logoutBtn" onClick={logOut}>Log out</button>
-                            <button data-testid="close-menu" id="closeBtn" onClick={closeModal}>Close</button>
+                            <button data-testid="close-menu-header" id="closeBtn" onClick={closeModal}>Close</button>
                         </div>
                     </div>
                 </Modal>

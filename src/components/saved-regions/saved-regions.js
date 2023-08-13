@@ -81,7 +81,7 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
         setSearchOpen(true);
     };
     let openSearchMobile = () => {
-        closeDialog();
+        closeDialog(); // not a func error
         setSearchOpen(true);
     };
     let makeRegions = () => {
