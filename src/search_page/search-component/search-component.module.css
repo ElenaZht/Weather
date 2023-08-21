@@ -1,0 +1,379 @@
+.container{
+    width: 100%;
+    height: 85%;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.leftside{
+    width: 100%;
+    height: 75%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.rightside{
+    width: 100%;
+    height: 20%;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+.inputSearch{
+    background: var(--glass);
+    border-radius: 10px;
+    height: 10%;
+    width: 90%;
+    display: flex;
+    margin: auto;
+    box-shadow: inset 3px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
+}
+.inputSearchNight{
+    background: var(--glass);
+    border-radius: 10px;
+    height: 10%;
+    width: 90%;
+    display: flex;
+    margin: auto;
+    box-shadow: inset 3px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
+}
+.listOfSearch{
+    background: var(--glass);
+    border-radius: 10px;
+    height: 80%;
+    width: 90%;
+    display: flex;
+    margin-bottom: auto;
+    border: solid 1px var(--gray);
+    flex-direction: column;
+    overflow-y: scroll;
+    align-items: center;
+}
+.listRow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Light;
+    color: var(--light_gray);
+    font-size: 2.5vmax;
+    padding: 1%;
+    height: 15%;
+    width: 90%;
+    border-bottom: solid 1px var(--gray);
+}
+.listRowNight{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Light;
+    color: white;
+    filter: drop-shadow(var(--night_shadow));
+    font-size: 2.5vmax;
+    padding: 1%;
+    height: 15%;
+    width: 90%;
+    border-bottom: solid 1px var(--gray);
+}
+.plus{
+    width: 5vh;
+    height: 5vh;
+    opacity: .8;
+    transform: scale(2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.plus:active{
+    opacity: 1;
+}
+.searchIcon{
+    background-image: url("../../assets/icons/search.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    opacity: .3;
+}
+.inputSearch input{
+    width: 75%;
+    height: 36px;
+    background: transparent;
+    border: none;
+}
+.inputSearch input::placeholder{
+    font-family: Regular;
+    font-size: 1.4em;
+    color: var(--light_gray);
+}
+.inputSearch input:focus-visible{
+    outline: none;
+}
+.inputSearchNight input{
+    width: 75%;
+    height: 36px;
+    background: transparent;
+    border: none;
+}
+.inputSearchNight input::placeholder{
+    font-family: Regular;
+    font-size: 1.4em;
+    color: white;
+}
+.inputSearchNight input:focus-visible{
+    outline: none;
+}
+.dialogDel{
+    font-family: Light;
+    color: var(--light_gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 30vh;
+    justify-content: space-around;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+.closeBtn{
+    font-family: Regular;
+    font-size: 18px;
+    padding: 1%;
+    color: var(--light_gray);
+    transition: .5s;
+    transform: scale(1);
+    height: 40px;
+    min-width: 40px;
+    box-shadow: var(--shadow);
+    border-radius: 11px;
+    border: none;
+    float: right;
+}
+.closeBtn:active{
+    transform: scale(1.1);
+    transition: .4s;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /*background: white;*/
+    filter: drop-shadow(var(--shadow));
+    border-radius: 7px;
+    height: calc(10vw + 10vh);
+    width: calc(10vw + 10vh);
+    color: var(--gray);
+    margin-right: auto;
+    margin-left: auto;
+    transform: scale(1);
+    transition: .4s;
+    margin-bottom: 5%;
+}
+
+
+.delete{
+    position: absolute;
+    outline: none;
+    right: 0.2vmax;
+    top: 0.2vmax;
+    border: none;
+    background: none;
+    color: var(--light_gray);
+    font-size: 18px;
+    margin-right: 3%;
+    opacity: .5;
+    cursor: pointer;
+
+}
+.delete:hover{
+    opacity: .7;
+}
+.delete:active{
+    opacity: 1;
+}
+.name{
+    font: calc(2vw + 2vh) Light;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.info{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.degree{
+    font: calc(2vw + 2vh) Light;
+    color: var(--light_gray);
+}
+.icon{
+    background-image: url("../../assets/icons/sun.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: calc(2vw + 2vh);
+    height: calc(2vw + 2vh);
+    opacity: .2;
+}
+.remIcon{
+    background-image: url("../../assets/icons/cancel.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: .3;
+    width: 1vw;
+    height: 1vw;
+    cursor: pointer;
+    margin: auto;
+}
+.noRegions{
+    font: calc(1vw + 1vh) Light;
+    color: var(--gray);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.left, .right{
+    display: flex;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height:  calc(5vw + 5vh);
+    width:  calc(5vw + 5vh);
+    filter: invert() drop-shadow(var(--shadow));
+    transition: .5s;
+    transform: scale(1);
+}
+.left{
+    background-image: url("../../assets/icons/left.svg");
+}
+.right{
+    background-image: url("../../assets/icons/right.svg");
+}
+.left:active, .right:active{
+    transition: 0.5s;
+    transform: scale(1.2);
+}
+.leftDisabled{
+    opacity: .3;
+    background-image: url("../../assets/icons/left.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 10vw;
+    width: 10vw;
+    filter: invert() drop-shadow(var(--shadow));
+    pointer-events: none;
+}
+.rightDisabled{
+    opacity: .3;
+    background-image: url("../../assets/icons/right.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 10vw;
+    width: 10vw;
+    filter: invert() drop-shadow(var(--shadow));
+    pointer-events: none;
+}
+@media all and (min-width: 1025px){
+    .container{
+        flex-direction: row;
+        justify-content: space-around;
+        background: rgba(255, 255, 255, 0.3);
+    }
+    .leftside, .rightside{
+        height: 90%;
+        width: 47%;
+    }
+    .leftside{
+        background: none;
+    }
+    .card{
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*justify-content: space-evenly;*/
+        /*background: rgba(255, 255, 255, 0.57);*/
+        /*border-radius: 7px;*/
+        /*height: calc(5vw + 5vh);*/
+        /*width: calc(5vw + 5vh);*/
+        /*color: #707070;*/
+        margin-right: calc(.5vw + .5vh);
+        filter: none;
+        margin-bottom: 0;
+
+    }
+    .info{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .name{
+        font: calc(1vw + 1vh) Light;
+        text-align: center;
+    }
+    .degree{
+        font: calc(1vw + 1vh) Light;
+        color: var(--light_gray);
+    }
+    .icon{
+        background-image: url("../../assets/icons/sun.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: calc(1vw + 1vh);
+        height: calc(1vw + 1vh);
+        opacity: .2;
+    }
+    .cardBtn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        background: var(--glass);
+        border-radius: 7px;
+        height:  calc(5vw + 5vh);
+        width:  calc(5vw + 5vh);
+        filter: none;
+        margin: 0;
+
+    }
+    .delete{
+        font-size: 1vmax;
+    }
+    .listRow{
+        font-size: 1.5vmax;
+    }
+    .listRowNight{
+        font-size: 1.5vmax;
+    }
+    .listRow > div, .plus{
+        cursor: pointer;
+    }
+    .listRowNight > div, .plus{
+        cursor: pointer;
+    }
+    .searchIcon{
+        width: 2vw;
+        height: 2vw;
+        margin: 1%;
+    }
+    .inputSearch input{
+        margin-bottom: 0;
+    }
+    .inputSearchNight input{
+        margin-bottom: 0;
+    }
+}

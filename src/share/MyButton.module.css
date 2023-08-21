@@ -1,0 +1,46 @@
+.myBtn{
+    width: 30%;
+    height: 30%;
+    background-color: transparent;
+    background-image: url("../assets/icons/plus.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    transition: .5s;
+    transform: scale(1);
+    filter: drop-shadow(var(--shadow));
+}
+.big{
+    width: 10vh;
+    height: 10vh;
+    background-color: transparent;
+    background-image: url("../assets/icons/plus.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    transition: .5s;
+    transform: scale(1);
+    filter: drop-shadow(var(--shadow));
+}
+.little{
+    width: 5vh;
+    height: 5vh;
+    background-color: transparent;
+    background-image: url("../assets/icons/plus.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    transition: .5s;
+    transform: scale(1);
+    filter: drop-shadow(var(--shadow));
+}
+.myBtn:active{
+    transition: 0.5s;
+    transform: scale(1.2);
+}
