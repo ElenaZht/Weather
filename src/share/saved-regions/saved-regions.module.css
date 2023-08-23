@@ -25,7 +25,7 @@
     border: none;
     background: none;
     color: var(--light_gray);
-    font-size: 18px;
+    font-size: var(--s);
     margin-right: 3%;
     opacity: .5;
 }
@@ -109,7 +109,7 @@
 }
 .closeBtn{
     font-family: Regular;
-    font-size: 18px;
+    font-size: var(--s);
     padding: 1%;
     color: var(--light_gray);
     transition: .5s;
@@ -126,7 +126,7 @@
     transform: scale(1.1);
     transition: .4s;
 }
-@media all and (min-width: 1025px){
+@media all and (min-width: 850px){
     .wrap{
         display: flex;
         align-items: center;

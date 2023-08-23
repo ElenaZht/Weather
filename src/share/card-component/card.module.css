@@ -40,7 +40,7 @@
     border: none;
     background: none;
     color: var(--light_gray);
-    font-size: 18px;
+    font-size: var(--s);
     margin-right: 3%;
     opacity: .5;
 }
@@ -68,7 +68,7 @@
 }
 .closeBtn{
     font-family: Regular;
-    font-size: 18px;
+    font-size: var(--s);
     padding: 1%;
     color: var(--light_gray);
     transition: .5s;
@@ -143,7 +143,7 @@
     color: white;
     filter: drop-shadow(var(--night_shadow));
 }
-@media all and (min-width: 1025px){
+@media all and (min-width: 850px){
     /*.card{*/
     /*    !*display: flex;*!*/
     /*    !*flex-direction: column;*!*/
@@ -176,7 +176,7 @@
     /*    max-height: 100%;*/
     /*}*/
     .delete{
-        font-size: 1vmax;
+        font-size: var(--xs);
     }
     .name{
         font: calc(1vw + 1vh) Light;

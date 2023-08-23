@@ -64,7 +64,7 @@
 li{
     color: white;
     font-family: Semibold;
-    font-size: 24px;
+    font-size: var(--l);
     display: flex;
 }
 li:active{
@@ -90,7 +90,7 @@ li:active{
     justify-content: center;
 }
 .navbar-collapse .account span{
-    font-size: 18px;
+    font-size: var(--s);
     font-family:Semibold;
     color: white;
 }
@@ -191,7 +191,7 @@ li:active{
 }
 .user-name{
     font-family: Semibold;
-    font-size: 20px;
+    font-size: var(--s);
     color: var(--light_gray);
     overflow-wrap: break-word;
     max-width: 90%;
@@ -199,7 +199,7 @@ li:active{
 }
 .user-email{
     font-family: Regular;
-    font-size: 18px;
+    font-size: var(--s);
     color: var(--light_gray);
     max-width: 80%;
     overflow-wrap: anywhere;
@@ -212,7 +212,7 @@ li:active{
 }
 .dialog-btns button{
     font-family: Regular;
-    font-size: 18px;
+    font-size: var(--s);
     padding: 1%;
     color: var(--light_gray);
     transition: .5s;
@@ -229,7 +229,7 @@ li:active{
 }
 .closeBtn{
     font-family: Regular;
-    font-size: 18px;
+    font-size: var(--s);
     padding: 1%;
     color: var(--light_gray);
     transition: .5s;
@@ -252,7 +252,7 @@ hr{
     height: 1px;
 }
 /* BIG SCREENS */
-@media all and (min-width: 1025px){
+@media all and (min-width: 850px){
     .account, .search, .search-night, .fordevice{
         display: flex;
     }
@@ -280,7 +280,7 @@ hr{
         background: var(--mustard_yellow);
     }
     .account span{
-        font-size: 2.75em;
+        font-size: var(--xxl);
         font-family:Semibold;
         color: white;
     }
@@ -340,12 +340,12 @@ hr{
     }
     .search input::placeholder{
         font-family: Regular;
-        font-size: 1.4em;
+        font-size: var(--s);
         color: var(--light_gray);
     }
     .search-night input::placeholder{
         font-family: Regular;
-        font-size: 1.4em;
+        font-size: var(--s);
         color: white;
     }
     .search input:focus-visible{

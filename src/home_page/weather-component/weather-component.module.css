@@ -22,17 +22,17 @@
     text-align: center;
 }
 .noResponseTitle{
-    font-size: calc(2vw + 2vh);
+    font-size: var(--xxl);
     display: flex;
 }
 .noResponseText{
-    font-size: calc(1vw + 1vh);
+    font-size: var(--m);
     display: flex;
 }
 .loading{
     display: flex;
     font-family: Regular, sans-serif;
-    font-size: calc(1vw + 1vh);
+    font-size: var(--m);
     color: var(--light_gray);
     text-align: center;
     margin: auto;
@@ -84,14 +84,14 @@
     height: 60%;
 }
 .digit{
-    font-size: calc(5vmax + 5vmin);
+    font-size: var(--xxl);
     text-shadow: var(--shadow);
     line-height: .9;
     display: flex;
     flex-direction: row;
 }
 .text{
-    font-size: calc(1.5vmax + 2vmin);
+    font-size: var(--xl);
     text-align: center;
     margin: auto;
 }
@@ -101,9 +101,9 @@
     background: var(--glass);
     box-shadow: var(--shadow);
     border-radius: 11px;
-    font-size: calc(1vmax + 1.5vmin);
+    font-size: var(--l);
     width: 100%;
-    height: 40%;
+    /*height: 40%;*/
     padding: 5%;
     word-wrap: break-word;
 }
@@ -120,13 +120,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-wrap: nowrap;
     width: 70%;
     height: 60%;
 }
 .sunrise, .sunset, .wind, .hum{
     display: flex;
     align-items: baseline;
-    font-size: calc(1.5vmax + 1.5vmin);
+    font-size: var(--m);
 }
 .sunriseIcon{
     display: flex;
@@ -163,7 +164,7 @@
     margin-right: 10%;
 
 }
-@media all and (min-width: 1025px){
+@media all and (min-width: 850px){
     .wrapper{
         width: 38%;
         height: 100%;
@@ -192,14 +193,14 @@
         height: 55%;
     }
     .digit{
-        font-size: calc(1vmax + 5vmin);
+        font-size: var(--xxl);
     }
     .text{
-        font-size: calc(1vmax + .5vmin);
+        font-size: var(--xs);
     }
     .advice{
-        font-size: calc(.5vmax + 1vmin);
-        height: 20%;
+        font-size: var(--xs);
+        height: auto;
         width: 50%;
     }
     .picture{
@@ -212,7 +213,7 @@
         height: 100%;
     }
     .sunrise, .sunset, .wind, .hum{
-        font-size: calc(1vmax + .5vmin);
+        font-size: var(--s);
     }
     .degree{
         width: 25%;

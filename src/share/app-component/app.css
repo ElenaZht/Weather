@@ -51,44 +51,30 @@
 /* MEDIA QUARRY *>
 
 /*MOBILE */
-@media only screen and (max-width: 768px){
-    /*:root{*/
-    /*    --xs: 16px;*/
-    /*    --s: 18px;*/
-    /*    --m: 22px;*/
-    /*    --l: 26px;*/
-    /*    --xl: 30px;*/
-    /*    --xxl: 80px;*/
-    /*}*/
+@media only screen and (max-width: 850px){
+    :root{
+        --xs: 14px;
+        --s: 18px;
+        --m: 20px;
+        --l: 24px;
+        --xl: 30px;
+        --xxl: 35px;
+    }
     .card{
         background-color: white;
     }
 
 }
-/*TABLET*/
-@media only screen and (min-width: 768px) and (max-width: 1024px){
-    /*:root{*/
-    /*    --xs: 16px;*/
-    /*    --s: 18px;*/
-    /*    --m: 22px;*/
-    /*    --l: 26px;*/
-    /*    --xl: 30px;*/
-    /*    --xxl: 80px;*/
-    /*}*/
-    .card{
-        background-color: var(--glass);
+/*TABLET AND DESKTOP */
+@media only screen and (min-width: 850px){
+    :root{
+        --xs: 14px;
+        --s: 18px;
+        --m: 20px;
+        --l: 24px;
+        --xl: 30px;
+        --xxl: 35px;
     }
-}
-/*DESKTOP */
-@media only screen and (min-width: 1024px){
-    /*:root{*/
-    /*    --xs: 16px;*/
-    /*    --s: 18px;*/
-    /*    --m: 22px;*/
-    /*    --l: 26px;*/
-    /*    --xl: 30px;*/
-    /*    --xxl: 80px;*/
-    /*}*/
     .card{
         background-color: var(--glass);
     }
@@ -114,12 +100,10 @@
     filter: drop-shadow(var(--shadow));
     border-radius: 7px;
     color: var(--gray);
-    /*margin-right: auto;*/
     margin-left: 1%;
     position: relative;
     transition: .4s;
     cursor: pointer;
-    /*margin-bottom: 5%;*/
     padding: 1%;
     transform: scale(1);
     min-height: 100px;
@@ -144,8 +128,8 @@
 .App{
     background-image: url("../../assets/day-background.jpg");
     background-size: cover;
-    width: 100vmin;
-    height: 100vmax;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -196,7 +180,7 @@
     background: #52b3d9 !important;
 }
 /* BIG SCREENS */
-@media all and (min-width: 1025px) {
+@media all and (min-width: 850px) {
     .App, .App-night{
         width: 100vmax;
         height: 100vmin;
@@ -210,7 +194,7 @@
         display: flex;
         color: var(--light_gray);
         font-family: ExtraLight, sans-serif;
-        font-size: 2.25em;
+        /*font-size: 2.25em;*/
         position: absolute;
         right: 0;
         bottom: 0;

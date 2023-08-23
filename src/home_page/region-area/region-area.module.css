@@ -1,5 +1,6 @@
 .regionContainer{
-    height: 80vh;
+    /*height: 80vh;*/
+    height: 100%;
     width: 90vw;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 7px;
@@ -50,10 +51,10 @@
     align-items: flex-start;
 }
 .regionName{
-    font-size: 2.5em;
+    font-size: var(--xxl);
 }
 .regionTimeDate{
-    font-size: 1.1em;
+    font-size: var(--s);
 }
 .noRegion{
     color: var(--light_gray);
@@ -67,7 +68,7 @@
     height: 100%;
     text-align: center;
 }
-@media all and (min-width: 1025px){
+@media all and (min-width: 850px){
     .regionContainer{
         height: 60%;
         width: 100%;
