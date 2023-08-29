@@ -47,7 +47,6 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    /*width: 50%;*/
 }
 .skipBtn, .skipBtnShow{
     outline: none;
@@ -71,8 +70,6 @@
     background: none;
     color: white;
     font-size: var(--s);
-    width: 2vmax;
-    height: 2vmax;
     font-family: Regular;
     display: flex;
     justify-content: center;

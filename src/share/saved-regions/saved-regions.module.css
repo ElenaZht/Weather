@@ -140,10 +140,10 @@
         height: 100%;
         min-height: 100px;
         flex-wrap: nowrap;
-
         max-height: 100%;
         overflow: hidden;
         padding-top: 0;
+        margin: auto;
     }
     .left, .right{
         display: flex;

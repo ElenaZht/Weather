@@ -107,11 +107,12 @@
     background: var(--glass);
     box-shadow: var(--shadow);
     border-radius: 11px;
-    font-size: var(--l);
+    font-size: var(--m);
     width: 100%;
-    /*height: 40%;*/
     padding: 5%;
     word-wrap: break-word;
+    max-height: 150px;
+    text-overflow: fade;
 }
 .picture{
     width: 50%;

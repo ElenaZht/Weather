@@ -152,7 +152,7 @@ const WeatherComponent = () => {
 
             {!!((!weather || !weather.main || errorText.length)&& !loading) &&
             <div className={classes.noResponse}>
-                <span className={classes.noResponseTitle}>Sorry! {errorText}</span>
+                <span className={classes.noResponseTitle}>Sorry! Weather is not provided</span>
                 <span className={classes.noResponseText}>Please, try again later.</span>
             </div>}
             {!!(weather &&  weather.main && !loading && !errorText.length) &&
