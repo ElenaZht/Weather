@@ -82,7 +82,7 @@ function WorldNews() {
             {shown && !!wNews.length&&<div className={classes.context}>
                 {makeWNews()}
             </div>}
-            {!wNews.length && !loading &&<div className={classes.noContext}>Oops..Please, try again latter</div>}
+            {!wNews.length && !loading && shown &&<div className={classes.noContext}>Oops..Please, try again latter</div>}
         </div>
     );
 }
