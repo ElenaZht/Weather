@@ -9,8 +9,6 @@ function WorldNews() {
     const newsService = NewsService.getInstance();
     let [regLimit, setRegLimit] = useState(0);
     let [shown, setShown] = useState(true);
-    let [skippedWidth, setSkippedWidth] = useState('10%');
-    let [notSkippedWidth, setNotSkippedWidth] = useState('100%');
     let [loading, setLoading] = useState(true);
     const {theme, setTheme} = useContext(ColorThemeContex);
 
@@ -19,7 +17,6 @@ function WorldNews() {
         if(window.matchMedia("(max-width: 1024px)").matches){
             if(wNews){
                 setRegLimit(1);
-                setNotSkippedWidth('20%')
             }
         } else {
             setRegLimit(4);
@@ -67,13 +64,14 @@ function WorldNews() {
 
     }, [wNews]);
     return (
-        <div className={classes.wrapper} style={{'height' : shown? notSkippedWidth : skippedWidth}}>
+        <div className={shown? classes.wrapper : classes.wrapperskippedWidth}>
             <div className={classes.head}>
                 <div className={classes.title}>
                     <div className={classes.thunder}></div>
                     <div className={classes.wnews}>World news</div>
                 </div>
-                <button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}></button>
+               {shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>hide</button>}
+               {!shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>show</button>}
             </div>
             {loading && <div className={classes.spinner}>
                 <div/>
@@ -81,7 +79,7 @@ function WorldNews() {
                 <div/>
                 <div/>
             </div>}
-            {shown &&<div className={classes.context}>
+            {shown && !!wNews.length&&<div className={classes.context}>
                 {makeWNews()}
             </div>}
             {!wNews.length && !loading &&<div className={classes.noContext}>Oops..Please, try again latter</div>}

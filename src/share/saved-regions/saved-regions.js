@@ -1,9 +1,8 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../MyButton';
 import Modal from "../../home_page/header-component/modal";
 import RegionService from '../../services/region-service';
-import RegionContext from '../../contexts/region-context';
 import SearchContext from '../../contexts/search-context';
 import Card from '../card-component/card';
 
@@ -12,15 +11,14 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     const regionService =  RegionService.getInstance();
     const defaultRegion = regionService.defaultRegion;
 
-    const {region, setRegion} = useContext(RegionContext);
-    const {searchOpen, setSearchOpen} = useContext(SearchContext);
+    let {searchOpen, setSearchOpen} = useContext(SearchContext);
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
     let [regLimit, setRegLimit] = useState(3);
     let [isOpen, setIsOpen] = useState(false);
-    const [modalActive, setModalActive] = useState(false);
+    let [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
     let [myRegions, setMyRegions] = useState(regions);
     let [isMobile, setIsMobile] = useState(false);
@@ -36,11 +34,6 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
              setRegLimit(3);
          }
     });
-    // useEffect(() => {
-    //     makeRegions();
-    // }, [localStorage.getItem('user')]
-    // );
-
 
 
     let slideLeft = () => {
@@ -113,10 +106,6 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
                 </div>
             </Modal>
             {(myRegions && myRegions.length) > 3 && <div className={disabledLeft? classes.leftDisabled : classes.left} onClick={slideLeft}></div>}
-            {/*<Card  city={defaultRegion.regionName}*/}
-            {/*      openModalMethod={openModal}*/}
-            {/*      closeDialogMethod={closeDialog}*/}
-            {/*/>*/}
             <Card city={defaultRegion.regionName} status={0}/>
             {makeRegions()}
             {(myRegions && myRegions.length) === 0 &&  <div className={classes.noRegions}>No saved regions yet. Add?</div>}

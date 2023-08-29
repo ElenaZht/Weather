@@ -104,7 +104,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 const endIdx = pageNumber*pageSize + pageSize;
                 if(endIdx > (resCities.length - 1)) {
                     setHasMore(false)
-                };
+                }
                 setCities(c => {
                     return [...new Set([...c, ...resCities.slice(pageNumber*pageSize, endIdx)])]
                 });
@@ -148,7 +148,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             <div className={classes.leftside}>
                 <div className={theme==='night'? classes.inputSearchNight : classes.inputSearch}>
                     <div className={classes.searchIcon}></div>
-                    <input placeholder="Search region.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
+                    <input placeholder="Search city.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
                     <div className={classes.remIcon} onClick={() => inputHandler('')}></div>
                 </div>
                 <div className={classes.listOfSearch}>

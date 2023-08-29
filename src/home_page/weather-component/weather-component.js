@@ -118,7 +118,7 @@ const WeatherComponent = () => {
                         } else {setTheme('day')}
                     } else if(res && res.message) {
                         setLoading(false);
-                        setErrorText(res.message)
+                        setErrorText(res.message);
                         console.error('error', res)
                     }
                 }

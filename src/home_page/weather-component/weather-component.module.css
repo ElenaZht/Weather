@@ -1,9 +1,12 @@
 .wrapper{
-    width: 100%;
+    width: 90%;
     height: 40%;
     display: flex;
     font-family: Regular, sans-serif;
     color: var(--gray);
+    min-height: 250px;
+    min-width: 320px;
+    margin: auto;
 }
 .wrapperNight{
     width: 100%;
@@ -11,6 +14,8 @@
     display: flex;
     font-family: Regular, sans-serif;
     color: white;
+    min-height: 250px;
+    min-width: 320px;
 }
 .noResponse{
     display: flex;
@@ -20,6 +25,7 @@
     font-family: Regular, sans-serif;
     color: var(--gray);
     text-align: center;
+    margin: auto;
 }
 .noResponseTitle{
     font-size: var(--xxl);
@@ -115,12 +121,15 @@
     background-size: contain;
     background-image: url("../../assets/weather-logo/clear.png");
     transform: scale(2);
+    z-index: 0;
 }
 .details{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-wrap: nowrap;
+    position: relative;
+    z-index: 1;
     width: 70%;
     height: 60%;
 }
@@ -196,7 +205,8 @@
         font-size: var(--xxl);
     }
     .text{
-        font-size: var(--xs);
+        font-size: var(--l);
+        margin: 1%;
     }
     .advice{
         font-size: var(--xs);

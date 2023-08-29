@@ -16,7 +16,9 @@ const RegionArea = () => {
     let getCurDate = () => {
             let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
             let dateObj = new Date(dateString);
-            return dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'') + dateObj.getMinutes() + "  "+ dateObj.getDate() + " " + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear()
+            return dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'')
+                + dateObj.getMinutes() + "  "+ dateObj.getDate() + " "
+                + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear()
     };
     let checkRegionsDate = () => {
         if(region.timeZone.length){

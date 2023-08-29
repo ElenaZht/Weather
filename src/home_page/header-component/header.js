@@ -6,7 +6,7 @@ import SavedRegions from '../../share/saved-regions/saved-regions.js';
 import RegionService from "../../services/region-service";
 import SearchContext from "../../contexts/search-context";
 import SearchTermContext from '../../contexts/search-term-context';
-import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ColorThemeContext from '../../contexts/color-theme-context.js';
 
@@ -64,10 +64,8 @@ const Header = ({userChangedCallback, deleteMethod}) => {
     };
     let closeModal = () => {
         setModalActive(false);
-        // setIsOpen(true);
     };
     let logOut = () => {
-        // localStorage.clear();
         localStorage.removeItem('user');
         setModalActive(false);
         setIsLogged(false);
@@ -80,7 +78,6 @@ const Header = ({userChangedCallback, deleteMethod}) => {
     };
     let closeRegions = () => {
         setRegionsModalActive(false);
-        // setIsOpen(true);
     };
     let goBack = () => {
         setRegionsModalActive(false);
@@ -100,10 +97,6 @@ const Header = ({userChangedCallback, deleteMethod}) => {
         }
 
     };
-    // toast.success('yeesssss');
-    // toast.error('nooo');
-    // toast.info('info');
-    // toast.warn('warning');
     const [modalActive, setModalActive] = useState(false);
     const [regionsModalActive, setRegionsModalActive] = useState(false);
     return (
@@ -163,7 +156,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
             <div className={isLogged? "account" : "collapse"} onClick={openModal} style={{background: theme==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>
             <div className={theme==='night'? 'search-night':'search'}>
                 <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
-                <input placeholder="Search region.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
+                <input placeholder="Search city.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
                 <div className="rem-icon" onClick={() => {setTerm(''); setSearchTerm('')}}></div>
             </div>
         </div>

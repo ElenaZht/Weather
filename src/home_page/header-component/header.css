@@ -13,7 +13,9 @@
     background-size: contain;
     background-repeat: no-repeat;
     width: 7.6em;
+    min-width: 120px;
     height: 100%;
+    min-height: 55px;
     display: flex;
     position: absolute;
     left: 0;
@@ -99,7 +101,9 @@ li:active{
     background-size: contain;
     background-repeat: no-repeat;
     width: 100%;
+    min-width: 60px;
     height: 100%;
+    min-height: 60px;
 }
 .dialog{
     display: flex;
@@ -261,10 +265,12 @@ hr{
     }
     .main{
         height: 15%;
+        margin: 2%;
     }
     .logo{
         width: 203px;
         height: 126px;
+        /*margin: 2%;*/
     }
     .account{
         display: flex;

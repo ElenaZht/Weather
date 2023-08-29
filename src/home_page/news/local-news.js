@@ -1,6 +1,5 @@
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
-
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import RegionContext from "../../contexts/region-context";
 import ColorThemeContex from "../../contexts/color-theme-context";
@@ -13,20 +12,17 @@ import ColorThemeContex from "../../contexts/color-theme-context";
      const newsService = NewsService.getInstance();
      let [regLimit, setRegLimit] = useState(0);
      let [shown, setShown] = useState(true);
-     let [skippedWidth, setSkippedWidth] = useState('10%');
-     let [notSkippedWidth, setNotSkippedWidth] = useState('100%');
      let [loading, setLoading] = useState(true);
      const {theme, setTheme} = useContext(ColorThemeContex);
 
      useEffect(()=>{
          newsService.setCountry(region['country']);
-     }, [region])
+     }, [region]);
 
      useEffect(() => {
             if(window.matchMedia("(max-width: 1024px)").matches){
                 if(lNews){
                     setRegLimit(1);
-                    setNotSkippedWidth('20%')
                 }
             } else {
                 setRegLimit(4);
@@ -68,6 +64,7 @@ import ColorThemeContex from "../../contexts/color-theme-context";
 
                     }
                 );
+
                 return () => {
                     if (subscription.current) {
                         subscription.current.unsubscribe();
@@ -84,13 +81,14 @@ import ColorThemeContex from "../../contexts/color-theme-context";
 
         }, [lNews]);
         return (
-            <div className={classes.wrapperL} style={{'height' : shown? notSkippedWidth : skippedWidth}}>
+            <div className={shown? classes.wrapperL : classes.wrapperLskippedWidth}>
                 <div className={classes.head}>
                     <div className={classes.title}>
                         <div className={classes.thunder}></div>
                         <div className={classes.wnews}>Local news</div>
                     </div>
-                    <button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}></button>
+                    {shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>hide</button>}
+                    {!shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>show</button>}
                 </div>
                 {loading && <div className={classes.spinner}>
                     <div/>
@@ -98,7 +96,7 @@ import ColorThemeContex from "../../contexts/color-theme-context";
                     <div/>
                     <div/>
                 </div>}
-                {shown &&<div className={classes.context}>
+                {shown && !!lNews.length&&<div className={classes.context}>
                     {makeLNews()}
                 </div>}
                 {!lNews.length && !loading &&<div className={classes.noContext}>Sorry, news for region {region['country']} not supported yet.</div>}

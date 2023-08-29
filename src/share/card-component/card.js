@@ -6,7 +6,7 @@ import {logos} from "../../storages/wether-storage";
 import SearchContext from "../../contexts/search-context";
 import ColorThemeContex from "../../contexts/color-theme-context";
 
-const Card = ({city, openModalMethod, closeDialogMethod, status}) => {
+const Card = ({city, openModalMethod, status}) => {
     const {region, setRegion} = useContext(RegionContext);
     let subscription = useRef(null);
 
@@ -86,13 +86,14 @@ const Card = ({city, openModalMethod, closeDialogMethod, status}) => {
 
         }
     };
+    let openModal = (e) => {
+        openModalMethod(city);
+        e.stopPropagation()
+    };
 
     return (
-            <div className={theme ==='night'? classes.cardNight : 'card'} onClick={(e) => setCity(city)}>
-                {status>0 &&<button className={classes.delete} onClick={(e) => {
-                    openModalMethod(city);
-                    e.stopPropagation()
-                }}>x</button>}
+            <div className={theme ==='night'? 'cardNight' : 'card'} onClick={() => setCity(city)}>
+                {status>0 &&<button className={classes.delete} onClick={(e) => {openModal(e)}}>x</button>}
                 <div className={classes.name}>{city}</div>
                 {!temperature &&<div className={classes.error}>{errorText}</div>}
                 <div className={classes.info}>

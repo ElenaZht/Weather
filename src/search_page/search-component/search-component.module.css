@@ -1,6 +1,8 @@
 .container{
-    width: 100%;
+    width: 95%;
+    margin: auto;
     height: 85%;
+    overflow: scroll;
     border-radius: 7px;
     display: flex;
     flex-direction: column;
@@ -22,6 +24,12 @@
     align-items: center;
     display: flex;
     flex-wrap: wrap;
+}
+.rightside > div + div {
+    margin-left: 1%;
+    margin-top: 1%;
+    position: relative;
+    z-index: 2;
 }
 .inputSearch{
     background: var(--glass);
@@ -54,6 +62,8 @@
     flex-direction: column;
     overflow-y: scroll;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 .listRow{
     display: flex;
@@ -74,7 +84,7 @@
     font-family: Light;
     color: white;
     filter: drop-shadow(var(--night_shadow));
-    font-size: var(--xxl);
+    font-size: var(--m);
     padding: 1%;
     height: 15%;
     width: 90%;
@@ -295,10 +305,12 @@
         flex-direction: row;
         justify-content: space-around;
         background: rgba(255, 255, 255, 0.3);
+        overflow: hidden;
     }
     .leftside, .rightside{
         height: 90%;
         width: 47%;
+        overflow: hidden;
     }
     .leftside{
         background: none;

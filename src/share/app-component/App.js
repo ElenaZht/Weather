@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import './app.css';
 import Header from '../../home_page/header-component/header';
 import RegionArea from '../../home_page/region-area/region-area';
@@ -8,7 +8,7 @@ import RegionContext from '../../contexts/region-context';
 import SearchContext from '../../contexts/search-context';
 import SearchComponent from '../../search_page/search-component/search-component';
 import SearchTermContext from '../../contexts/search-term-context';
-import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ColorThemeContext from '../../contexts/color-theme-context.js';
 
@@ -44,11 +44,6 @@ function App() {
     let getMyRegions = () => {
         setSavedRegions(regionService.getMyRegions())
     };
-
-    // toast.success('yeesssss');
-    // toast.error('nooo');
-    // toast.info('info');
-    // toast.warn('warning');
 
     return (
         <div className={`${theme==='night' ? "App-night" : "App"}`}>
