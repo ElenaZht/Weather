@@ -264,13 +264,15 @@ hr{
         display: none;
     }
     .main{
-        height: 15%;
-        margin: 2%;
+        height: 10%;
+        min-height: 60px;
+        width: 95%;
+        margin: auto;
     }
     .logo{
         width: 203px;
         height: 126px;
-        /*margin: 2%;*/
+        margin-top: 2%;
     }
     .account{
         display: flex;

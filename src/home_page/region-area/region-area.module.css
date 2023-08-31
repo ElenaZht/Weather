@@ -77,7 +77,7 @@
     .regionContainer{
         height: 60%;
         width: 95%;
-        margin-top: 1%;
+        /*margin-top: 1%;*/
         min-height: 300px;
         min-width: 300px;
     }
@@ -87,6 +87,7 @@
     }
     .regionContainer{
         min-width: 1100px;
+        min-height: 400px;
     }
     .innerWrapper{
         flex-direction: row;

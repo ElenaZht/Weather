@@ -68,12 +68,12 @@
 /*TABLET AND DESKTOP */
 @media only screen and (min-width: 850px){
     :root{
-        --xs: 14px;
-        --s: 18px;
-        --m: 20px;
-        --l: 24px;
-        --xl: 30px;
-        --xxl: 35px;
+        --xs: 18px;
+        --s: 20px;
+        --m: 22px;
+        --l: 26px;
+        --xl: 32px;
+        --xxl: 37px;
     }
     .card, .cardNight{
         background-color: var(--glass);
@@ -100,7 +100,6 @@
     filter: drop-shadow(var(--shadow));
     border-radius: 7px;
     color: var(--gray);
-    margin-left: 1%;
     position: relative;
     transition: .4s;
     cursor: pointer;
@@ -199,13 +198,15 @@
     .App, .App-night{
         width: 100vmax;
         height: 100vmin;
-        /*min-height: 800px;*/
+        min-height: 600px;
+        max-height: 100vh;
         min-width: 1200px;
     }
     .wrapper{
         display: flex;
         width: 50vw;
         height: calc(15% + 1vw);
+        margin: 0 2.5% 0 2.5%;
     }
     .signature{
         display: flex;

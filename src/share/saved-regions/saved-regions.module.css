@@ -10,9 +10,10 @@
     padding-top: 2%;
 
 }
-.wrap > div + div{
+.wrap> *{
     margin-top: 2%;
-    margin-left: 2%;
+    margin-right: 2%;
+    box-shadow: var(--shadow);
 }
 .left, .right{
     display: none;
@@ -104,6 +105,7 @@
     min-width:  100px;
     filter: none;
     margin: 0;
+    box-shadow: var(--shadow);
 
 }
 .cardBtn:active{
@@ -135,9 +137,9 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        width: 50%;
+        width: 95%;
         min-width: 726px;
-        height: 100%;
+        height: 95%;
         min-height: 100px;
         flex-wrap: nowrap;
         max-height: 100%;

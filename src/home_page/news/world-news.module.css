@@ -202,7 +202,7 @@
         margin-bottom: auto;
     }
     .context{
-        font-size: var(--s);
+        font-size: var(--xs);
         height: 85%;
         justify-content: space-around;
     }
