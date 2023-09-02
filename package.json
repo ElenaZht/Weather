@@ -30,7 +30,8 @@
     "deploy": "aws s3 sync ./build s3://weather.themove.fun",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "export_cert": "aws acm export-certificate \\\n     --certificate-arn arn:aws:acm:us-east-1:260844943222:certificate/d83ab6bb-52b0-4d78-81ec-20f0426cd8ba \\\n     --passphrase fileb://passphrase.txt  \\\n     | jq -r '\\\"(.Certificate)(.CertificateChain)(.PrivateKey)\\\"'"
   },
   "eslintConfig": {
     "extends": [
