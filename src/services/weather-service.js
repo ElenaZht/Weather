@@ -46,7 +46,7 @@ class WeatherService{
         return WeatherService._instance;
     }
     async getWeatherFromAPI(city){
-        const pref = 'http://api.coffee-breaker.themove.fun:3000/weather?q=';
+        const pref = window.location.protocol + '//api.themove.fun/weather?q=';
         // const pref = 'https://api.openweathermap.org/data/2.5/weatherA?q='; //wrong url
         const postf = '&units=metric&appid=';
         const key = 'eb8340c39e25e9a743e2f50e800f1bb3';
