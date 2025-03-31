@@ -99,7 +99,7 @@ import ColorThemeContex from "../../contexts/color-theme-context";
                 {shown && !!lNews.length&&<div className={classes.context}>
                     {makeLNews()}
                 </div>}
-                {!lNews.length && !loading && shown &&<div className={classes.noContext}>Sorry, news for region {region['country']} not supported yet.</div>}
+                {!lNews.length && !loading && shown &&<div className={classes.noContext}>Sorry, no news for region {region['country']} was found.</div>}
             </div>
     );
 };
