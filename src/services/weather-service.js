@@ -47,10 +47,12 @@ class WeatherService{
     }
     async getWeatherFromAPI(city){
         const pref = window.location.protocol + '//api.themove.fun/weather?q=';
-        // const pref = 'https://api.openweathermap.org/data/2.5/weatherA?q='; //wrong url
+        // const pref = 'https://api.openweathermap.org/data/2.5/weather?q=';
         const postf = '&units=metric&appid=';
         const key = 'eb8340c39e25e9a743e2f50e800f1bb3';
-        return axios.get(pref + city.toLowerCase() + postf + key);
+        // return axios.get(pref + city.toLowerCase() + postf + key); < -- proxy
+        return axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + city.toLowerCase() + postf + key); // < -- localhost
+
     }
 
 }
