@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import './modal.css';
-import ColorThemeContext from "../../contexts/color-theme-context.js";
+import { useSelector } from 'react-redux';
 
 const Modal = ({active, setActive, children}) => {
-    const {theme, setTheme} = useContext(ColorThemeContext);
+    const mode = useSelector(state => state.mode.mode)
     let [night, setNight] = useState('content');
     useEffect(
         ()=>{
-            if(theme==='night'){
+            if(mode==='night'){
                 setNight('contentNight')
             }
-        }, [theme]
+        }, [mode]
     );
     return (
         <div data-testid="modal-container" className={active? "modal active" : "modal"} onClick={() => setActive(false)}>

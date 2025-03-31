@@ -3,11 +3,13 @@ import classes from './weather-component.module.css';
 import WeatherService from '../../services/weather-service.js';
 import {pictures, advices} from '../../storages/wether-storage.js';
 import RegionContext from '../../contexts/region-context.js';
-import ColorThemeContext from '../../contexts/color-theme-context.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMode } from '../../redux/modeSlice.js';
 
 const WeatherComponent = () => {
     const {region, setRegion} = useContext(RegionContext);
-    const {theme, setTheme} = useContext(ColorThemeContext);
+    const mode = useSelector(state => state.mode.mode)
+    const dispatch = useDispatch()
 
     let [loading, setLoading] = useState(true);
     const weatherService = WeatherService.getInstance();
@@ -45,15 +47,15 @@ const WeatherComponent = () => {
         }
 
     };
-    let getImg = (region,desc, theme) => {
+    let getImg = (region,desc, mode) => {
         if(desc.match(/clear/i)){
-            if(theme==='night'){
+            if(mode==='night'){
                 setImg(()=> {return pictures["clear sky night"]})
             } else {
                 setImg(()=>{return pictures["clear sky"]})
             }
         } else if(desc.match(/few clouds/i)){
-            if(theme==='night'){
+            if(mode==='night'){
                 setImg(()=>{return pictures["few clouds night"]})
             } else {
                 setImg(()=>{return pictures["few clouds"]})
@@ -85,7 +87,7 @@ const WeatherComponent = () => {
                     setSunset('')
                 }
                 setWind(Number(data.wind.speed.toFixed(1)));
-                getImg(region, data.weather[0].description, theme);
+                getImg(region, data.weather[0].description, mode);
                 getAdvice(data.weather[0].description, Math.round(data.main.temp), data.wind.speed.toFixed(1));
                 setHum(data.main.humidity);
                 if(data.main.temp > 0){
@@ -115,7 +117,10 @@ const WeatherComponent = () => {
                         setErrorText('');
                         if(region.timeZone.length){
                             dayOrNight(res.data.sys.sunrise, res.data.sys.sunset)
-                        } else {setTheme('day')}
+                        } else {
+                            // setTheme('day')
+                            dispatch(setMode('day'))
+                        }
                     } else if(res && res.message) {
                         setLoading(false);
                         setErrorText(res.message);
@@ -128,20 +133,22 @@ const WeatherComponent = () => {
                     subscription.current.unsubscribe();
                 }
             }
-        }, [region, theme]
+        }, [region, mode]
     );
     const dayOrNight = (sunriseCode, sunsetCode) => {
         let rise = Date.parse(new Date(sunriseCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
         let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
         let current = Date.parse(new Date().toLocaleString('en-US', {timeZone: region.timeZone}));
         if(rise < current && current < set){
-            setTheme('day')
+            // setTheme('day')
+            dispatch(setMode('day'))
         } else {
-            setTheme('night')
+            // setTheme('night')
+            dispatch(setMode('night'))
         }
     };
     return (
-        <div className={theme==='night'? classes.wrapperNight : classes.wrapper}>
+        <div className={mode==='night'? classes.wrapperNight : classes.wrapper}>
 
             {loading && <div className={classes.spinner}>
                 <div/>

@@ -6,7 +6,7 @@ import MyButton from "../../share/MyButton";
 import {regionList} from '../../storages/search-storage'
 import SearchTermContext from "../../contexts/search-term-context.js";
 import Card from "../../share/card-component/card";
-import ColorThemeContex from "../../contexts/color-theme-context.js";
+import { useSelector } from 'react-redux';
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {
@@ -27,7 +27,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     const [pageNumber, setPageNumber] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
-    const {theme, setTheme} = useContext(ColorThemeContex);
+    const mode = useSelector(state => state.mode.mode)
 
 
     let openModal = (name) => {
@@ -146,7 +146,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 </div>
             </Modal>
             <div className={classes.leftside}>
-                <div className={theme==='night'? classes.inputSearchNight : classes.inputSearch}>
+                <div className={mode==='night'? classes.inputSearchNight : classes.inputSearch}>
                     <div className={classes.searchIcon}></div>
                     <input placeholder="Search city.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
                     <div className={classes.remIcon} onClick={() => inputHandler('')}></div>
@@ -154,7 +154,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                 <div className={classes.listOfSearch}>
                     {cities.map((val, index) => {
                         return (
-                                        <div className={theme==='night'? classes.listRowNight : classes.listRow} key={index}>
+                                        <div className={mode==='night'? classes.listRowNight : classes.listRow} key={index}>
                                             {(cities.length === index + 1) && <div ref={lastCityElementRef}>{val}</div>}
                                             {(cities.length !== index + 1) && <div>{val}</div>}
                                             <div className={classes.plus} onClick={() => addRegion(val)}><MyButton sizing={{"size":'little'}}></MyButton></div>

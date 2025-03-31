@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
-import ColorThemeContex from "../../contexts/color-theme-context.js";
+import { useSelector } from 'react-redux';
 
 function WorldNews() {
     let [wNews, setWNews] = useState([]);
@@ -10,7 +10,7 @@ function WorldNews() {
     let [regLimit, setRegLimit] = useState(0);
     let [shown, setShown] = useState(true);
     let [loading, setLoading] = useState(true);
-    const {theme, setTheme} = useContext(ColorThemeContex);
+    const mode = useSelector(state => state.mode.mode)
 
 
     useEffect(() => {
@@ -70,8 +70,8 @@ function WorldNews() {
                     <div className={classes.thunder}></div>
                     <div className={classes.wnews}>World news</div>
                 </div>
-               {shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>hide</button>}
-               {!shown &&<button className={theme==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>show</button>}
+               {shown &&<button className={mode==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>hide</button>}
+               {!shown &&<button className={mode==='night'? classes.skipBtnNight: classes.skipBtn} onClick={()=>setShown(!shown)}>show</button>}
             </div>
             {loading && <div className={classes.spinner}>
                 <div/>

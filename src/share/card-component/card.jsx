@@ -4,7 +4,7 @@ import RegionContext from "../../contexts/region-context.js";
 import WeatherService from '../../services/weather-service.js';
 import {logos} from "../../storages/wether-storage.js";
 import SearchContext from "../../contexts/search-context.js";
-import ColorThemeContex from "../../contexts/color-theme-context.js";
+import { useSelector } from 'react-redux';
 
 const Card = ({city, openModalMethod, status}) => {
     const {region, setRegion} = useContext(RegionContext);
@@ -16,8 +16,7 @@ const Card = ({city, openModalMethod, status}) => {
     let [img, setImg] = useState('');
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
     let [errorText, setErrorText] = useState('');
-    const {theme, setTheme} = useContext(ColorThemeContex);
-
+    const mode = useSelector(state => state.mode.mode)
 
 
     useEffect(
@@ -92,15 +91,15 @@ const Card = ({city, openModalMethod, status}) => {
     };
 
     return (
-            <div className={theme ==='night'? 'cardNight' : 'card'} onClick={() => setCity(city)}>
+            <div className={mode ==='night'? 'cardNight' : 'card'} onClick={() => setCity(city)}>
                 {status>0 &&<button className={classes.delete} onClick={(e) => {openModal(e)}}>x</button>}
                 <div className={classes.name}>{city}</div>
                 {/*{!temperature &&<div className={classes.error}>{errorText}</div>}*/}
                 {!temperature &&<div className={classes.error}>weather not provided</div>}
                 <div className={classes.info}>
-                    {temperature &&<div className={theme=='night'? classes.iconNight : classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}
-                    {temperature &&<div className={theme==='night'? classes.degreeNight : classes.degree}>{relToZero}{temperature}°</div>}
-                    {!temperature &&<div className={theme=='night'? classes.iconNight : classes.icon}></div>}
+                    {temperature &&<div className={mode=='night'? classes.iconNight : classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}
+                    {temperature &&<div className={mode==='night'? classes.degreeNight : classes.degree}>{relToZero}{temperature}°</div>}
+                    {!temperature &&<div className={mode=='night'? classes.iconNight : classes.icon}></div>}
                 </div>
 
             </div>

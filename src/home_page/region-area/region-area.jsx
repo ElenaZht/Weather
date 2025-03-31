@@ -3,14 +3,14 @@ import classes from './region-area.module.css'
 import MyButton from '../../share/MyButton';
 import WeatherComponent from '../weather-component/weather-component';
 import RegionContext from '../../contexts/region-context.js';
-import ColorThemeContex from '../../contexts/color-theme-context.js';
 import WorldNews from "../news/world-news";
 import LocalNews from "../news/local-news";
+import { useSelector } from 'react-redux';
 
 const RegionArea = () => {
 
     const{region, setRegion} = useContext(RegionContext);
-    const {theme, setTheme} = useContext(ColorThemeContex);
+    const mode = useSelector(state => state.mode.mode)
 
     let [date, setDate] = useState('');
     let getCurDate = () => {
@@ -49,7 +49,7 @@ const RegionArea = () => {
             <div className={classes.wrap}>
                 {region.regionName? (
                     <div className={classes.region}>
-                        <div className={theme==='night'? classes.regionInfoNight : classes.regionInfo}>
+                        <div className={mode==='night'? classes.regionInfoNight : classes.regionInfo}>
                             <span className={classes.regionName}>{region.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>

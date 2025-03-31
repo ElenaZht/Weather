@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './header.css';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
 import SavedRegions from '../../share/saved-regions/saved-regions';
 import RegionService from "../../services/region-service.js";
@@ -8,7 +8,7 @@ import SearchContext from "../../contexts/search-context.js";
 import SearchTermContext from '../../contexts/search-term-context.js';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ColorThemeContext from '../../contexts/color-theme-context.js';
+import { useSelector } from 'react-redux';
 
 const Header = ({userChangedCallback, deleteMethod}) => {
 
@@ -16,7 +16,8 @@ const Header = ({userChangedCallback, deleteMethod}) => {
     const savedRegions = regionService.getMyRegions();
     const {searchOpen, setSearchOpen} = useContext(SearchContext);
     const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
-    const {theme, setTheme} = useContext(ColorThemeContext);
+    const mode = useSelector((state) => state.mode.mode);
+    
 
     let [user, setUser] = useState(localStorage.user? JSON.parse(localStorage.user) : {});
 
@@ -104,7 +105,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
             <div  data-testid="user-profile-modal">
                 <Modal active={modalActive} setActive={setModalActive} >
                     <div className="dialog">
-                        <div className={theme==='night'? "rotating-borderNight" : "rotating-border"}>
+                        <div className={mode==='night'? "rotating-borderNight" : "rotating-border"}>
                             <div data-testid = "user-photo" className="user-photo" style={{ backgroundImage: `url(${accountPhoto})` }}></div>
                         </div>
                         <div data-testid="user-name" className="user-name">{accountFullName}</div>
@@ -125,7 +126,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
 
             </Modal>
             <div className="logo" onClick={() => back()}></div>
-            <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
+            {/* <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
                 <GoogleLogin
                     clientId="58638988614-gk3vv82r0ouh1tfns4cj0bjr1m15bqi6.apps.googleusercontent.com"
                     buttonText="Log In"
@@ -133,14 +134,14 @@ const Header = ({userChangedCallback, deleteMethod}) => {
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                 />
-            </div>
+            </div> */}
             <div className="nav">
                 <div data-testid="burger-button" className={isOpen? "collapse" : "burger" } onClick={() => setIsOpen(true)}></div>
             </div>
 
             <ul data-testid="menu-list" className={isOpen? "navbar-collapse" : "skipping"} >
-                <li data-testid="user-button" className={isLogged? "" : "collapse"}  onClick={openModal}><div className={isLogged? "account" : "collapse"} style={{background: theme==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>Account</li>
-                <div className={isLogged? "collapse" : "google-btn" && isOpen? "google-btn" : "collapse"}>
+                <li data-testid="user-button" className={isLogged? "" : "collapse"}  onClick={openModal}><div className={isLogged? "account" : "collapse"} style={{background: mode==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>Account</li>
+                {/* <div className={isLogged? "collapse" : "google-btn" && isOpen? "google-btn" : "collapse"}>
                     <GoogleLogin
                         clientId="58638988614-gk3vv82r0ouh1tfns4cj0bjr1m15bqi6.apps.googleusercontent.com"
                         buttonText="Log In"
@@ -148,13 +149,13 @@ const Header = ({userChangedCallback, deleteMethod}) => {
                         onFailure={responseGoogle}
                         cookiePolicy={'single_host_origin'}
                     />
-                </div>
+                </div> */}
                 <li onClick={() => goSearch()}>Search</li>
                 <li onClick={openRegions}>Saved</li>
                 <li><div className="nav-close"  onClick={() => setIsOpen(false)}></div></li>
             </ul>
-            <div className={isLogged? "account" : "collapse"} onClick={openModal} style={{background: theme==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>
-            <div className={theme==='night'? 'search-night':'search'}>
+            <div className={isLogged? "account" : "collapse"} onClick={openModal} style={{background: mode==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>
+            <div className={mode==='night'? 'search-night':'search'}>
                 <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
                 <input placeholder="Search city.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
                 <div className="rem-icon" onClick={() => {setTerm(''); setSearchTerm('')}}></div>

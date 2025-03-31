@@ -10,7 +10,8 @@ import SearchComponent from '../../search_page/search-component/search-component
 import SearchTermContext from '../../contexts/search-term-context.js';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ColorThemeContext from '../../contexts/color-theme-context.js';
+import { useSelector } from "react-redux"; 
+
 
 function App() {
     const regionService =  RegionService.getInstance();
@@ -19,7 +20,8 @@ function App() {
     const [region, setRegion] = useState( defaultRegion);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [theme, setTheme] = useState('day');
+
+    const mode = useSelector((state) => state.mode.mode);
 
 
     let deleteRegion = (city) => {
@@ -46,7 +48,7 @@ function App() {
     };
 
     return (
-        <div className={`${theme==='night' ? "App-night" : "App"}`}>
+        <div className={`${mode==='night' ? "App-night" : "App"}`}>
             <ToastContainer
                 draggable={false}
                 transition={Zoom}
@@ -60,7 +62,6 @@ function App() {
                 theme={"colored"}
 
             />
-            <ColorThemeContext.Provider value={{theme, setTheme}}>
                 <SearchContext.Provider value={{searchOpen, setSearchOpen}}>
                     <RegionContext.Provider value={{region, setRegion}}>
                         <div className="container">
@@ -83,7 +84,6 @@ function App() {
                         </div>
                     </RegionContext.Provider>
                 </SearchContext.Provider>
-            </ColorThemeContext.Provider>
 
         </div>
     );
