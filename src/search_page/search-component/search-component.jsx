@@ -4,9 +4,9 @@ import Modal from "../../home_page/header-component/modal";
 import RegionService from "../../services/region-service";
 import MyButton from "../../share/MyButton";
 import {regionList} from '../../storages/search-storage'
-import SearchTermContext from "../../contexts/search-term-context";
+import SearchTermContext from "../../contexts/search-term-context.js";
 import Card from "../../share/card-component/card";
-import ColorThemeContex from "../../contexts/color-theme-context";
+import ColorThemeContex from "../../contexts/color-theme-context.js";
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {

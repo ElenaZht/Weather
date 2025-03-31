@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './share/app-component/App.js';
+import { createRoot } from 'react-dom/client'
+import App from './share/app-component/App'
+// import { GoogleOAuthProvider } from '@react-oauth/google';
 
-ReactDOM.render(
-    <App/>,
-  document.getElementById('root')
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+    <App />
 );
-

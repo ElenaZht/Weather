@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import RegionArea from './region-area.js';
+import RegionArea from './region-area';
 
 describe("Region area component", () => {
     it("renders", () => {

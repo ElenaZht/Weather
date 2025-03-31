@@ -3,7 +3,7 @@ import classes from './saved-regions.module.css';
 import MyButton from '../MyButton';
 import Modal from "../../home_page/header-component/modal";
 import RegionService from '../../services/region-service';
-import SearchContext from '../../contexts/search-context';
+import SearchContext from '../../contexts/search-context.js';
 import Card from '../card-component/card';
 
 

@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
-import ColorThemeContex from "../../contexts/color-theme-context";
+import ColorThemeContex from "../../contexts/color-theme-context.js";
 
 function WorldNews() {
     let [wNews, setWNews] = useState([]);

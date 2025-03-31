@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from "./card.module.css";
-import RegionContext from "../../contexts/region-context";
+import RegionContext from "../../contexts/region-context.js";
 import WeatherService from '../../services/weather-service.js';
-import {logos} from "../../storages/wether-storage";
-import SearchContext from "../../contexts/search-context";
-import ColorThemeContex from "../../contexts/color-theme-context";
+import {logos} from "../../storages/wether-storage.js";
+import SearchContext from "../../contexts/search-context.js";
+import ColorThemeContex from "../../contexts/color-theme-context.js";
 
 const Card = ({city, openModalMethod, status}) => {
     const {region, setRegion} = useContext(RegionContext);

@@ -1,8 +1,8 @@
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import RegionContext from "../../contexts/region-context";
-import ColorThemeContex from "../../contexts/color-theme-context";
+import RegionContext from "../../contexts/region-context.js";
+import ColorThemeContex from "../../contexts/color-theme-context.js";
 
 
  const LocalNews = () => {

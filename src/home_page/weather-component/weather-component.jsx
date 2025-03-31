@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from './weather-component.module.css';
 import WeatherService from '../../services/weather-service.js';
 import {pictures, advices} from '../../storages/wether-storage.js';
-import RegionContext from '../../contexts/region-context';
+import RegionContext from '../../contexts/region-context.js';
 import ColorThemeContext from '../../contexts/color-theme-context.js';
 
 const WeatherComponent = () => {

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './modal.css';
-import ColorThemeContext from "../../contexts/color-theme-context";
+import ColorThemeContext from "../../contexts/color-theme-context.js";
 
 const Modal = ({active, setActive, children}) => {
     const {theme, setTheme} = useContext(ColorThemeContext);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import WeatherComponent from './weather-component.js';
+import WeatherComponent from './weather-component';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import {waitFor} from "@testing-library/dom";

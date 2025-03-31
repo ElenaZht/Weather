@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import SavedRegions from './saved-regions.js';
+import SavedRegions from './saved-regions';
 
 global.window = window || {};
 

@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import classes from './region-area.module.css'
 import MyButton from '../../share/MyButton';
-import WeatherComponent from '../weather-component/weather-component.js';
-import RegionContext from '../../contexts/region-context';
+import WeatherComponent from '../weather-component/weather-component';
+import RegionContext from '../../contexts/region-context.js';
 import ColorThemeContex from '../../contexts/color-theme-context.js';
 import WorldNews from "../news/world-news";
 import LocalNews from "../news/local-news";
