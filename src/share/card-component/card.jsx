@@ -3,8 +3,8 @@ import classes from "./card.module.css";
 import RegionContext from "../../contexts/region-context.js";
 import WeatherService from '../../services/weather-service.js';
 import {logos} from "../../storages/wether-storage.js";
-import SearchContext from "../../contexts/search-context.js";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
 
 const Card = ({city, openModalMethod, status}) => {
     const {region, setRegion} = useContext(RegionContext);
@@ -14,9 +14,9 @@ const Card = ({city, openModalMethod, status}) => {
     let [temperature, setTemperature] = useState('');
     let [description, setDescription] = useState('');
     let [img, setImg] = useState('');
-    const {searchOpen, setSearchOpen} = useContext(SearchContext);
     let [errorText, setErrorText] = useState('');
     const mode = useSelector(state => state.mode.mode)
+    const dispatch = useDispatch()
 
 
     useEffect(
@@ -57,7 +57,7 @@ const Card = ({city, openModalMethod, status}) => {
     }
     let setCity = (city) => {
         setRegion({regionName : city, timeZone: timeZone, country: country});
-        setSearchOpen(false);
+        dispatch(setSearchIsOpen(false))
     };
 
     let getImg = (desc) => {

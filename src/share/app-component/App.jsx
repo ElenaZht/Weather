@@ -5,9 +5,7 @@ import RegionArea from '../../home_page/region-area/region-area';
 import RegionService from '../../services/region-service.js';
 import SavedRegions from '../saved-regions/saved-regions';
 import RegionContext from '../../contexts/region-context.js';
-import SearchContext from '../../contexts/search-context.js';
 import SearchComponent from '../../search_page/search-component/search-component';
-import SearchTermContext from '../../contexts/search-term-context.js';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux"; 
@@ -19,9 +17,9 @@ function App() {
     const [savedRegions, setSavedRegions] = useState(regionService.getMyRegions());
     const [region, setRegion] = useState( defaultRegion);
     const [searchOpen, setSearchOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
 
-    const mode = useSelector((state) => state.mode.mode);
+    const mode = useSelector(state => state.mode.mode);
+    const isSearchOpen = useSelector(state => state.search.isSearchOpen)
 
 
     let deleteRegion = (city) => {
@@ -29,6 +27,8 @@ function App() {
         setSavedRegions(afterDelete);
         toast.success(`${city} is deleted from your regions.`);
     };
+
+
     let addRegion = (city) => {
         if(localStorage.user){
             let afterAdd = regionService.addRegion(city);
@@ -43,6 +43,8 @@ function App() {
             toast.warn('For adding new regions please log in!  ')
         }
     };
+
+
     let getMyRegions = () => {
         setSavedRegions(regionService.getMyRegions())
     };
@@ -62,12 +64,10 @@ function App() {
                 theme={"colored"}
 
             />
-                <SearchContext.Provider value={{searchOpen, setSearchOpen}}>
                     <RegionContext.Provider value={{region, setRegion}}>
                         <div className="container">
-                            <SearchTermContext.Provider value={{searchTerm, setSearchTerm}}>
                                 <Header userChangedCallback={getMyRegions} deleteMethod={deleteRegion}/>
-                                {searchOpen? (
+                                {isSearchOpen? (
                                     <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
                                 ):(
                                     <RegionContext.Provider value={{region, setRegion}}>
@@ -78,12 +78,10 @@ function App() {
                                         <p className="signature">Elena Zhytomirskaya, 2022</p>
                                     </RegionContext.Provider>
                                 )}
-                            </SearchTermContext.Provider>
 
 
                         </div>
                     </RegionContext.Provider>
-                </SearchContext.Provider>
 
         </div>
     );

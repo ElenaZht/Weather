@@ -4,9 +4,9 @@ import Modal from "../../home_page/header-component/modal";
 import RegionService from "../../services/region-service";
 import MyButton from "../../share/MyButton";
 import {regionList} from '../../storages/search-storage'
-import SearchTermContext from "../../contexts/search-term-context.js";
 import Card from "../../share/card-component/card";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchTherm } from './searchSlice.js';
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {
@@ -26,8 +26,9 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     let [cities, setCities] = useState(regionList.slice(0, pageSize));
     const [pageNumber, setPageNumber] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
     const mode = useSelector(state => state.mode.mode)
+    const dispatch = useDispatch()
+    const searchTherm = useSelector(state => state.search.searchTherm)
 
 
     let openModal = (name) => {
@@ -100,7 +101,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 setPageNumber(prevPageNumber => prevPageNumber + 1);
-                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
+                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTherm.toLowerCase()));
                 const endIdx = pageNumber*pageSize + pageSize;
                 if(endIdx > (resCities.length - 1)) {
                     setHasMore(false)
@@ -112,17 +113,18 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             }
         });
         if (city) observer.current.observe(city)
-    }, [pageNumber, searchTerm]);
+    }, [pageNumber, searchTherm]);
 
     const inputHandler = useCallback((value) => {
-        setSearchTerm(value);
+        // setSearchTerm(value);
+        dispatch(setSearchTherm(value))
 
     }, []);
 
     useEffect(
         () => {
-            if(searchTerm.length){
-                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTerm.toLowerCase()));
+            if(searchTherm.length){
+                let resCities = regionList.filter(c => c.toLowerCase().startsWith(searchTherm.toLowerCase()));
                 setCities(resCities.slice(0, pageSize));
                 setPageNumber(0);
                 setHasMore(true);
@@ -131,7 +133,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             }
 
         },
-        [searchTerm]
+        [searchTherm]
     );
 
     return (
@@ -148,7 +150,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             <div className={classes.leftside}>
                 <div className={mode==='night'? classes.inputSearchNight : classes.inputSearch}>
                     <div className={classes.searchIcon}></div>
-                    <input placeholder="Search city.." onChange={event => inputHandler(event.target.value)} value={searchTerm}/>
+                    <input placeholder="Search city.." onChange={event => inputHandler(event.target.value)} value={searchTherm}/>
                     <div className={classes.remIcon} onClick={() => inputHandler('')}></div>
                 </div>
                 <div className={classes.listOfSearch}>

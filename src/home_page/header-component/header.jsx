@@ -4,31 +4,34 @@ import './header.css';
 import Modal from "./modal";
 import SavedRegions from '../../share/saved-regions/saved-regions';
 import RegionService from "../../services/region-service.js";
-import SearchContext from "../../contexts/search-context.js";
-import SearchTermContext from '../../contexts/search-term-context.js';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchIsOpen, setSearchTherm } from '../../search_page/search-component/searchSlice.js';
 
 const Header = ({userChangedCallback, deleteMethod}) => {
 
     const regionService =  RegionService.getInstance();
     const savedRegions = regionService.getMyRegions();
-    const {searchOpen, setSearchOpen} = useContext(SearchContext);
-    const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
-    const mode = useSelector((state) => state.mode.mode);
+    const mode = useSelector(state => state.mode.mode);
+    const dispatch = useDispatch()
+    const searchTherm = useSelector(state => state.search.searchTherm)
     
 
     let [user, setUser] = useState(localStorage.user? JSON.parse(localStorage.user) : {});
 
     let [isOpen, setIsOpen] = useState(false);
     let [isLogged, setIsLogged] = useState(false);
+    // let [isLogged, setIsLogged] = useState(true); // for test
+
+
     let [term, setTerm] = useState('');
 
     let [accountName, setAccountName] = useState(localStorage.user && user.givenName? user.givenName[0].toUpperCase()+user.familyName[0].toUpperCase() : "");
     let [accountFullName, setAccountFullName] = useState(localStorage.user && user.name? user.name : "");
     let [accountEmail, setAccountEmail] = useState(localStorage.user && user.email? user.email : "");
     let [accountPhoto, setAccountPhoto] = useState(localStorage.user && user.imageUrl? user.imageUrl : "");
+
     let responseGoogle=(response)=>{
         if(response.profileObj){
             localStorage.setItem('user', JSON.stringify(response.profileObj));
@@ -41,6 +44,7 @@ const Header = ({userChangedCallback, deleteMethod}) => {
 
         }
     };
+
     useEffect(
         () => {
             if(localStorage.user){
@@ -85,15 +89,15 @@ const Header = ({userChangedCallback, deleteMethod}) => {
         setIsOpen(true);
     };
     let back = () => {
-        setSearchOpen(false)
+        dispatch(setSearchIsOpen(false))
     };
     let goSearch = () => {
         setIsOpen(false);
-        setSearchOpen(true)
+        dispatch(setSearchIsOpen(true))
     };
     let goDefiniteSearch = (text) => {
         if(text.length){
-        setSearchOpen(true);
+        dispatch(setSearchIsOpen(true))
         setTerm('');
         }
 
@@ -156,9 +160,9 @@ const Header = ({userChangedCallback, deleteMethod}) => {
             </ul>
             <div className={isLogged? "account" : "collapse"} onClick={openModal} style={{background: mode==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>
             <div className={mode==='night'? 'search-night':'search'}>
-                <div className="search-icon" onClick={() => goDefiniteSearch(searchTerm)}></div>
-                <input placeholder="Search city.." onChange={(event) => {setSearchTerm(event.target.value);setTerm(event.target.value)}} value={term}/>
-                <div className="rem-icon" onClick={() => {setTerm(''); setSearchTerm('')}}></div>
+                <div className="search-icon" onClick={() => goDefiniteSearch(searchTherm)}></div>
+                <input placeholder="Search city.." onChange={(event) => {dispatch(setSearchTherm(event.target.value));setTerm(event.target.value)}} value={term}/>
+                <div className="rem-icon" onClick={() => {setTerm(''); dispatch(setSearchTherm(''))}}></div>
             </div>
         </div>
     );

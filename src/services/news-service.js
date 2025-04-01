@@ -53,7 +53,8 @@ class NewsService{
         // https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=
         const key = '80b4557be1dd40f8b91006bf5fccdf89';
         // return await axios.get(window.location.protocol + '//api.themove.fun/news/top-headlines?sources=bbc-news&apiKey=' + key) < --- proxy
-        return await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key) // < --- localhost
+        // return await axios.get('https://newsapi.org//v2/top-headlines?sources=bbc-news&apiKey=' + key) // < --- localhost
+        return {}// for test
 
     };
     getLNews = async (country) => {
@@ -61,7 +62,8 @@ class NewsService{
             const pref = window.location.protocol + '//api.themove.fun/news/top-headlines?country=';
             if(country.length){
                 // return await axios.get(pref + country.toLowerCase() + '&apiKey=' + key) < --- proxy
-                return await axios.get('https://newsapi.org//v2/top-headlines?country=' + country.toLowerCase() + '&apiKey=' + key) // < --- localhost
+                // return await axios.get('https://newsapi.org//v2/top-headlines?country=' + country.toLowerCase() + '&apiKey=' + key) // < --- localhost
+                return {}
             } else return {}
 
 

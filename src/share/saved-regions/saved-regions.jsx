@@ -3,15 +3,16 @@ import classes from './saved-regions.module.css';
 import MyButton from '../MyButton';
 import Modal from "../../home_page/header-component/modal";
 import RegionService from '../../services/region-service';
-import SearchContext from '../../contexts/search-context.js';
 import Card from '../card-component/card';
+import { useDispatch } from 'react-redux';
+import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
 
 
 const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     const regionService =  RegionService.getInstance();
     const defaultRegion = regionService.defaultRegion;
 
-    let {searchOpen, setSearchOpen} = useContext(SearchContext);
+    const dispatch = useDispatch()
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
@@ -58,12 +59,12 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     };
     let openModal = (name) => {
         setModalActive(true);
-        setIsOpen(false);
+        setSearchIsOpen(false);
         setCurRegion(name);
     };
     let closeModal = () => {
         setModalActive(false);
-        setIsOpen(true);
+        setSearchIsOpen(true);
     };
     let deleteRegion = (current) => {
         deleteMethod(current);
@@ -71,11 +72,11 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     };
 
     let openSearch = () => {
-        setSearchOpen(true);
+        dispatch(setSearchIsOpen(true))
     };
     let openSearchMobile = () => {
         closeDialog(); // not a func error
-        setSearchOpen(true);
+        dispatch(setSearchIsOpen(true))
     };
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
