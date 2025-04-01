@@ -1,12 +1,12 @@
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import RegionContext from "../../contexts/region-context.js";
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+// import RegionContext from "../../contexts/region-context.js";
 import { useSelector } from 'react-redux';
 
 
  const LocalNews = () => {
-     const{region, setRegion} = useContext(RegionContext);
+    //  const{region, setRegion} = useContext(RegionContext);
      let [lNews, setLNews] = useState([]);
      let subscription = useRef(null);
      const newsService = NewsService.getInstance();
@@ -14,10 +14,11 @@ import { useSelector } from 'react-redux';
      let [shown, setShown] = useState(true);
      let [loading, setLoading] = useState(true);
      const mode = useSelector(state => state.mode.mode)
+     const currentRegion = useSelector(state => state.region.currentRegion)
 
      useEffect(()=>{
-         newsService.setCountry(region['country']);
-     }, [region]);
+         newsService.setCountry(currentRegion['country']);
+     }, [currentRegion]);
 
      useEffect(() => {
             if(window.matchMedia("(max-width: 1024px)").matches){
@@ -44,7 +45,7 @@ import { useSelector } from 'react-redux';
 
                     }, 30000
                 );
-                subscription.current = newsService.getSubscriber2(region).subscribe(
+                subscription.current = newsService.getSubscriber2(currentRegion).subscribe(
                     (res) => {
                         if(res){
                             if (res && res.data) {
@@ -99,7 +100,7 @@ import { useSelector } from 'react-redux';
                 {shown && !!lNews.length&&<div className={classes.context}>
                     {makeLNews()}
                 </div>}
-                {!lNews.length && !loading && shown &&<div className={classes.noContext}>Sorry, no news for region {region['country']} was found.</div>}
+                {!lNews.length && !loading && shown &&<div className={classes.noContext}>Sorry, no news for region {currentRegion['country']} was found.</div>}
             </div>
     );
 };

@@ -4,7 +4,7 @@ import Header from '../../home_page/header-component/header';
 import RegionArea from '../../home_page/region-area/region-area';
 import RegionService from '../../services/region-service.js';
 import SavedRegions from '../saved-regions/saved-regions';
-import RegionContext from '../../contexts/region-context.js';
+// import RegionContext from '../../contexts/region-context.js';
 import SearchComponent from '../../search_page/search-component/search-component';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,10 +13,10 @@ import { useSelector } from "react-redux";
 
 function App() {
     const regionService =  RegionService.getInstance();
-    const defaultRegion = regionService.defaultRegion;
+    // const defaultRegion = regionService.defaultRegion;
     const [savedRegions, setSavedRegions] = useState(regionService.getMyRegions());
-    const [region, setRegion] = useState( defaultRegion);
-    const [searchOpen, setSearchOpen] = useState(false);
+    // const [region, setRegion] = useState( defaultRegion);
+
 
     const mode = useSelector(state => state.mode.mode);
     const isSearchOpen = useSelector(state => state.search.isSearchOpen)
@@ -64,24 +64,24 @@ function App() {
                 theme={"colored"}
 
             />
-                    <RegionContext.Provider value={{region, setRegion}}>
                         <div className="container">
                                 <Header userChangedCallback={getMyRegions} deleteMethod={deleteRegion}/>
                                 {isSearchOpen? (
                                     <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteRegion} addMethod={addRegion}/>
                                 ):(
-                                    <RegionContext.Provider value={{region, setRegion}}>
+                                    <>
                                         <RegionArea/>
                                         <div className="wrapper">
-                                            <SavedRegions key={savedRegions.length+10} regions={savedRegions} deleteMethod={deleteRegion}/>
-                                        </div>
-                                        <p className="signature">Elena Zhytomirskaya, 2022</p>
-                                    </RegionContext.Provider>
+                                                <SavedRegions key={savedRegions.length+10} regions={savedRegions} deleteMethod={deleteRegion}/>
+                                            </div>
+                                            <p className="signature">Elena Zhytomirskaya, 2025</p>
+                                        </>
+                                        
+
                                 )}
 
 
                         </div>
-                    </RegionContext.Provider>
 
         </div>
     );

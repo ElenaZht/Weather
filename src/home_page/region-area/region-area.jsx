@@ -2,26 +2,27 @@ import React, {useContext, useEffect, useState} from 'react';
 import classes from './region-area.module.css'
 import MyButton from '../../share/MyButton';
 import WeatherComponent from '../weather-component/weather-component';
-import RegionContext from '../../contexts/region-context.js';
+// import RegionContext from '../../contexts/region-context.js';
 import WorldNews from "../news/world-news";
 import LocalNews from "../news/local-news";
 import { useSelector } from 'react-redux';
 
 const RegionArea = () => {
 
-    const{region, setRegion} = useContext(RegionContext);
+    // const{region, setRegion} = useContext(RegionContext);
     const mode = useSelector(state => state.mode.mode)
+    const currentRegion = useSelector(state => state.region.currentRegion)
 
     let [date, setDate] = useState('');
     let getCurDate = () => {
-            let dateString = new Date().toLocaleString('en-US', {timeZone: region.timeZone});
+            let dateString = new Date().toLocaleString('en-US', {timeZone: currentRegion.timeZone});
             let dateObj = new Date(dateString);
             return dateObj.getHours() + ":" + (dateObj.getMinutes()<10?'0':'')
                 + dateObj.getMinutes() + "  "+ dateObj.getDate() + " "
                 + dateObj.toDateString().split(" ")[1] + " " + dateObj.getFullYear()
     };
     let checkRegionsDate = () => {
-        if(region.timeZone.length){
+        if(currentRegion.timeZone.length){
             let curDate = getCurDate();
             setDate(curDate)
         } else {
@@ -43,14 +44,14 @@ const RegionArea = () => {
         return () => {
             clearInterval(myInterval)
         }
-    }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
+    }, [currentRegion]);// eslint-disable-line react-hooks/exhaustive-deps
     return (
         <div className={classes.regionContainer}>
             <div className={classes.wrap}>
-                {region.regionName? (
+                {currentRegion.regionName? (
                     <div className={classes.region}>
                         <div className={mode==='night'? classes.regionInfoNight : classes.regionInfo}>
-                            <span className={classes.regionName}>{region.regionName}</span>
+                            <span className={classes.regionName}>{currentRegion.regionName}</span>
                             <span className={classes.regionTimeDate}>{date}</span>
                         </div>
                         <div className={classes.innerWrapper}>

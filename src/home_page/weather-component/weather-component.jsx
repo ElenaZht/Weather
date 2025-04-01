@@ -2,14 +2,15 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from './weather-component.module.css';
 import WeatherService from '../../services/weather-service.js';
 import {pictures, advices} from '../../storages/wether-storage.js';
-import RegionContext from '../../contexts/region-context.js';
+// import RegionContext from '../../contexts/region-context.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMode } from '../../redux/modeSlice.js';
 
 const WeatherComponent = () => {
-    const {region, setRegion} = useContext(RegionContext);
+    // const {region, setRegion} = useContext(RegionContext);
     const mode = useSelector(state => state.mode.mode)
     const dispatch = useDispatch()
+    const currentRegion = useSelector(state => state.region.currentRegion)
 
     let [loading, setLoading] = useState(true);
     const weatherService = WeatherService.getInstance();
@@ -47,7 +48,7 @@ const WeatherComponent = () => {
         }
 
     };
-    let getImg = (region,desc, mode) => {
+    let getImg = (currentRegion,desc, mode) => {
         if(desc.match(/clear/i)){
             if(mode==='night'){
                 setImg(()=> {return pictures["clear sky night"]})
@@ -79,15 +80,15 @@ const WeatherComponent = () => {
             if(data.main){
                 setTemperature(Math.round(data.main.temp));
                 setDescription(data.weather[0].description);
-                if(region.timeZone.length){
-                    setSunrise(new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {timeZone: region.timeZone, hour: '2-digit', minute:'2-digit'}));
-                    setSunset(new Date(data.sys.sunset * 1000).toLocaleTimeString([], {timeZone: region.timeZone, hour: '2-digit', minute:'2-digit'}));
+                if(currentRegion.timeZone.length){
+                    setSunrise(new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {timeZone: currentRegion.timeZone, hour: '2-digit', minute:'2-digit'}));
+                    setSunset(new Date(data.sys.sunset * 1000).toLocaleTimeString([], {timeZone: currentRegion.timeZone, hour: '2-digit', minute:'2-digit'}));
                 } else {
                     setSunrise('');
                     setSunset('')
                 }
                 setWind(Number(data.wind.speed.toFixed(1)));
-                getImg(region, data.weather[0].description, mode);
+                getImg(currentRegion, data.weather[0].description, mode);
                 getAdvice(data.weather[0].description, Math.round(data.main.temp), data.wind.speed.toFixed(1));
                 setHum(data.main.humidity);
                 if(data.main.temp > 0){
@@ -101,21 +102,21 @@ const WeatherComponent = () => {
     useEffect(() => {
         setLoading(true);
         if (subscription.current){
-            weatherService.setCity(region.regionName)
+            weatherService.setCity(currentRegion.regionName)
         }
 
-    }, [region]);// eslint-disable-line react-hooks/exhaustive-deps
+    }, [currentRegion]);// eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(
         () => {
-            subscription.current = weatherService.getSubscriber(region.regionName).subscribe(
+            subscription.current = weatherService.getSubscriber(currentRegion.regionName).subscribe(
                 (res) => {
                     if (res && res.data) {
                         setLoading(false);
                         setWeather(res.data);
                         parseWeather(res.data);
                         setErrorText('');
-                        if(region.timeZone.length){
+                        if(currentRegion.timeZone.length){
                             dayOrNight(res.data.sys.sunrise, res.data.sys.sunset)
                         } else {
                             // setTheme('day')
@@ -133,12 +134,12 @@ const WeatherComponent = () => {
                     subscription.current.unsubscribe();
                 }
             }
-        }, [region, mode]
+        }, [currentRegion, mode]
     );
     const dayOrNight = (sunriseCode, sunsetCode) => {
-        let rise = Date.parse(new Date(sunriseCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
-        let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: region.timeZone}));
-        let current = Date.parse(new Date().toLocaleString('en-US', {timeZone: region.timeZone}));
+        let rise = Date.parse(new Date(sunriseCode * 1000).toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
+        let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
+        let current = Date.parse(new Date().toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
         if(rise < current && current < set){
             // setTheme('day')
             dispatch(setMode('day'))
