@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from "./card.module.css";
-// import RegionContext from "../../contexts/region-context.js";
 import WeatherService from '../../services/weather-service.js';
 import {logos} from "../../storages/wether-storage.js";
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +7,6 @@ import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.
 import { setCurrentRegion } from '../../home_page/region-area/regionSlice.js';
 
 const Card = ({city, openModalMethod, status}) => {
-    // const {region, setRegion} = useContext(RegionContext);
     let subscription = useRef(null);
 
     let [relToZero, setRelToZero] = useState("");
@@ -58,7 +56,6 @@ const Card = ({city, openModalMethod, status}) => {
         country = cityTimezones.lookupViaCity(city)[0].iso2;
     }
     let setCity = (city) => {
-        // setRegion({regionName : city, timeZone: timeZone, country: country});
         dispatch(setCurrentRegion({regionName : city, timeZone: timeZone, country: country}))
         dispatch(setSearchIsOpen(false))
     };

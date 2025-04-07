@@ -2,16 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import classes from './region-area.module.css'
 import MyButton from '../../share/MyButton';
 import WeatherComponent from '../weather-component/weather-component';
-// import RegionContext from '../../contexts/region-context.js';
 import WorldNews from "../news/world-news";
 import LocalNews from "../news/local-news";
 import { useSelector } from 'react-redux';
 
 const RegionArea = () => {
 
-    // const{region, setRegion} = useContext(RegionContext);
     const mode = useSelector(state => state.mode.mode)
-    const currentRegion = useSelector(state => state.region.currentRegion)
+    const currentRegion = useSelector(state => state.region.currentRegion) || { regionName: '', timeZone: '' }
 
     let [date, setDate] = useState('');
     let getCurDate = () => {

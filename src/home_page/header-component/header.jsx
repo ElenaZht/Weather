@@ -3,21 +3,19 @@ import './header.css';
 // import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
 import SavedRegions from '../../share/saved-regions/saved-regions';
-import RegionService from "../../services/region-service.js";
+// import RegionService from "../../services/region-service.js";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchIsOpen, setSearchTherm } from '../../search_page/search-component/searchSlice.js';
+import { defaultRegion } from '../region-area/regionSlice.js'
 
 const Header = ({userChangedCallback, deleteMethod}) => {
-
-    const regionService =  RegionService.getInstance();
-    const savedRegions = regionService.getMyRegions();
+    
     const mode = useSelector(state => state.mode.mode);
     const dispatch = useDispatch()
     const searchTherm = useSelector(state => state.search.searchTherm)
-    
-
+    const savedRegions = useSelector(state => state.region.myRegions);
     let [user, setUser] = useState(localStorage.user? JSON.parse(localStorage.user) : {});
 
     let [isOpen, setIsOpen] = useState(false);
@@ -47,18 +45,20 @@ const Header = ({userChangedCallback, deleteMethod}) => {
 
     useEffect(
         () => {
+            
             if(localStorage.user){
                 toast.info(`You entered as ${JSON.parse( localStorage.user).name}`);
 
             }
         }, []
+        
     );
     if(localStorage.user){
         isLogged = true;
     }
     useEffect(() => {
             if(!localStorage.user){
-                toast.info(`Your region is recognized as ${regionService.defaultRegion.regionName}. For choose other regions Log In, please.`)
+                toast.info(`Your region is recognized as ${defaultRegion.regionName}. For choose other regions Log In, please.`)
 
             }
     }, []

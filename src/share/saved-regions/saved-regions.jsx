@@ -2,15 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../MyButton';
 import Modal from "../../home_page/header-component/modal";
-import RegionService from '../../services/region-service';
 import Card from '../card-component/card';
 import { useDispatch } from 'react-redux';
 import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
+import { defaultRegion } from '../../home_page/region-area/regionSlice.js';
 
 
-const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
-    const regionService =  RegionService.getInstance();
-    const defaultRegion = regionService.defaultRegion;
+const SavedRegions = ({regions, deleteMethod, closeDialog= () => {}}) => {
 
     const dispatch = useDispatch()
 
@@ -18,7 +16,6 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
     let [disabledLeft, setDisabledLeft] = useState(true);
     let [disabledRight, setDisabledRight] = useState(false);
     let [regLimit, setRegLimit] = useState(3);
-    let [isOpen, setIsOpen] = useState(false);
     let [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
     let [myRegions, setMyRegions] = useState(regions);
@@ -75,7 +72,7 @@ const SavedRegions = ({regions, deleteMethod, closeDialog}) => {
         dispatch(setSearchIsOpen(true))
     };
     let openSearchMobile = () => {
-        closeDialog(); //todo not a func error
+        closeDialog();
         dispatch(setSearchIsOpen(true))
     };
     let makeRegions = () => {

@@ -2,12 +2,10 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from './weather-component.module.css';
 import WeatherService from '../../services/weather-service.js';
 import {pictures, advices} from '../../storages/wether-storage.js';
-// import RegionContext from '../../contexts/region-context.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMode } from '../../redux/modeSlice.js';
 
 const WeatherComponent = () => {
-    // const {region, setRegion} = useContext(RegionContext);
     const mode = useSelector(state => state.mode.mode)
     const dispatch = useDispatch()
     const currentRegion = useSelector(state => state.region.currentRegion)
@@ -119,7 +117,6 @@ const WeatherComponent = () => {
                         if(currentRegion.timeZone.length){
                             dayOrNight(res.data.sys.sunrise, res.data.sys.sunset)
                         } else {
-                            // setTheme('day')
                             dispatch(setMode('day'))
                         }
                     } else if(res && res.message) {
@@ -141,10 +138,8 @@ const WeatherComponent = () => {
         let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
         let current = Date.parse(new Date().toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
         if(rise < current && current < set){
-            // setTheme('day')
             dispatch(setMode('day'))
         } else {
-            // setTheme('night')
             dispatch(setMode('night'))
         }
     };

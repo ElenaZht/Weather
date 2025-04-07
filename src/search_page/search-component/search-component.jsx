@@ -1,18 +1,15 @@
 import React, {useContext, useEffect, useState, useCallback, useRef} from 'react';
 import classes from './search-component.module.css';
 import Modal from "../../home_page/header-component/modal";
-import RegionService from "../../services/region-service";
 import MyButton from "../../share/MyButton";
 import {regionList} from '../../storages/search-storage'
 import Card from "../../share/card-component/card";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchTherm } from './searchSlice.js';
+import { addRegion, defaultRegion } from '../../home_page/region-area/regionSlice.js'
 
 const pageSize = 10;
 const Search = ({regions, deleteMethod, addMethod}) => {
-    const regionService =  RegionService.getInstance();
-    const defaultRegion = regionService.defaultRegion;
-
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
@@ -92,6 +89,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
 
     };
     let addRegion = (name) => {
+        // dispatch(addRegion(name))
         addMethod(name);
 
     };
@@ -113,13 +111,12 @@ const Search = ({regions, deleteMethod, addMethod}) => {
             }
         });
         if (city) observer.current.observe(city)
-    }, [pageNumber, searchTherm]);
+    }, [pageNumber, searchTherm, dispatch]);
 
     const inputHandler = useCallback((value) => {
-        // setSearchTerm(value);
         dispatch(setSearchTherm(value))
 
-    }, []);
+    }, [dispatch]);
 
     useEffect(
         () => {

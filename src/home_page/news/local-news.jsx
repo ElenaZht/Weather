@@ -1,12 +1,10 @@
 import classes from './world-news.module.css';
 import NewsService from '../../services/news-service.js';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-// import RegionContext from "../../contexts/region-context.js";
 import { useSelector } from 'react-redux';
 
 
  const LocalNews = () => {
-    //  const{region, setRegion} = useContext(RegionContext);
      let [lNews, setLNews] = useState([]);
      let subscription = useRef(null);
      const newsService = NewsService.getInstance();
