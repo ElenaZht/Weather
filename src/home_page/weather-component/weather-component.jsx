@@ -1,19 +1,45 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import classes from './weather-component.module.css';
-import WeatherService from '../../services/weather-service.js';
 import {pictures, advices} from '../../storages/wether-storage.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMode } from '../../redux/modeSlice.js';
+import { fetchWeather, setCity } from '../weather-component/weatherSlice.js';
 
 const WeatherComponent = () => {
     const mode = useSelector(state => state.mode.mode)
     const dispatch = useDispatch()
     const currentRegion = useSelector(state => state.region.currentRegion)
 
-    let [loading, setLoading] = useState(true);
-    const weatherService = WeatherService.getInstance();
-    let subscription = useRef(null);
-    let [weather, setWeather] = useState(null);
+    const weather = useSelector(state => state.weather.weather)
+    const loading = useSelector(state => state.weather.loading);
+    const errorText = useSelector(state => state.weather.error);
+    const updateTime = useSelector(state => state.weather.interval)
+
+    useEffect(() => {
+        dispatch(fetchWeather(currentRegion.regionName)); 
+        
+    }, [currentRegion, dispatch]);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            dispatch(fetchWeather(currentRegion.regionName));
+        }, updateTime);
+
+        return () => clearInterval(intervalId);
+    }, [currentRegion, dispatch]);
+
+    useEffect(() => {
+        if (weather) {
+            parseWeather(weather);
+            if(currentRegion.timeZone.length && weather.sys){
+                dayOrNight(weather.sys.sunrise, weather.sys.sunset)
+
+            } else {
+                dispatch(setMode('day'))
+            } 
+        }
+    }, [weather]);
+
     let [relToZero, setRelToZero] = useState("");
     let [temperature, setTemperature] = useState('');
     let [description, setDescription] = useState('');
@@ -23,7 +49,7 @@ const WeatherComponent = () => {
     let [img, setImg] = useState('../../assets/weather-logo/clear.png');
     let [advice, setAdvice] = useState('');
     let [hum, setHum] = useState('');
-    let [errorText, setErrorText] = useState('');
+
     let getAdvice = (desc, temp, wind) => {
         if(desc.match(/thunderstorm/i)){
             setAdvice(advices.thunderstorm)
@@ -98,41 +124,11 @@ const WeatherComponent = () => {
     }
 
     useEffect(() => {
-        setLoading(true);
-        if (subscription.current){
-            weatherService.setCity(currentRegion.regionName)
-        }
+        
+        dispatch(setCity(currentRegion.regionName))
 
-    }, [currentRegion]);// eslint-disable-line react-hooks/exhaustive-deps
+    }, [currentRegion])
 
-    useEffect(
-        () => {
-            subscription.current = weatherService.getSubscriber(currentRegion.regionName).subscribe(
-                (res) => {
-                    if (res && res.data) {
-                        setLoading(false);
-                        setWeather(res.data);
-                        parseWeather(res.data);
-                        setErrorText('');
-                        if(currentRegion.timeZone.length){
-                            dayOrNight(res.data.sys.sunrise, res.data.sys.sunset)
-                        } else {
-                            dispatch(setMode('day'))
-                        }
-                    } else if(res && res.message) {
-                        setLoading(false);
-                        setErrorText(res.message);
-                        console.error('error', res)
-                    }
-                }
-            );
-            return () => {
-                if (subscription.current) {
-                    subscription.current.unsubscribe();
-                }
-            }
-        }, [currentRegion, mode]
-    );
     const dayOrNight = (sunriseCode, sunsetCode) => {
         let rise = Date.parse(new Date(sunriseCode * 1000).toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
         let set = Date.parse(new Date(sunsetCode * 1000).toLocaleString('en-US', {timeZone: currentRegion.timeZone}));
