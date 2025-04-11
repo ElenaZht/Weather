@@ -1,17 +1,19 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import classes from './world-news.module.css';
-import NewsService from '../../services/news-service.js';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchGlobalNews, rotateGlobalNews } from '../news/newsSlice'
 
 function WorldNews() {
-    let [wNews, setWNews] = useState([]);
-    let subscription = useRef(null);
-    const newsService = NewsService.getInstance();
+
     let [regLimit, setRegLimit] = useState(0);
     let [shown, setShown] = useState(true);
-    let [loading, setLoading] = useState(true);
     const mode = useSelector(state => state.mode.mode)
-
+    
+    const wNews = useSelector(state => state.news.globalNews)
+    const loading = useSelector(state => state.news.globalNewsLoading)
+    const updateTime = useSelector(state => state.news.interval)
+    const error = useSelector(state => state.news.globalNewsError)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if(window.matchMedia("(max-width: 1024px)").matches){
@@ -21,48 +23,39 @@ function WorldNews() {
         } else {
             setRegLimit(4);
         }
-    });
+    }, [wNews]);
+
     useEffect(
         () => {
+            // first time bring news
+            dispatch(fetchGlobalNews())
+
+            // rotate news
             let myInterval = setInterval(() => {
-                setWNews(prevValue => {
-                    if (prevValue.length > 4) {
-                        let tempArr = prevValue;
-                        const first = tempArr.shift();
-                        return [...tempArr, first];
-                    } else {
-                        return prevValue;
-                    }
-                });
+                if (wNews.length > 4){
+                    dispatch(rotateGlobalNews())
+                }
 
                 }, 30000
             );
-            subscription.current = newsService.getSubscriber().subscribe(
-                (res) => {
-                    if (res && res.data) {
-                        setWNews(res.data['articles']);
-                        setLoading(false);
-                    } else if(res && res.message) {
-                        console.error('error', res);
-                        setLoading(false);
 
-                    }
-                }
-            );
+            
+
             return () => {
-                if (subscription.current) {
-                    subscription.current.unsubscribe();
-                }
+            
                 clearInterval(myInterval);
             }
-        }, []
+        }, [dispatch, wNews]
     );
+
+
     let makeWNews = useCallback(() => {
         return wNews.map((item,index) => (
             <a key={index} className={(index === 0)? [classes.wNew, classes.fadeOut].join(' ') : (index === 3)? [classes.wNew, classes.fadeIn].join(' ') : [classes.wNew]}  href={item['url']} target="_blank">{item['title']}</a>
         )).slice(0,regLimit);
 
-    }, [wNews]);
+    }, [wNews, regLimit]);
+
     return (
         <div className={shown? classes.wrapper : classes.wrapperskippedWidth}>
             <div className={classes.head}>

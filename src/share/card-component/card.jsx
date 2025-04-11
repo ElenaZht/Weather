@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import classes from "./card.module.css";
-import WeatherService from '../../services/weather-service.js';
+// import WeatherService from '../../services/weather-service.js';
 import {logos} from "../../storages/wether-storage.js";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
 import { setCurrentRegion } from '../../home_page/region-area/regionSlice.js';
+import {fetchWeather} from  '../../home_page/weather-component/weatherSlice.js'
 
 const Card = ({city, openModalMethod, status}) => {
     let subscription = useRef(null);
@@ -13,37 +14,40 @@ const Card = ({city, openModalMethod, status}) => {
     let [temperature, setTemperature] = useState('');
     let [description, setDescription] = useState('');
     let [img, setImg] = useState('');
-    let [errorText, setErrorText] = useState('');
+    // let [errorText, setErrorText] = useState('');
     const mode = useSelector(state => state.mode.mode)
     const dispatch = useDispatch()
     const currentRegion = useSelector(state => state.region.currentRegion)
+    const errorText = useSelector(state => state.weather.error)
 
 
     useEffect(
         () => {
-            const weatherService = new WeatherService(600000);
+            // const weatherService = new WeatherService(600000);
             if(city){
-                subscription.current = weatherService.getSubscriber(city).subscribe(
-                (res) => {
-                    if (res && res.data) {
-                        setTemperature(Math.round(res.data.main.temp));
-                        setDescription(res.data.weather[0].description);
-                        if(Math.round(res.data.main.temp) > 0){
-                            setRelToZero('+')
-                        }
-                        getImg(res.data.weather[0].description);
+                dispatch(fetchWeather(city))
+                // subscription.current = weatherService.getSubscriber(city).subscribe(
+                //     (res) => {
+                //         if (res && res.data) {
+                //             setTemperature(Math.round(res.data.main.temp));
+                //             setDescription(res.data.weather[0].description);
+                //             if(Math.round(res.data.main.temp) > 0){
+                //                 setRelToZero('+')
+                //             }
+                //             getImg(res.data.weather[0].description);
 
 
-                    } else if(res) {
-                        setErrorText(res.message)
-                    }
-                }
-            );}
-            return () => {
-                if (subscription.current) {
-                    subscription.current.unsubscribe();
-                }
+                //         } else if(res) {
+                //             setErrorText(res.message)
+                //         }
+                //     }
+                // );
             }
+            // return () => {
+            //     if (subscription.current) {
+            //         subscription.current.unsubscribe();
+            //     }
+            // }
         }, []
     );
 
