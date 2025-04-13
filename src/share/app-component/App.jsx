@@ -55,7 +55,7 @@ function App() {
 
             />
                         <div className="container">
-                                <Header userChangedCallback={savedRegions} deleteMethod={deleteThisRegion}/>
+                                <Header deleteMethod={deleteThisRegion}/>
                                 {isSearchOpen? (
                                     <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteThisRegion} addMethod={addThisRegion}/>
                                 ):(

@@ -1,16 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './header.css';
-// import GoogleLogin from 'react-google-login';
 import Modal from "./modal";
 import SavedRegions from '../../share/saved-regions/saved-regions';
-// import RegionService from "../../services/region-service.js";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchIsOpen, setSearchTherm } from '../../search_page/search-component/searchSlice.js';
 import { defaultRegion } from '../region-area/regionSlice.js'
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
-const Header = ({userChangedCallback, deleteMethod}) => {
+
+
+const Header = ({deleteMethod}) => {
     
     const mode = useSelector(state => state.mode.mode);
     const dispatch = useDispatch()
@@ -20,25 +22,24 @@ const Header = ({userChangedCallback, deleteMethod}) => {
 
     let [isOpen, setIsOpen] = useState(false);
     let [isLogged, setIsLogged] = useState(false);
-    // let [isLogged, setIsLogged] = useState(true); // for test
-
 
     let [term, setTerm] = useState('');
 
-    let [accountName, setAccountName] = useState(localStorage.user && user.givenName? user.givenName[0].toUpperCase()+user.familyName[0].toUpperCase() : "");
+    let [accountName, setAccountName] = useState(localStorage.user && user.given_name? user.given_name[0].toUpperCase()+user.family_name[0].toUpperCase() : "");
     let [accountFullName, setAccountFullName] = useState(localStorage.user && user.name? user.name : "");
     let [accountEmail, setAccountEmail] = useState(localStorage.user && user.email? user.email : "");
-    let [accountPhoto, setAccountPhoto] = useState(localStorage.user && user.imageUrl? user.imageUrl : "");
+    let [accountPhoto, setAccountPhoto] = useState(localStorage.user && user.picture? user.picture : "");
 
     let responseGoogle=(response)=>{
-        if(response.profileObj){
-            localStorage.setItem('user', JSON.stringify(response.profileObj));
-            userChangedCallback();
-            setAccountName((response.profileObj.givenName[0]+response.profileObj.familyName[0]).toUpperCase());
-            setAccountFullName(response.profileObj.name);
+        if(response.credential){
+            const userData = jwtDecode(response.credential);
+            localStorage.setItem('user', JSON.stringify(userData));
+            setAccountName((userData.given_name[0]+userData.family_name[0]).toUpperCase());
+            console.log('setAccountName as ', accountName)
+            setAccountFullName(userData.name);
             setIsLogged(true);
-            setAccountEmail(response.profileObj.email);
-            setAccountPhoto(response.profileObj.imageUrl);
+            setAccountEmail(userData.email);
+            setAccountPhoto(userData.picture);
 
         }
     };
@@ -50,11 +51,13 @@ const Header = ({userChangedCallback, deleteMethod}) => {
                 toast.info(`You entered as ${JSON.parse( localStorage.user).name}`);
 
             }
+
         }, []
         
     );
     if(localStorage.user){
         isLogged = true;
+
     }
     useEffect(() => {
             if(!localStorage.user){
@@ -74,7 +77,6 @@ const Header = ({userChangedCallback, deleteMethod}) => {
         localStorage.removeItem('user');
         setModalActive(false);
         setIsLogged(false);
-        if (userChangedCallback) userChangedCallback();
         toast.success('You logged out!');
     };
     let openRegions = () => {
@@ -130,30 +132,35 @@ const Header = ({userChangedCallback, deleteMethod}) => {
 
             </Modal>
             <div className="logo" onClick={() => back()}></div>
-            {/* <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
+
+            <div data-testid="google-button" className={isLogged? "collapse" : "google-btn fordevice" && isOpen? "collapse" : "google-btn fordevice"}>
                 <GoogleLogin
-                    clientId="58638988614-gk3vv82r0ouh1tfns4cj0bjr1m15bqi6.apps.googleusercontent.com"
-                    buttonText="Log In"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
+                    onSuccess={credentialResponse => {
+                        responseGoogle(credentialResponse);
+                    }}
+                    onError={() => {
+                        console.log('Login Failed');
+                        toast.error('Log in failed. Try again')
+                    }}
                 />
-            </div> */}
+            </div>
             <div className="nav">
                 <div data-testid="burger-button" className={isOpen? "collapse" : "burger" } onClick={() => setIsOpen(true)}></div>
             </div>
 
             <ul data-testid="menu-list" className={isOpen? "navbar-collapse" : "skipping"} >
                 <li data-testid="user-button" className={isLogged? "" : "collapse"}  onClick={openModal}><div className={isLogged? "account" : "collapse"} style={{background: mode==='night'? "#3C38FF" : '#FFC738'}}><span>{accountName}</span></div>Account</li>
-                {/* <div className={isLogged? "collapse" : "google-btn" && isOpen? "google-btn" : "collapse"}>
+                <div className={isLogged? "collapse" : "google-btn" && isOpen? "google-btn" : "collapse"}>
                     <GoogleLogin
-                        clientId="58638988614-gk3vv82r0ouh1tfns4cj0bjr1m15bqi6.apps.googleusercontent.com"
-                        buttonText="Log In"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy={'single_host_origin'}
+                        onSuccess={credentialResponse => {
+                            responseGoogle(credentialResponse);
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                            toast.error('Log in failed. Try again')
+                        }}
                     />
-                </div> */}
+                </div>
                 <li onClick={() => goSearch()}>Search</li>
                 <li onClick={openRegions}>Saved</li>
                 <li><div className="nav-close"  onClick={() => setIsOpen(false)}></div></li>
