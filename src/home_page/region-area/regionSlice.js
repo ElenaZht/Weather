@@ -8,9 +8,18 @@ export const defaultRegion = {
     country: cityTimezones.lookupViaCity(Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1])[0].iso2 || 'Unknown'
 };
 
+const loadRegionsFromLocalStorage = () => {
+    if (localStorage.user) {
+        const owner = JSON.parse(localStorage.user).email;
+        const savedRegions = localStorage.getItem(owner + "_myRegions");
+        return savedRegions ? JSON.parse(savedRegions) : [];
+    }
+    return [];
+};
+
 const initialState = {
     currentRegion: defaultRegion,
-    myRegions: [],
+    myRegions: loadRegionsFromLocalStorage(),
 }
 
 const regionSlice = createSlice({
@@ -21,7 +30,7 @@ const regionSlice = createSlice({
             state.currentRegion = { ...action.payload }
         },
         addRegion: (state, action) => {
-            const name = action.payload.name;
+            const name = action.payload;
             if (localStorage.user) {
                 const owner = JSON.parse(localStorage.user).email;
                 const myRegions = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
@@ -40,7 +49,7 @@ const regionSlice = createSlice({
             }
         },
         deleteRegion: (state, action) => {
-            const name = action.payload.name
+            const name = action.payload
             if (localStorage.user) {
                 const owner = JSON.parse(localStorage.user).email;
                 const myRegions = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];

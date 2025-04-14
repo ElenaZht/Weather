@@ -57,12 +57,12 @@ function App() {
                         <div className="container">
                                 <Header deleteMethod={deleteThisRegion}/>
                                 {isSearchOpen? (
-                                    <SearchComponent key={savedRegions.length} regions={savedRegions} deleteMethod={deleteThisRegion} addMethod={addThisRegion}/>
+                                    <SearchComponent key={savedRegions.length} deleteMethod={deleteThisRegion} addMethod={addThisRegion}/>
                                 ):(
                                     <>
                                         <RegionArea/>
                                         <div className="wrapper">
-                                                <SavedRegions key={savedRegions.length+10} regions={savedRegions} deleteMethod={deleteThisRegion}/>
+                                                <SavedRegions key={savedRegions.length+10} deleteMethod={deleteThisRegion}/>
                                             </div>
                                             <p className="signature">Elena Zhytomirskaya, 2025</p>
                                         </>

@@ -9,7 +9,7 @@ import { setSearchTherm } from './searchSlice.js';
 import { addRegion, defaultRegion } from '../../home_page/region-area/regionSlice.js'
 
 const pageSize = 10;
-const Search = ({regions, deleteMethod, addMethod}) => {
+const Search = ({deleteMethod, addMethod}) => {
 
     let [curIdx, setCurIdx] = useState(0);
     let [disabledLeft, setDisabledLeft] = useState(true);
@@ -18,7 +18,9 @@ const Search = ({regions, deleteMethod, addMethod}) => {
     let [isOpen, setIsOpen] = useState(false);
     const [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
-    let [myRegions, setMyRegions] = useState(regions);
+
+    let myRegions = useSelector(state => state.region.myRegions)
+
     let [isMobile, setIsMobile] = useState(false);
     let [cities, setCities] = useState(regionList.slice(0, pageSize));
     const [pageNumber, setPageNumber] = useState(0);
@@ -46,10 +48,15 @@ const Search = ({regions, deleteMethod, addMethod}) => {
         if(window.matchMedia("(max-width: 320px)").matches){
             setIsMobile(true);
         } else {
-            setRegLimit(regions.length);
+            setRegLimit(myRegions.length);
 
         }
     },[]);
+
+    useEffect(() => {
+        makeRegions()
+    }, [myRegions])
+
 
     let makeRegions = () => {
 
@@ -79,17 +86,17 @@ const Search = ({regions, deleteMethod, addMethod}) => {
 
     };
     let slideRight = () => {
-        if(curIdx < regions.length - 1){
+        if(curIdx < myRegions.length - 1){
             setCurIdx(++curIdx);
         }
-        if(curIdx === regions.length - 2){
+        if(curIdx === myRegions.length - 2){
             setDisabledRight(true);
         }
         setDisabledLeft(false);
 
     };
-    let addRegion = (name) => {
-        // dispatch(addRegion(name))
+    let handleAddRegion = (name) => {
+        dispatch(addRegion(name))
         addMethod(name);
 
     };
@@ -156,7 +163,7 @@ const Search = ({regions, deleteMethod, addMethod}) => {
                                         <div className={mode==='night'? classes.listRowNight : classes.listRow} key={index}>
                                             {(cities.length === index + 1) && <div ref={lastCityElementRef}>{val}</div>}
                                             {(cities.length !== index + 1) && <div>{val}</div>}
-                                            <div className={classes.plus} onClick={() => addRegion(val)}><MyButton sizing={{"size":'little'}}></MyButton></div>
+                                            <div className={classes.plus} onClick={() => handleAddRegion(val)}><MyButton sizing={{"size":'little'}}></MyButton></div>
                                         </div>
                         )
                     })}
