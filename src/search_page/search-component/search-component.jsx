@@ -55,23 +55,24 @@ const Search = ({deleteMethod, addMethod}) => {
 
     useEffect(() => {
         makeRegions()
+        console.log('regions changed', myRegions)
     }, [myRegions])
 
 
     let makeRegions = () => {
 
-            if(myRegions && myRegions.length>0){
-                let items = [];
-                for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
-                    items.push(
-                        <Card status={1} key={i + curIdx} city={myRegions[i + curIdx].regionName}
-                              openModalMethod={openModal}
-                        />
-                    )
-                }
-                return items;
+        if(myRegions && myRegions.length>0){
+            let items = [];
+            for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
+                items.push(
+                    <Card status={1} key={i + curIdx} city={myRegions[i + curIdx].regionName}
+                            openModalMethod={openModal}
+                    />
+                )
             }
-        };
+            return items;
+        }
+    };
 
 
 

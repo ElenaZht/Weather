@@ -33,18 +33,21 @@ const regionSlice = createSlice({
             const name = action.payload;
             if (localStorage.user) {
                 const owner = JSON.parse(localStorage.user).email;
-                const myRegions = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
+                const myRegionsFromLOcalStorage = JSON.parse(localStorage.getItem(owner + "_myRegions")) || [];
         
                 // Check for duplicates
-                if (!myRegions.find(r => r.regionName === name.split(',')[0])) {
+                if (!myRegionsFromLOcalStorage.find(r => r.regionName === name.split(',')[0])) {
                     const newRegion = { regionName: name.split(',')[0], country: name.split(',')[1] };
         
+                    // Update the local myRegions array
+                    myRegionsFromLOcalStorage.push(newRegion);
+
                     // Update localStorage
-                    myRegions.push(newRegion);
-                    localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegions));
-        
+                    localStorage.setItem(owner + "_myRegions", JSON.stringify(myRegionsFromLOcalStorage));
+
                     // Update Redux state
-                    state.myRegions = [...myRegions, newRegion];
+                    state.myRegions = myRegionsFromLOcalStorage;
+        
                 }
             }
         },
