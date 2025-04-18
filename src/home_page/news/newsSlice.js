@@ -106,17 +106,20 @@ const newsSlice = createSlice({
         builder
             .addCase(fetchLocalNews.pending, (state) => {
                 state.localNewsLoading = true
+                console.log('spinner activated')
                 state.localNewsError = ''
                 state.localNewsStatus = 'loading'
             })
             .addCase(fetchLocalNews.fulfilled, (state, action) => {
                 state.localNewsLoading = false
+                console.log('spinner disactivated', action.payload)
                 state.localNewsError = ''
                 state.localNewsStatus = 'succeeded'
                 state.localNews = action.payload.articles
             })
             .addCase(fetchLocalNews.rejected, (state, action) => {
                 state.localNewsLoading = false
+                console.log('spinner disactivated', action.payload)
                 state.localNewsError = action.payload
                 state.localNewsStatus = 'failed'
             })

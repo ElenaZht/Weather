@@ -1,55 +1,39 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import classes from "./card.module.css";
-// import WeatherService from '../../services/weather-service.js';
 import {logos} from "../../storages/wether-storage.js";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
 import { setCurrentRegion } from '../../home_page/region-area/regionSlice.js';
-import {fetchWeather} from  '../../home_page/weather-component/weatherSlice.js'
+import {fetchWeatherForCityCard} from  '../../home_page/weather-component/weatherSlice.js'
 
 const Card = ({city, openModalMethod, status}) => {
-    let subscription = useRef(null);
-
     let [relToZero, setRelToZero] = useState("");
     let [temperature, setTemperature] = useState('');
     let [description, setDescription] = useState('');
     let [img, setImg] = useState('');
-    // let [errorText, setErrorText] = useState('');
     const mode = useSelector(state => state.mode.mode)
     const dispatch = useDispatch()
     const currentRegion = useSelector(state => state.region.currentRegion)
     const errorText = useSelector(state => state.weather.error)
 
 
-    useEffect(
-        () => {
-            // const weatherService = new WeatherService(600000);
-            if(city){
-                dispatch(fetchWeather(city))
-                // subscription.current = weatherService.getSubscriber(city).subscribe(
-                //     (res) => {
-                //         if (res && res.data) {
-                //             setTemperature(Math.round(res.data.main.temp));
-                //             setDescription(res.data.weather[0].description);
-                //             if(Math.round(res.data.main.temp) > 0){
-                //                 setRelToZero('+')
-                //             }
-                //             getImg(res.data.weather[0].description);
-
-
-                //         } else if(res) {
-                //             setErrorText(res.message)
-                //         }
-                //     }
-                // );
-            }
-            // return () => {
-            //     if (subscription.current) {
-            //         subscription.current.unsubscribe();
-            //     }
-            // }
-        }, []
-    );
+    useEffect(() => {
+        if (city) {
+            dispatch(fetchWeatherForCityCard(city))
+                .unwrap() // Extract the resolved value from the thunk
+                .then((data) => {
+                    setTemperature(Math.round(data.main.temp)); // Set temperature
+                    setDescription(data.weather[0].description); // Set description
+                    getImg(data.weather[0].description); // Set the appropriate image
+                    if (Math.round(data.main.temp) > 0) {
+                        setRelToZero('+'); // Add "+" for positive temperatures
+                    }
+                })
+                .catch((error) => {
+                    console.error('Failed to fetch weather:', error); // Handle errors
+                });
+        }
+    }, [city, dispatch]);
 
 
     const cityTimezones = require('city-timezones');
@@ -98,7 +82,6 @@ const Card = ({city, openModalMethod, status}) => {
             <div className={mode ==='night'? 'cardNight' : 'card'} onClick={() => setCity(city)}>
                 {status>0 &&<button className={classes.delete} onClick={(e) => {openModal(e)}}>x</button>}
                 <div className={classes.name}>{city}</div>
-                {/*{!temperature &&<div className={classes.error}>{errorText}</div>}*/}
                 {!temperature &&<div className={classes.error}>weather not provided</div>}
                 <div className={classes.info}>
                     {temperature &&<div className={mode=='night'? classes.iconNight : classes.icon} style={{ backgroundImage: `url(${img})` }}></div>}

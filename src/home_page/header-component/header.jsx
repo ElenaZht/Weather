@@ -75,6 +75,7 @@ const Header = ({deleteMethod}) => {
     };
     let logOut = () => {
         localStorage.removeItem('user');
+        dispatch({ type: 'app/reset' });//clear all the store states
         setModalActive(false);
         setIsLogged(false);
         toast.success('You logged out!');

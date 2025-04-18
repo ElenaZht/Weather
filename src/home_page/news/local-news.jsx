@@ -6,19 +6,19 @@ import { fetchLocalNews, setCountry, rotateLocalNews } from '../news/newsSlice'
 
  const LocalNews = () => {
 
-     let [regLimit, setRegLimit] = useState(0);
-     let [shown, setShown] = useState(true);
+    let [regLimit, setRegLimit] = useState(0);
+    let [shown, setShown] = useState(true);
     const loading = useSelector(state => state.news.localNewsLoading)
-     const dispatch = useDispatch()
-     const lNews = useSelector(state => state.news.localNews)
-     const mode = useSelector(state => state.mode.mode)
-     const currentRegion = useSelector(state => state.region.currentRegion)
+    const dispatch = useDispatch()
+    const lNews = useSelector(state => state.news.localNews)
+    const mode = useSelector(state => state.mode.mode)
+    const currentRegion = useSelector(state => state.region.currentRegion)
 
-     useEffect(()=>{
-        dispatch(setCountry(currentRegion['country']))
-     }, [currentRegion]);
+    useEffect(()=>{
+    dispatch(setCountry(currentRegion['country']))
+    }, [currentRegion]);
 
-     useEffect(() => {
+    useEffect(() => {
             if(window.matchMedia("(max-width: 1024px)").matches){
                 if(lNews){
                     setRegLimit(1);

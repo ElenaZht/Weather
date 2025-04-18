@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './saved-regions.module.css';
 import MyButton from '../MyButton';
 import Modal from "../../home_page/header-component/modal";
 import Card from '../card-component/card';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchIsOpen } from '../../search_page/search-component/searchSlice.js';
 import { defaultRegion } from '../../home_page/region-area/regionSlice.js';
 
 
-const SavedRegions = ({regions, deleteMethod, closeDialog= () => {}}) => {
+const SavedRegions = ({deleteMethod, closeDialog= () => {}}) => {
 
     const dispatch = useDispatch()
 
@@ -18,20 +18,20 @@ const SavedRegions = ({regions, deleteMethod, closeDialog= () => {}}) => {
     let [regLimit, setRegLimit] = useState(3);
     let [modalActive, setModalActive] = useState(false);
     let [curRegion, setCurRegion] = useState('');
-    let [myRegions, setMyRegions] = useState(regions);
+    let myRegions = useSelector(state => state.region.myRegions)
     let [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
          if(window.matchMedia("(max-width: 1024px)").matches){
-            if(regions){
-                setRegLimit(regions.length);
+            if(myRegions){
+                setRegLimit(myRegions.length);
                 setIsMobile(true)
             }
 
          } else {
              setRegLimit(3);
          }
-    });
+    }, [dispatch]);
 
 
     let slideLeft = () => {
@@ -45,10 +45,10 @@ const SavedRegions = ({regions, deleteMethod, closeDialog= () => {}}) => {
 
     };
     let slideRight = () => {
-        if(curIdx < regions.length - 3){
+        if(curIdx < myRegions.length - 3){
             setCurIdx(++curIdx);
         }
-        if(curIdx === regions.length - 3){
+        if(curIdx === myRegions.length - 3){
             setDisabledRight(true);
         }
         setDisabledLeft(false);
@@ -78,19 +78,18 @@ const SavedRegions = ({regions, deleteMethod, closeDialog= () => {}}) => {
     let makeRegions = () => {
         if(myRegions && myRegions.length>0){
             let items = [];
-            for(let i=0; i + curIdx <myRegions.length && i < regLimit; i++){
+            for(let i=0; i + curIdx < myRegions.length && i < regLimit; i++){
                 items.push(
                     <Card status={1} key={i + curIdx} city={myRegions[i + curIdx].regionName}
                         openModalMethod={openModal}
-                          closeDialogMethod={closeDialog}
+                        closeDialogMethod={closeDialog}
                     />
-                    )
+                )
             }
             return items;
         }
 
     };
-
 
     return (
         <div className={classes.wrap}>

@@ -45,7 +45,7 @@ function WorldNews() {
             
                 clearInterval(myInterval);
             }
-        }, [dispatch, wNews]
+        }, [dispatch, wNews.length]
     );
 
 
