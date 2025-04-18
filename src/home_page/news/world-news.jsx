@@ -11,7 +11,6 @@ function WorldNews() {
     
     const wNews = useSelector(state => state.news.globalNews)
     const loading = useSelector(state => state.news.globalNewsLoading)
-    console.log('loading',loading)
     const updateTime = useSelector(state => state.news.interval)
     const error = useSelector(state => state.news.globalNewsError)
     const dispatch = useDispatch()
